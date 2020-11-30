@@ -9,7 +9,7 @@ import org.antlr.v4.runtime.TokenStream;
 import parser.CParser;
 import parser.CLexer;
 
-public class Main{
+class Main{
     public static void main(String[] args){
         try{
             String test = "System.out.println(1)";
