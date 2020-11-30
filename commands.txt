@@ -3,3 +3,4 @@ javac -cp ".;lib/antlr-4.9-complete.jar" *.java
 
 Compile g4 file
 java -jar lib/antlr-4.9-complete.jar -package parser -o parser grammar/C.g4
+java org.antlr.v4.Tool -o parser grammar/C.g4
