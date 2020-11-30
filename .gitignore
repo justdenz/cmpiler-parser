@@ -6,3 +6,5 @@ CLexer.java
 CLexer.tokens
 CListener.java
 CParser.java
+.antlr
+.class
