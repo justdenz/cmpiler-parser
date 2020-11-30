@@ -12,8 +12,7 @@ import parser.CLexer;
 class Main{
     public static void main(String[] args){
         try{
-            String test = "System.out.println(1)";
-            InputStream inputStream = Main.class.getResourceAsStream(test);
+            InputStream inputStream = Main.class.getResourceAsStream("input.txt");
             Lexer lexer = new CLexer(CharStreams.fromStream(inputStream));
             TokenStream tokenStream = new CommonTokenStream(lexer);
             CParser parser = new CParser(tokenStream);
