@@ -9,11 +9,11 @@ import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.TokenStream;
 import parser.*;
 
-public class main{
+public class Main{
     public static void main(String[] args){
         try{
             String test = "System.out.println(1)";
-            InputStream inputStream = main.class.getResourceAsStream(test);
+            InputStream inputStream = Main.class.getResourceAsStream(test);
             Lexer lexer = new CLexer(CharStreams.fromStream(inputStream));
             TokenStream tokenStream = new CommonTokenStream(lexer);
             CParser parser = new CParser(tokenStream);
