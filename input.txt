@@ -1,5 +1,4 @@
-design)
- main() {
+main() {
 	int x = 0;
 	float _veryWeirdIdentifier567 = 999.9f;
 	bool y = (5 > 4 && T) || (F && !(x==0));
