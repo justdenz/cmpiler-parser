@@ -5,19 +5,19 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.TokenStream;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import org.antlr.v4.runtime.tree.*;
 
-import parser.CParser;
-import parser.CLexer;
+import parser.CUSTOMParser;
+import parser.CUSTOMLexer;
 
 class Main{
     public static void main(String[] args) throws Exception{
         try{
             InputStream inputStream = Main.class.getResourceAsStream("input.txt");
-            Lexer lexer = new CLexer(CharStreams.fromStream(inputStream));
+            Lexer lexer = new CUSTOMLexer(CharStreams.fromStream(inputStream));
             TokenStream tokenStream = new CommonTokenStream(lexer);
-            CParser parser = new CParser(tokenStream);
-            CParser.CompilationUnitContext tree = parser.compilationUnit();
+            CUSTOMParser parser = new CUSTOMParser(tokenStream);
+            ParseTree tree = parser.program();
             MyListener listener = new MyListener();
 
             ParseTreeWalker walker = new ParseTreeWalker();
