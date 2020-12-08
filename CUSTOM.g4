@@ -99,8 +99,8 @@ iterationStatement
     ;
 
 whileStatement
-    : While loopDeclaration Upto loopExpression compoundStatement
-    | While loopDeclaration Downto loopExpression compoundStatement
+    : While IDENTIFIER Upto loopExpression compoundStatement
+    | While IDENTIFIER Downto loopExpression compoundStatement
     ;
 
 forStatement
@@ -116,6 +116,11 @@ loopDeclaration
 
 loopExpression
     : 
+    ;
+
+returnStatement
+    : Return Semi
+    | Return expression
     ;
 
 /* keywords */
