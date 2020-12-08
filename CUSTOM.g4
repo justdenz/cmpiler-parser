@@ -5,8 +5,8 @@ program
     ;
 
 declarationList
-    : declarationList
-    | declarationList declarationList
+    : declarationList declaration
+    | declaration
     ;
 
 declaration
@@ -291,7 +291,7 @@ True: 'T';
 False: 'F';
 Break: 'break';
 
-DoubleQuotation: '\"';
+DoubleQuotation: '"';
 
 /* primitives */
 fragment
