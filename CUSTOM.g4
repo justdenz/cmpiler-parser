@@ -28,9 +28,9 @@ variableDeclarationInitialize
     | variableDeclarationIdentifier Assign simpleExpression
     ;
 
-variableDeclarationIdentifer
+variableDeclarationIdentifier
     : IDENTIFIER
-    | IDENTIFIER '[' INTEGERCONSTANT ']'
+    | IDENTIFIER LeftBracket INTEGERCONSTANT RightBracket
     ;
 
 typeSpecifier
@@ -41,12 +41,85 @@ typeSpecifier
     ;
 
 functionDeclaration
-    : typeSpecifier IDENTIFIER '(' params ')' statement
-    | 'void' IDENTIFIER '(' params ')' statement
+    : typeSpecifier IDENTIFIER LeftParen params RightParen statement
+    | Void IDENTIFIER LeftParen params RightParen statement
     ; 
 
-/* keywords */
+params
+    : paramList 
+    | Epsilon
+    ;
 
+paramList
+    : paramList Comma paramTypeList
+    | paramTypeList
+    ;
+
+paramTypeList
+    : typeSpecifier paramDeclarationIdentifer
+    ;
+
+paramDeclarationIdentifer
+    : IDENTIFIER
+    | IDENTIFIER LeftBracket RightBracket
+    ;
+
+/* statements */
+statement
+    : expressionStatement
+    | compoundStatement
+    | selectionStatement
+    | iterationStatement
+    | returnStatement
+    | breakStatement
+    ;
+
+expressionStatement
+    : expression Semi
+    | Semi
+    ;
+
+compoundStatement
+    : LeftBrace localDeclarations statementList RightBrace
+    ;
+
+localDeclarations
+    : localDeclarations variableDeclaration
+    | Epsilon
+    ;
+
+statementList
+    : statementList statement
+    | Epsilon
+    ;
+
+iterationStatement
+    : whileStatement
+    | forStatement
+    ;
+
+whileStatement
+    : While loopDeclaration Upto loopExpression compoundStatement
+    | While loopDeclaration Downto loopExpression compoundStatement
+    ;
+
+forStatement
+    : For loopDeclaration Upto loopExpression compoundStatement
+    | For loopDeclaration Downto loopExpression compoundStatement
+    ; 
+
+loopDeclaration
+    : Int IDENTIFIER Assign simpleExpression
+    | IDENTIFIER Assign simpleExpression
+    | IDENTIFIER
+    ;
+
+loopExpression
+    : 
+    ;
+
+/* keywords */
+Epsilon : '';
 Constant : 'constant';
 Int : 'int';
 Float : 'float';
@@ -99,8 +172,11 @@ Down : 'down';
 To: 'to';
 Upto: Up To;
 Downto: Down To;
-True: 'true';
-False: 'false';
+True: 'T';
+False: 'F';
+Break: 'break';
+
+DoubleQuotation: '\"';
 
 /* primitives */
 fragment
@@ -134,6 +210,34 @@ DecimalFloatingConstant
     : FractionalConstant FloatSuffix
     ;
 
+fragment
+EscapeSequence
+    :   SimpleEscapeSequence
+    ;
+
+fragment
+SimpleEscapeSequence
+    :   '\\' ['"?abfnrtv\\]
+    ;
+
+fragment
+SChar
+    :   ~["\\\r\n]
+    |   EscapeSequence
+    |   '\\\n'   // Added line
+    |   '\\\r\n' // Added line
+    ;
+
+fragment
+SCharSequence
+    :   SChar+
+    ;
+
+fragment
+StringLiteral
+    : DoubleQuotation SCharSequence? DoubleQuotation
+    ;
+
 /* tokens */
 INTEGERCONSTANT
     : DigitSequence
@@ -148,6 +252,32 @@ BOOLCONSTANT
     | False
     ;
 
+STRINGCONSTANT
+    : StringLiteral
+    ;
+
 IDENTIFIER
     : Letter ( Letter | Digit )*
+    ;
+
+WHITSPACE
+    :   [ \t]+
+        -> skip
+    ;
+
+NEWLINE
+    :   (   '\r' '\n'?
+        |   '\n'
+        )
+        -> skip
+    ;
+
+BLOCKCOMMENT
+    :   '/*' .*? '*/'
+        -> skip
+    ;
+
+LINECOMMENT
+    :   '//' ~[\r\n]*
+        -> skip
     ;
