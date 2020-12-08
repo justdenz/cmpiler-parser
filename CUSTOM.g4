@@ -13,10 +13,15 @@ declaration
     : variableDeclaration
     | functionDeclaration
     ;
+    
+scopedVariableDeclaration
+    : typeSpecifier variableDeclarationList
+    ;
 
 variableDeclaration
     : typeSpecifier variableDeclarationList
     ;
+
 
 variableDeclarationList
     : variableDeclarationList Comma variableDeclarationInitialize
@@ -47,7 +52,7 @@ functionDeclaration
 
 params
     : paramList 
-    | Epsilon
+    | 
     ;
 
 paramList
@@ -71,7 +76,6 @@ statement
     | selectionStatement
     | iterationStatement
     | returnStatement
-    | breakStatement
     ;
 
 expressionStatement
@@ -84,13 +88,17 @@ compoundStatement
     ;
 
 localDeclarations
-    : localDeclarations variableDeclaration
-    | Epsilon
+    : localDeclarations scopedVariableDeclaration
+    | 
+    ;
+
+selectionStatement
+    : If LeftParen expression RightParen Then statement (Else statement)?
     ;
 
 statementList
     : statementList statement
-    | Epsilon
+    | 
     ;
 
 iterationStatement
@@ -123,9 +131,110 @@ returnStatement
     | Return expression
     ;
 
+/*expressions */
+expression
+    : mutable Assign expression
+    |  
+    ;
+
+simpleExpression
+    : andExpression
+    | simpleExpression OrOr andExpression
+    ;
+
+andExpression
+    : unaryRelExpression
+    | andExpression AndAnd unaryRelExpression
+    ;
+
+unaryRelExpression
+    : Not unaryRelExpression
+    | relExpression
+    ;
+
+relExpression
+    : sumExpression relop sumExpression
+    | sumExpression
+    ;
+
+relop
+    : LessEqual
+    | Less
+    | Greater
+    | GreaterEqual
+    | Equal
+    | NotEqual
+    ;
+
+sumExpression
+    : sumExpression sumop mulExpression
+    | mulExpression
+    ;
+
+sumop
+    : Plus
+    | Minus
+    ;
+
+mulExpression
+    : mulExpression mulop unaryExpression
+    | unaryExpression
+    ;
+
+mulop
+    : Star
+    | Div
+    | Mod
+    ;
+
+unaryExpression
+    : unaryop unaryExpression
+    | factor
+    ;
+
+unaryop
+    : Minus
+    ;
+
+factor
+    : immutable
+    | mutable
+    ;
+
+mutable
+    : IDENTIFIER
+    | IDENTIFIER LeftBracket expression RightBracket
+    ;
+
+immutable
+    : LeftParen expression RightParen
+    | call
+    | constant
+    ;
+
+call
+    : IDENTIFIER LeftParen args RightParen
+    ;
+
+args
+    : argList
+    | 
+    ;
+
+argList
+    : argList Comma expression
+    | expression
+    ;
+
+constant
+    : INTEGERCONSTANT
+    | STRINGCONSTANT
+    | True
+    | False 
+    ;
+
 /* keywords */
-Epsilon : '';
-Constant : 'constant';
+ConstantKey : 'constant';
 Int : 'int';
 Float : 'float';
 String : 'string';
@@ -134,6 +243,7 @@ Do : 'do';
 Else : 'else';
 For : 'for';
 If : 'if';
+Then: 'then';
 Return : 'return';
 Void : 'void';
 While : 'while';
