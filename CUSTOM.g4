@@ -1,7 +1,7 @@
 grammar CUSTOM;
 
 program
-    :declarationList
+    : declarationList
     ;
 
 declarationList
@@ -13,15 +13,15 @@ declaration
     : variableDeclaration
     | functionDeclaration
     ;
-    
-scopedVariableDeclaration
-    : typeSpecifier variableDeclarationList
-    ;
 
 variableDeclaration
-    : typeSpecifier variableDeclarationList
+    : typeSpecifier variableDeclarationList Semi
     ;
 
+    
+scopedVariableDeclaration
+    : typeSpecifier variableDeclarationList Semi
+    ;
 
 variableDeclarationList
     : variableDeclarationList Comma variableDeclarationInitialize
@@ -128,13 +128,13 @@ loopExpression
 
 returnStatement
     : Return Semi
-    | Return expression
+    | Return expression Semi
     ;
 
 /*expressions */
 expression
     : mutable Assign expression
-    |  
+    | simpleExpression
     ;
 
 simpleExpression
@@ -372,7 +372,7 @@ STRINGCONSTANT
     ;
 
 IDENTIFIER
-    : Letter ( Letter | Digit )*
+    : Letter ( Digit | Letter )*
     ;
 
 WHITSPACE
