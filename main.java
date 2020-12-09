@@ -19,7 +19,7 @@ class Main{
             CUSTOMParser parser = new CUSTOMParser(tokenStream);
             ParseTree tree = parser.program();
             MyListener listener = new MyListener();
-
+            System.out.println(tree.toStringTree(parser));
             ParseTreeWalker walker = new ParseTreeWalker();
             walker.walk(listener,tree);
         }catch (IOException e) {

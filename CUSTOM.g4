@@ -11,7 +11,24 @@ declarationList
 
 declaration
     : variableDeclaration
+    | arrayDeclaration
     | functionDeclaration
+    ;
+
+arrayDeclaration
+    : typeSpecifier arrayDeclarationList Semi
+    ;
+
+arrayDeclarationList
+    : arrayDeclarationInitialize
+    ;
+
+arrayDeclarationInitialize
+    : arrayDeclarationIdentifier Assign arrayExpression
+    ;
+
+arrayDeclarationIdentifier
+    : LeftBracket RightBracket IDENTIFIER
     ;
 
 variableDeclaration
@@ -35,7 +52,6 @@ variableDeclarationInitialize
 
 variableDeclarationIdentifier
     : IDENTIFIER
-    | IDENTIFIER LeftBracket INTEGERCONSTANT RightBracket
     ;
 
 typeSpecifier
@@ -135,11 +151,16 @@ returnStatement
 expression
     : mutable Assign expression
     | simpleExpression
+    | arrayExpression
     ;
 
 simpleExpression
     : andExpression
     | simpleExpression OrOr andExpression
+    ;
+
+arrayExpression
+    : Create typeSpecifier LeftBracket sumExpression RightBracket
     ;
 
 andExpression
@@ -247,6 +268,7 @@ Then: 'then';
 Return : 'return';
 Void : 'void';
 While : 'while';
+Create: 'create';
 
 LeftParen : '(';
 RightParen : ')';
