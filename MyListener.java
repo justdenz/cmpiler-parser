@@ -7,8 +7,8 @@ import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.Parser;
 
 public class MyListener {
-
-    public static class VerboseListener extends BaseErrorListener{
+    public static ErrorListener INSTANCE = new ErrorListener();
+    public static class ErrorListener extends BaseErrorListener{
         @Override 
         public void syntaxError(Recognizer<?, ?> recognizer,
                                 Object offendingSymbol,

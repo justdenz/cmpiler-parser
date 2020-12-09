@@ -4,25 +4,5 @@ main(){
 		print("Hello!");
 	}
 	
-	int n = 1;
-	//This is similar to Java: for(int x = 1000; x >= n; x--)
-	for int x = 1000 down to n {
-		print("Hello!");
-	}
-
+	int n = 1
 }
-
-func void callPrinter(String message) {
-	print(message);
-}
-
-
-func int factorial(int n) {
-	if(n == 1) then {
-		return 1;
-	}
-	else then {
-		return n * factorial(n - 1);
-	}
-}
-

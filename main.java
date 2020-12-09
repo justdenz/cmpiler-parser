@@ -19,14 +19,15 @@ class Main{
             Lexer lexer = new CUSTOMLexer(CharStreams.fromStream(inputStream));
             TokenStream tokenStream = new CommonTokenStream(lexer);
             CUSTOMParser parser = new CUSTOMParser(tokenStream);
+            parser.removeErrorListeners();
+            parser.addErrorListener(MyListener.INSTANCE);
             ParseTree tree = parser.program();
-            MyListener listener = new MyListener();
 
             TreeViewer viewer = new TreeViewer(Arrays.asList(parser.getRuleNames()), tree);
             viewer.open();
 
-            ParseTreeWalker walker = new ParseTreeWalker();
-            walker.walk(listener,tree);
+            // ParseTreeWalker walker = new ParseTreeWalker();
+            // walker.walk(listener,tree);
         }catch (IOException e) {
             e.printStackTrace();
         }
