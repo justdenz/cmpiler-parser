@@ -1,9 +1,25 @@
-import parser.CUSTOMBaseListener;
+import java.util.Collections;
+import java.util.List;
 
-import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.Recognizer;
+import org.antlr.v4.runtime.RecognitionException;
+import org.antlr.v4.runtime.BaseErrorListener;
+import org.antlr.v4.runtime.Parser;
 
-public class MyListener extends CUSTOMBaseListener {
-    @Override public void enterEveryRule(ParserRuleContext ctx) {  //see gramBaseListener for allowed functions
-        //System.out.println("rule entered: " + ctx.getText());      //code that executes per rule
+public class MyListener {
+
+    public static class VerboseListener extends BaseErrorListener{
+        @Override 
+        public void syntaxError(Recognizer<?, ?> recognizer,
+                                Object offendingSymbol,
+                                int line, int charPositionInLine,
+                                String msg,
+                                RecognitionException e) {  
+            
+            List<String> stack = ((Parser)recognizer).getRuleInvocationStack();
+            Collections.reverse(stack);                 
+            System.err.println("rule stack: " + stack);
+            System.err.println("line "+line+":"+charPositionInLine+" at "+ offendingSymbol+": "+msg);
+        }
     }
 }
