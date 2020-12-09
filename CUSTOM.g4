@@ -47,7 +47,8 @@ variableDeclaration
 
     
 scopedVariableDeclaration
-    : typeSpecifier variableDeclarationList Semi
+    : variableDeclaration
+    | arrayDeclaration
     ;
 
 variableDeclarationList
@@ -86,7 +87,7 @@ paramList
     ;
 
 paramTypeList
-    : typeSpecifier paramDeclarationIdentifer
+    : (typeSpecifier | arrayTypeSpecifier) paramDeclarationIdentifer
     ;
 
 paramDeclarationIdentifer
@@ -129,7 +130,7 @@ compoundStatement
 
 localDeclarations
     : localDeclarations scopedVariableDeclaration
-    | 
+    | scopedVariableDeclaration
     ;
 
 selectionStatement
