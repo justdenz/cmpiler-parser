@@ -5,7 +5,7 @@ program
     ;
 
 mainBlock
-    : Main LeftParen RightParen LeftBrace declarationList RightBrace
+    : Main LeftParen RightParen LeftBrace (declarationList | statement) * RightBrace
     ;
 
 funcBlock
@@ -96,11 +96,26 @@ paramDeclarationIdentifer
 
 /* statements */
 statement
-    : expressionStatement
+    : scanStatement
+    | printStatement
+    | expressionStatement
     | compoundStatement
     | selectionStatement
     | iterationStatement
     | returnStatement
+    ;
+
+scanStatement
+    : Scan LeftParen STRINGCONSTANT* Comma IDENTIFIER RightParen Semi
+    ;
+
+printStatement
+    : Print LeftParen printStatementList RightParen Semi
+    ;
+
+printStatementList
+    : STRINGCONSTANT*
+    | STRINGCONSTANT* Plus expression
     ;
 
 expressionStatement
@@ -268,7 +283,7 @@ constant
 ConstantKey : 'constant';
 Int : 'int';
 Float : 'float';
-String : 'string';
+String : 'String';
 Boolean : 'bool';
 
 Do : 'do';
@@ -282,6 +297,8 @@ While : 'while';
 Create: 'create';
 Main: 'main';
 Func: 'func';
+Scan: 'scan';
+Print: 'print';
 
 LeftParen : '(';
 RightParen : ')';
@@ -372,7 +389,7 @@ SimpleEscapeSequence
 
 fragment
 SChar
-    :   ~["\\\r\n]
+    :   ~["\\\r\n] //everything that is not a \r, \n, and \ is included here as character
     |   EscapeSequence
     |   '\\\n'   // Added line
     |   '\\\r\n' // Added line

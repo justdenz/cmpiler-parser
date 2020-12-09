@@ -1,4 +1,8 @@
 main(){	
-	float fX = 2.0f; //a float declaration must end with an .f notation.
-	constant int MY_CONSTANT = 500; //constant declaration
+
+	print("Your number is: " +i);
+	print("X is " +x+ " while Y is " +y);
+	print("Let's add them! Result is: " +(x + y));
+	print("Let's do something complicated! " +((x + y + z) * (x*y)/fX));
+	print("Thank you very much!");
 }
