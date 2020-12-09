@@ -10,25 +10,30 @@ declarationList
     ;
 
 declaration
-    : variableDeclaration
-    | arrayDeclaration
-    | functionDeclaration
+    : arrayDeclaration
+    | variableDeclaration 
+    ;
+
+functionDeclaration
+    :
     ;
 
 arrayDeclaration
-    : typeSpecifier arrayDeclarationList Semi
+    : arrayTypeSpecifier arrayDeclarationList Semi
     ;
 
 arrayDeclarationList
-    : arrayDeclarationInitialize
+    : arrayDeclarationList Comma arrayDeclarationInitialize
+    | arrayDeclarationInitialize
     ;
 
 arrayDeclarationInitialize
-    : arrayDeclarationIdentifier Assign arrayExpression
+    : arrayDeclarationIdentifier
+    | arrayDeclarationIdentifier Assign arrayExpression
     ;
 
 arrayDeclarationIdentifier
-    : LeftBracket RightBracket IDENTIFIER
+    : IDENTIFIER
     ;
 
 variableDeclaration
@@ -59,6 +64,10 @@ typeSpecifier
     | 'bool'
     | 'String'
     | 'float'
+    ;
+
+arrayTypeSpecifier
+    : typeSpecifier LeftBracket RightBracket
     ;
 
 functionDeclaration
