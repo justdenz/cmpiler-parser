@@ -1,8 +1,17 @@
 grammar CUSTOM;
 
 program
-    : declarationList
+    : mainBlock funcBlock*
     ;
+
+mainBlock
+    : Main LeftParen RightParen LeftBrace declarationList RightBrace
+    ;
+
+funcBlock
+    : Func (typeSpecifier | arrayTypeSpecifier) IDENTIFIER LeftParen params RightParen statement
+    | Func Void IDENTIFIER LeftParen params RightParen statement //think about void statement
+    ; 
 
 declarationList
     : declarationList declaration
@@ -12,10 +21,6 @@ declarationList
 declaration
     : arrayDeclaration
     | variableDeclaration 
-    ;
-
-functionDeclaration
-    :
     ;
 
 arrayDeclaration
@@ -37,7 +42,7 @@ arrayDeclarationIdentifier
     ;
 
 variableDeclaration
-    : typeSpecifier variableDeclarationList Semi
+    : ConstantKey? typeSpecifier variableDeclarationList Semi
     ;
 
     
@@ -60,20 +65,15 @@ variableDeclarationIdentifier
     ;
 
 typeSpecifier
-    : 'int'
-    | 'bool'
-    | 'String'
-    | 'float'
+    : Int
+    | Boolean
+    | String
+    | Float
     ;
 
 arrayTypeSpecifier
     : typeSpecifier LeftBracket RightBracket
     ;
-
-functionDeclaration
-    : typeSpecifier IDENTIFIER LeftParen params RightParen statement
-    | Void IDENTIFIER LeftParen params RightParen statement
-    ; 
 
 params
     : paramList 
@@ -258,6 +258,7 @@ argList
 
 constant
     : INTEGERCONSTANT
+    | FLOATCONSTANT
     | STRINGCONSTANT
     | True
     | False 
@@ -268,6 +269,7 @@ ConstantKey : 'constant';
 Int : 'int';
 Float : 'float';
 String : 'string';
+Boolean : 'bool';
 
 Do : 'do';
 Else : 'else';
@@ -278,6 +280,8 @@ Return : 'return';
 Void : 'void';
 While : 'while';
 Create: 'create';
+Main: 'main';
+Func: 'func';
 
 LeftParen : '(';
 RightParen : ')';

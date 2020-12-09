@@ -1,3 +1,4 @@
-int main(){	
-	int[] myArray = create int[10];
+main(){	
+	float fX = 2.0f; //a float declaration must end with an .f notation.
+	constant int MY_CONSTANT = 500; //constant declaration
 }
