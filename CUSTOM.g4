@@ -125,7 +125,7 @@ expressionStatement
     ;
 
 compoundStatement
-    : LeftBrace localDeclarations statementList RightBrace
+    : LeftBrace (localDeclarations | statementList)* RightBrace
     ;
 
 localDeclarations
@@ -144,7 +144,7 @@ selectionStatementList
 
 statementList
     : statementList statement
-    | 
+    | statement
     ;
 
 iterationStatement

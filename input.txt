@@ -1,6 +1,28 @@
 main(){	
+	for int x = 1 up to n {
+		int x = 1;
+		print("Hello!");
+	}
+	
+	int n = 1;
+	//This is similar to Java: for(int x = 1000; x >= n; x--)
+	for int x = 1000 down to n {
+		print("Hello!");
+	}
 
 }
-func int[] append(int[] arr, int arr_size, int x) {
-	int[] newArr = create int[arr_size + 1];
+
+func void callPrinter(String message) {
+	print(message);
 }
+
+
+func int factorial(int n) {
+	if(n == 1) then {
+		return 1;
+	}
+	else then {
+		return n * factorial(n - 1);
+	}
+}
+
