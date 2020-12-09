@@ -114,8 +114,8 @@ printStatement
     ;
 
 printStatementList
-    : STRINGCONSTANT*
-    | STRINGCONSTANT* Plus expression
+    : (expression | STRINGCONSTANT)
+    | printStatementList Plus (expression | STRINGCONSTANT)
     ;
 
 expressionStatement
@@ -133,7 +133,12 @@ localDeclarations
     ;
 
 selectionStatement
-    : If LeftParen expression RightParen Then statement (Else statement)?
+    : If LeftParen expression RightParen Then LeftBrace statement* RightBrace selectionStatementList?
+    ;
+
+selectionStatementList
+    : ElseIf LeftParen expression RightParen Then LeftBrace statement* RightBrace selectionStatementList?
+    | Else Then LeftBrace statement* RightBrace 
     ;
 
 statementList
@@ -147,13 +152,13 @@ iterationStatement
     ;
 
 whileStatement
-    : While IDENTIFIER Upto loopExpression compoundStatement
-    | While IDENTIFIER Downto loopExpression compoundStatement
+    : While IDENTIFIER Up To relExpression compoundStatement
+    | While IDENTIFIER Down To relExpression compoundStatement
     ;
 
 forStatement
-    : For loopDeclaration Upto loopExpression compoundStatement
-    | For loopDeclaration Downto loopExpression compoundStatement
+    : For loopDeclaration Up To simpleExpression compoundStatement
+    | For loopDeclaration Down To simpleExpression compoundStatement
     ; 
 
 loopDeclaration
@@ -162,9 +167,8 @@ loopDeclaration
     | IDENTIFIER
     ;
 
-loopExpression
-    : 
-    ;
+//for statement using simpleExpression
+// while statement using relExpression
 
 returnStatement
     : Return Semi
@@ -290,6 +294,7 @@ Do : 'do';
 Else : 'else';
 For : 'for';
 If : 'if';
+ElseIf: 'else if';
 Then: 'then';
 Return : 'return';
 Void : 'void';
@@ -337,8 +342,6 @@ Ellipsis : '...';
 Up : 'up';
 Down : 'down';
 To: 'to';
-Upto: Up To;
-Downto: Down To;
 True: 'T';
 False: 'F';
 Break: 'break';
