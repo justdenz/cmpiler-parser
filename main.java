@@ -1,6 +1,8 @@
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 
+import org.antlr.v4.gui.TreeViewer;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Lexer;
@@ -19,7 +21,10 @@ class Main{
             CUSTOMParser parser = new CUSTOMParser(tokenStream);
             ParseTree tree = parser.program();
             MyListener listener = new MyListener();
-            System.out.println(tree.toStringTree(parser));
+
+            TreeViewer viewer = new TreeViewer(Arrays.asList(parser.getRuleNames()), tree);
+            viewer.open();
+
             ParseTreeWalker walker = new ParseTreeWalker();
             walker.walk(listener,tree);
         }catch (IOException e) {
