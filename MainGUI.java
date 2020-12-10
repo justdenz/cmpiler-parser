@@ -1,4 +1,4 @@
-// import components.*;
+import components.*;
 import java.time.Duration;
 import java.util.Collection;
 import java.util.Collections;
@@ -161,9 +161,9 @@ public class MainGUI extends Application {
     codeArea.replaceText(0, 0, sampleCode);
 
     BorderPane layout = new BorderPane();
-    // TerminalPane terminalPane = new TerminalPane();
+    TerminalPane terminalPane = new TerminalPane();
     layout.setCenter(new VirtualizedScrollPane<>(codeArea));
-    // layout.setBottom(terminalPane.addTerminalBox());
+    layout.setBottom(terminalPane.addTerminalBox());
 
     Scene scene = new Scene(layout, 600, 600);
     // scene
