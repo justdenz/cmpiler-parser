@@ -9,6 +9,7 @@ public class MainGUI extends Application {
   // private CodeArea codeArea;
   // private ExecutorService executor;
   EditorArea editorArea;
+  Controller controller = new Controller();
 
   @Override
   public void start(Stage primaryStage) {

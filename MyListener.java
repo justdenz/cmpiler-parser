@@ -9,6 +9,7 @@ import org.antlr.v4.runtime.Parser;
 public class MyListener {
     public static ErrorListener INSTANCE = new ErrorListener();
     public static class ErrorListener extends BaseErrorListener{
+        private String errMsg = "";
         @Override 
         public void syntaxError(Recognizer<?, ?> recognizer,
                                 Object offendingSymbol,
@@ -21,6 +22,12 @@ public class MyListener {
             System.err.println("rule stack: " + stack);
             //System.err.println("line "+line+":"+charPositionInLine+" at "+ offendingSymbol+": "+msg);
             System.err.println(msg +" at line "+line+":"+charPositionInLine);
+            errMsg = msg +" at line "+line+":"+charPositionInLine;
+        }
+
+        @Override
+        public String toString(){
+            return this.errMsg;
         }
     }
 }
