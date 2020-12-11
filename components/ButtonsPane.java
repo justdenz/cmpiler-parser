@@ -3,16 +3,22 @@ package components;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
 public class ButtonsPane {
+  Button btnRun, btnParse;
+
+  Image img = new Image("/components/style/tree.png");
 
   public HBox buttonPane() {
-    Button btnRun = new Button("Run");
-    btnRun.setPrefSize(100, 20);
+    btnRun = new Button("Run");
+    btnRun.setPrefSize(100, 24);
 
-    Button btnParse = new Button("View Parse Tree");
-    btnParse.setPrefSize(100, 20);
+    btnParse = new Button();
+    btnParse.setPrefSize(32, 32);
+    btnParse.setGraphic(new ImageView(img));
 
     HBox hbox = new HBox();
     hbox.setPadding(new Insets(15, 10, 15, 10));

@@ -19,12 +19,14 @@ declarationList
     ;
 
 declaration
-    : arrayDeclaration
-    | variableDeclaration 
+    : arrayDeclaration Semi
+    | variableDeclaration Semi
+    | arrayDeclaration {notifyErrorListeners("Missing ;");}
+    | variableDeclaration {notifyErrorListeners("Missing ;");}
     ;
 
 arrayDeclaration
-    : arrayTypeSpecifier arrayDeclarationList Semi
+    : arrayTypeSpecifier arrayDeclarationList
     ;
 
 arrayDeclarationList
@@ -42,13 +44,15 @@ arrayDeclarationIdentifier
     ;
 
 variableDeclaration
-    : ConstantKey? typeSpecifier variableDeclarationList Semi
+    : ConstantKey? typeSpecifier variableDeclarationList
     ;
 
     
 scopedVariableDeclaration
-    : variableDeclaration
-    | arrayDeclaration
+    : arrayDeclaration Semi
+    | variableDeclaration Semi
+    | arrayDeclaration {notifyErrorListeners("Missing ;");}
+    | variableDeclaration {notifyErrorListeners("Missing ;");}
     ;
 
 variableDeclarationList
@@ -97,8 +101,8 @@ paramDeclarationIdentifer
 
 /* statements */
 statement
-    : scanStatement
-    | printStatement
+    : scanStatement Semi
+    | printStatement Semi
     | expressionStatement
     | compoundStatement
     | selectionStatement
@@ -111,7 +115,10 @@ scanStatement
     ;
 
 printStatement
-    : Print LeftParen printStatementList RightParen Semi
+    : Print LeftParen printStatementList RightParen 
+    | Print LeftParen printStatementList RightParen  RightParen {notifyErrorListeners("Too many parentheses");}
+    | Print LeftParen printStatementList {notifyErrorListeners("Missing closing parenthesis ')'");}
+    | Print printStatementList RightParen {notifyErrorListeners("Missing opening parenthesis '('");}
     ;
 
 printStatementList

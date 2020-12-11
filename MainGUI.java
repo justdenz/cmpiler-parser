@@ -166,9 +166,7 @@ public class MainGUI extends Application {
     layout.setBottom(terminalPane.addTerminalBox());
 
     Scene scene = new Scene(layout, 600, 600);
-    // scene
-    // .getStylesheets()
-    // .add(EditorGUI.class.getResource("java-keywords.css").toExternalForm());
+    scene.getStylesheets().add("/components/style/java-keywords.css");
     primaryStage.setScene(scene);
     primaryStage.setTitle("Java Keywords Demo");
     primaryStage.show();
