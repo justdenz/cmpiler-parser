@@ -4,13 +4,14 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.*;
 
 public class TerminalPane {
+  TextArea console;
 
   public VBox addTerminalBox() {
     VBox vbox = new VBox();
 
     ButtonsPane btnPane = new ButtonsPane();
 
-    TextArea console = new TextArea();
+    console = new TextArea();
     console.setEditable(false);
     console.setPrefHeight(150);
 
