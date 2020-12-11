@@ -8,15 +8,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
 public class ButtonsPane {
-  Button btnRun, btnParse;
-
+  Button btnRun = new Button("Run");
+  Button btnParse = new Button();
   Image img = new Image("/components/style/tree.png");
 
   public HBox buttonPane() {
-    btnRun = new Button("Run");
     btnRun.setPrefSize(100, 24);
-
-    btnParse = new Button();
     btnParse.setPrefSize(32, 32);
     btnParse.setGraphic(new ImageView(img));
 
@@ -30,5 +27,13 @@ public class ButtonsPane {
     hbox.getChildren().addAll(btnRun, btnParse);
 
     return hbox;
+  }
+
+  public Button getBtnParse() {
+    return this.btnParse;
+  }
+
+  public Button getBtnRun() {
+    return this.btnRun;
   }
 }

@@ -103,38 +103,11 @@ public class EditorArea {
     ")"
   );
 
-  private static final String sampleCode = String.join(
-    "\n",
-    new String[] {
-      "package com.example;",
-      "",
-      "import java.util.*;",
-      "",
-      "public class Foo extends Bar implements Baz {",
-      "",
-      "    /*",
-      "     * multi-line comment",
-      "     */",
-      "    public static void main(String[] args) {",
-      "        // single-line comment",
-      "        for(String arg: args) {",
-      "            if(arg.length() != 0)",
-      "                System.out.println(arg);",
-      "            else",
-      "                System.err.println(\"Warning: empty string as argument\");",
-      "        }",
-      "    }",
-      "",
-      "}",
-    }
-  );
-
   public ExecutorService executor;
-  private CodeArea codeArea;
+  private CodeArea codeArea = new CodeArea();
 
   public CodeArea addEditorArea() {
     executor = Executors.newSingleThreadExecutor();
-    codeArea = new CodeArea();
     codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
     Subscription cleanupWhenDone = codeArea
       .multiPlainChanges()
@@ -153,9 +126,11 @@ public class EditorArea {
       )
       .subscribe(this::applyHighlighting);
 
-    codeArea.replaceText(0, 0, sampleCode);
-
     return codeArea;
+  }
+
+  public String getInput() {
+    return codeArea.getText();
   }
 
   private Task<StyleSpans<Collection<String>>> computeHighlightingAsync() {

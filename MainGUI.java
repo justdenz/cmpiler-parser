@@ -1,25 +1,26 @@
 import components.*;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import org.fxmisc.flowless.VirtualizedScrollPane;
 
 public class MainGUI extends Application {
-  // private CodeArea codeArea;
-  // private ExecutorService executor;
-  EditorArea editorArea;
+  EditorArea editorArea = new EditorArea();
+  TerminalPane terminalPane = new TerminalPane();
   Controller controller = new Controller();
 
   @Override
   public void start(Stage primaryStage) {
-    // executor = Executors.newSingleThreadExecutor();
-
     BorderPane layout = new BorderPane();
-    TerminalPane terminalPane = new TerminalPane();
-    editorArea = new EditorArea();
+
     layout.setCenter(new VirtualizedScrollPane<>(editorArea.addEditorArea()));
     layout.setBottom(terminalPane.addTerminalBox());
+    terminalPane.getBtnCompile().setOnAction(compile);
+    terminalPane.getBtnParse().setOnAction(viewParseTree);
 
     Scene scene = new Scene(layout, 600, 600);
     scene.getStylesheets().add("/components/style/java-keywords.css");
@@ -32,4 +33,30 @@ public class MainGUI extends Application {
   public void stop() {
     editorArea.executor.shutdown();
   }
+
+  // Event Handlers
+
+  EventHandler<ActionEvent> compile = new EventHandler<ActionEvent>() {
+
+    @Override
+    public void handle(ActionEvent event) {
+      String input = editorArea.getInput();
+      String parsedResult = "";
+
+      try {
+        parsedResult = controller.run(input);
+        terminalPane.getConsole().setText(parsedResult);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
+  };
+
+  EventHandler<ActionEvent> viewParseTree = new EventHandler<ActionEvent>() {
+
+    @Override
+    public void handle(ActionEvent event) {
+      controller.viewParseTree();
+    }
+  };
 }
