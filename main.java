@@ -28,7 +28,7 @@ class Main {
         Arrays.asList(parser.getRuleNames()),
         tree
       );
-      //   viewer.open();
+      // viewer.open();
       // ParseTreeWalker walker = new ParseTreeWalker();
       // walker.walk(listener,tree);
     } catch (IOException e) {
