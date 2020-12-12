@@ -18,9 +18,11 @@ import org.antlr.v4.runtime.tree.*;
 
 public class Controller {
   CUSTOMParser parser;
+  ParseTree tree;
 
   public String run(String input) throws Exception {
     String result = "";
+    MyListener errorListener = new MyListener();
     // InputStream inputStream = MainGUI.class.getResourceAsStream(input);
     InputStream inputStream = new ByteArrayInputStream(input.getBytes());
     try {
@@ -28,10 +30,10 @@ public class Controller {
       TokenStream tokenStream = new CommonTokenStream(lexer);
       parser = new CUSTOMParser(tokenStream);
       parser.removeErrorListeners();
-      parser.addErrorListener(MyListener.INSTANCE);
-      parser.program();
+      parser.addErrorListener(errorListener);
+      tree = parser.program();
 
-      result = MyListener.INSTANCE.toString();
+      result = errorListener.toString();
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -39,7 +41,6 @@ public class Controller {
   }
 
   public void viewParseTree() {
-    ParseTree tree = parser.program();
     TreeViewer viewer = new TreeViewer(
       Arrays.asList(parser.getRuleNames()),
       tree

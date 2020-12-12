@@ -8,7 +8,6 @@ import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.Parser;
 
 public class MyListener extends BaseErrorListener{
-    public static MyListener INSTANCE = new MyListener();
     private String errMsg = "";
     @Override 
     public void syntaxError(Recognizer<?, ?> recognizer,
