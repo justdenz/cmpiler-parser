@@ -55,12 +55,13 @@ public class MainGUI extends Application {
 
         if(parsedResult.size() == 0){
           terminalPane.getConsole().setText("No errors! Galing galing naman!");
+        } else {
+            String output = "";
+            for(String msg : parsedResult){
+              output += msg + "\n";
+            }
+            terminalPane.getConsole().setText(output);
         }
-        String output = "";
-        for(String msg : parsedResult){
-          output += msg + "\n";
-        }
-        terminalPane.getConsole().setText(output);
       } catch (Exception e) {
         e.printStackTrace();
       }
