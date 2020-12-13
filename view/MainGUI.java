@@ -7,6 +7,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+
+import java.util.ArrayList;
+
 import org.fxmisc.flowless.VirtualizedScrollPane;
 
 import controller.Controller;
@@ -44,17 +47,20 @@ public class MainGUI extends Application {
     @Override
     public void handle(ActionEvent event) {
       String input = editorArea.getInput();
-      String parsedResult = "";
+      ArrayList<String> parsedResult = new ArrayList<>();
 
       try {
         
         parsedResult = controller.run(input);
 
-        if(parsedResult == ""){
-          parsedResult = "No errors! Galing galing naman!";
+        if(parsedResult.size() == 0){
+          terminalPane.getConsole().setText("No errors! Galing galing naman!");
         }
-        
-        terminalPane.getConsole().setText(parsedResult);
+        String output = "";
+        for(String msg : parsedResult){
+          output += msg + "\n";
+        }
+        terminalPane.getConsole().setText(output);
       } catch (Exception e) {
         e.printStackTrace();
       }

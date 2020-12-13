@@ -1,4 +1,5 @@
 package model;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -8,7 +9,7 @@ import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.Parser;
 
 public class MyListener extends BaseErrorListener{
-    private String errMsg = "";
+    private ArrayList<String> errMsgs = new ArrayList<>();
     @Override 
     public void syntaxError(Recognizer<?, ?> recognizer,
                             Object offendingSymbol,
@@ -18,14 +19,13 @@ public class MyListener extends BaseErrorListener{
         
         List<String> stack = ((Parser)recognizer).getRuleInvocationStack();
         Collections.reverse(stack);                 
-        System.err.println("rule stack: " + stack);
+        //System.err.println("rule stack: " + stack);
         //System.err.println("line "+line+":"+charPositionInLine+" at "+ offendingSymbol+": "+msg);
-        errMsg = msg +" at line "+line+":"+charPositionInLine;
+        //errMsg = msg +" at line "+line+":"+charPositionInLine;
+        errMsgs.add("line "+line+":"+charPositionInLine+" at "+msg);
     }
 
-    @Override
-    public String toString(){
-        return errMsg;
+    public ArrayList<String> getErrorMessages() {
+        return errMsgs;
     }
-    
 }

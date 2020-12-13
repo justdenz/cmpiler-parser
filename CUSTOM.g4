@@ -21,8 +21,6 @@ declarationList
 declaration
     : arrayDeclaration Semi
     | variableDeclaration Semi
-    | arrayDeclaration {notifyErrorListeners("Missing ;");}
-    | variableDeclaration {notifyErrorListeners("Missing ;");}
     ;
 
 arrayDeclaration
@@ -51,8 +49,6 @@ variableDeclaration
 scopedVariableDeclaration
     : arrayDeclaration Semi
     | variableDeclaration Semi
-    | arrayDeclaration {notifyErrorListeners("Missing ;");}
-    | variableDeclaration {notifyErrorListeners("Missing ;");}
     ;
 
 variableDeclarationList
@@ -101,8 +97,8 @@ paramDeclarationIdentifer
 
 /* statements */
 statement
-    : scanStatement Semi
-    | printStatement Semi
+    : scanStatement
+    | printStatement
     | expressionStatement
     | compoundStatement
     | selectionStatement
@@ -116,9 +112,6 @@ scanStatement
 
 printStatement
     : Print LeftParen printStatementList RightParen 
-    | Print LeftParen printStatementList RightParen  RightParen {notifyErrorListeners("Too many parentheses");}
-    | Print LeftParen printStatementList {notifyErrorListeners("Missing closing parenthesis ')'");}
-    | Print printStatementList RightParen {notifyErrorListeners("Missing opening parenthesis '('");}
     ;
 
 printStatementList
@@ -174,9 +167,6 @@ loopDeclaration
     | IDENTIFIER Assign simpleExpression
     | IDENTIFIER
     ;
-
-//for statement using simpleExpression
-// while statement using relExpression
 
 returnStatement
     : Return Semi

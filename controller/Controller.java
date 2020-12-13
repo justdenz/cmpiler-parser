@@ -2,6 +2,7 @@ package controller;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -20,8 +21,8 @@ public class Controller {
   CUSTOMParser parser;
   ParseTree tree;
 
-  public String run(String input) throws Exception {
-    String result = "";
+  public ArrayList<String> run(String input) throws Exception {
+    ArrayList<String> result = new ArrayList<>();
     MyListener errorListener = new MyListener();
     // InputStream inputStream = MainGUI.class.getResourceAsStream(input);
     InputStream inputStream = new ByteArrayInputStream(input.getBytes());
@@ -33,7 +34,7 @@ public class Controller {
       parser.addErrorListener(errorListener);
       tree = parser.program();
 
-      result = errorListener.toString();
+      result = errorListener.getErrorMessages();
     } catch (IOException e) {
       e.printStackTrace();
     }
