@@ -117,6 +117,7 @@ printStatement
 printStatementList
     : (sumExpression | STRINGCONSTANT)
     | printStatementList Plus (sumExpression | STRINGCONSTANT)
+    | printStatementList (IDENTIFIER | INTEGERCONSTANT)+ {notifyErrorListeners("Missing double quotes");}
     ;
 
 expressionStatement
@@ -161,9 +162,9 @@ forStatement
     //: For IDENTIFIER (Up | Down) To simpleExpression compoundStatement
     // | For IDENTIFIER Assign simpleExpression (Up | Down) To simpleExpression compoundStatement
     // | For Int IDENTIFIER Assign simpleExpression (Up | Down) To simpleExpression compoundStatement
-    : For IDENTIFIER (Up | Down) To (IDENTIFIER | INTEGERCONSTANT) compoundStatement
-    | For IDENTIFIER Assign simpleExpression (Up | Down) To (IDENTIFIER | INTEGERCONSTANT) compoundStatement
-    | For Int IDENTIFIER Assign simpleExpression (Up | Down) To (IDENTIFIER | INTEGERCONSTANT) compoundStatement
+    : For IDENTIFIER (Up | Down) To sumExpression compoundStatement
+    | For IDENTIFIER Assign simpleExpression (Up | Down) To sumExpression compoundStatement
+    | For Int IDENTIFIER Assign simpleExpression (Up | Down) To sumExpression compoundStatement
     ; 
 
 returnStatement
