@@ -112,6 +112,8 @@ scanStatement
 
 printStatement
     : Print LeftParen printStatementList RightParen Semi
+    | Print LeftParen printStatementList  Semi {notifyErrorListeners("Lacking closing parenthesis");}
+    | Print printStatementList RightParen Semi {notifyErrorListeners("Lacking opening parenthesis");}
     ;
 
 printStatementList
