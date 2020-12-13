@@ -412,18 +412,6 @@ public class CUSTOMBaseListener implements CUSTOMListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterLoopDeclaration(CUSTOMParser.LoopDeclarationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitLoopDeclaration(CUSTOMParser.LoopDeclarationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterReturnStatement(CUSTOMParser.ReturnStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}

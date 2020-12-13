@@ -111,7 +111,7 @@ scanStatement
     ;
 
 printStatement
-    : Print LeftParen printStatementList RightParen 
+    : Print LeftParen printStatementList RightParen Semi
     ;
 
 printStatementList
@@ -125,7 +125,7 @@ expressionStatement
     ;
 
 compoundStatement
-    : LeftBrace (localDeclarations | statementList)* RightBrace
+    : LeftBrace (localDeclarations | statementList)? RightBrace
     ;
 
 localDeclarations
@@ -143,8 +143,8 @@ selectionStatementList
     ;
 
 statementList
-    : statementList statement
-    | statement
+    : statement
+    | statementList statement
     ;
 
 iterationStatement
@@ -158,15 +158,13 @@ whileStatement
     ;
 
 forStatement
-    : For loopDeclaration Up To simpleExpression compoundStatement
-    | For loopDeclaration Down To simpleExpression compoundStatement
+    //: For IDENTIFIER (Up | Down) To simpleExpression compoundStatement
+    // | For IDENTIFIER Assign simpleExpression (Up | Down) To simpleExpression compoundStatement
+    // | For Int IDENTIFIER Assign simpleExpression (Up | Down) To simpleExpression compoundStatement
+    : For IDENTIFIER (Up | Down) To (IDENTIFIER | INTEGERCONSTANT) compoundStatement
+    | For IDENTIFIER Assign simpleExpression (Up | Down) To (IDENTIFIER | INTEGERCONSTANT) compoundStatement
+    | For Int IDENTIFIER Assign simpleExpression (Up | Down) To (IDENTIFIER | INTEGERCONSTANT) compoundStatement
     ; 
-
-loopDeclaration
-    : Int IDENTIFIER Assign simpleExpression
-    | IDENTIFIER Assign simpleExpression
-    | IDENTIFIER
-    ;
 
 returnStatement
     : Return Semi
@@ -178,6 +176,8 @@ expression
     : mutable Assign expression
     | simpleExpression
     | arrayExpression
+    | sumExpression
+    | mulExpression
     ;
 
 simpleExpression

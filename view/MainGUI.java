@@ -31,7 +31,7 @@ public class MainGUI extends Application {
     Scene scene = new Scene(layout, 600, 600);
     scene.getStylesheets().add("/components/style/java-keywords.css");
     primaryStage.setScene(scene);
-    primaryStage.setTitle("Java Keywords Demo");
+    primaryStage.setTitle("The Search Three Compiler");
     primaryStage.show();
   }
 

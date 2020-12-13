@@ -338,16 +338,6 @@ public interface CUSTOMListener extends ParseTreeListener {
 	 */
 	void exitForStatement(CUSTOMParser.ForStatementContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link CUSTOMParser#loopDeclaration}.
-	 * @param ctx the parse tree
-	 */
-	void enterLoopDeclaration(CUSTOMParser.LoopDeclarationContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link CUSTOMParser#loopDeclaration}.
-	 * @param ctx the parse tree
-	 */
-	void exitLoopDeclaration(CUSTOMParser.LoopDeclarationContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link CUSTOMParser#returnStatement}.
 	 * @param ctx the parse tree
 	 */
