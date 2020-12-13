@@ -358,6 +358,16 @@ public interface CUSTOMListener extends ParseTreeListener {
 	 */
 	void exitExpression(CUSTOMParser.ExpressionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link CUSTOMParser#conditionalExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterConditionalExpression(CUSTOMParser.ConditionalExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CUSTOMParser#conditionalExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitConditionalExpression(CUSTOMParser.ConditionalExpressionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link CUSTOMParser#simpleExpression}.
 	 * @param ctx the parse tree
 	 */

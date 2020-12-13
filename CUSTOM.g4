@@ -115,8 +115,8 @@ printStatement
     ;
 
 printStatementList
-    : (expression | STRINGCONSTANT)
-    | printStatementList Plus (expression | STRINGCONSTANT)
+    : (sumExpression | STRINGCONSTANT)
+    | printStatementList Plus (sumExpression | STRINGCONSTANT)
     ;
 
 expressionStatement
@@ -134,11 +134,11 @@ localDeclarations
     ;
 
 selectionStatement
-    : If LeftParen expression RightParen Then LeftBrace statement* RightBrace selectionStatementList?
+    : If LeftParen conditionalExpression RightParen Then LeftBrace statement* RightBrace selectionStatementList?
     ;
 
 selectionStatementList
-    : ElseIf LeftParen expression RightParen Then LeftBrace statement* RightBrace selectionStatementList?
+    : ElseIf LeftParen conditionalExpression RightParen Then LeftBrace statement* RightBrace selectionStatementList?
     | Else Then LeftBrace statement* RightBrace 
     ;
 
@@ -178,6 +178,10 @@ expression
     | arrayExpression
     | sumExpression
     | mulExpression
+    ;
+
+conditionalExpression
+    : sumExpression relop sumExpression
     ;
 
 simpleExpression
