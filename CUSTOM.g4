@@ -1,7 +1,7 @@
 grammar CUSTOM;
 
 program
-    : mainBlock funcBlock*
+    : funcBlock* mainBlock
     ;
 
 mainBlock
@@ -9,8 +9,8 @@ mainBlock
     ;
 
 funcBlock
-    : Func (typeSpecifier | arrayTypeSpecifier) IDENTIFIER LeftParen params RightParen statement
-    | Func Void IDENTIFIER LeftParen params RightParen statement //think about void statement
+    : Func (typeSpecifier | arrayTypeSpecifier) IDENTIFIER LeftParen params RightParen statement*
+    | Func Void IDENTIFIER LeftParen params RightParen statement* //think about void statement
     ; 
 
 declarationList
@@ -125,7 +125,7 @@ expressionStatement
     ;
 
 compoundStatement
-    : LeftBrace (localDeclarations | statementList)? RightBrace
+    : LeftBrace (localDeclarations | statementList)* RightBrace
     ;
 
 localDeclarations
