@@ -1,14 +1,18 @@
 package controller;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+
 import model.CUSTOMLexer;
 import model.CUSTOMParser;
 import model.MyListener;
+import model.CustomError;
 
 import org.antlr.v4.gui.TreeViewer;
 import org.antlr.v4.runtime.CharStreams;
@@ -21,8 +25,8 @@ public class Controller {
   CUSTOMParser parser;
   ParseTree tree;
 
-  public ArrayList<String> run(String input) throws Exception {
-    ArrayList<String> result = new ArrayList<>();
+  public ArrayList<CustomError> run(String input) throws Exception {
+    ArrayList<CustomError> output = new ArrayList<>();
     MyListener errorListener = new MyListener();
     // InputStream inputStream = MainGUI.class.getResourceAsStream(input);
     InputStream inputStream = new ByteArrayInputStream(input.getBytes());
@@ -34,11 +38,11 @@ public class Controller {
       parser.addErrorListener(errorListener);
       tree = parser.program();
 
-      result = errorListener.getErrorMessages();
+      output = errorListener.getErrors();
     } catch (IOException e) {
       e.printStackTrace();
     }
-    return result;
+    return output;
   }
 
   public void viewParseTree() {

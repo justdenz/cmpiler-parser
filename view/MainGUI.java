@@ -1,12 +1,14 @@
 package view;
+
 import components.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+
+import model.CustomError;
 
 import java.util.ArrayList;
 
@@ -47,7 +49,7 @@ public class MainGUI extends Application {
     @Override
     public void handle(ActionEvent event) {
       String input = editorArea.getInput();
-      ArrayList<String> parsedResult = new ArrayList<>();
+      ArrayList<CustomError> parsedResult = new ArrayList<>();
 
       try {
         
@@ -57,8 +59,13 @@ public class MainGUI extends Application {
           terminalPane.getConsole().setText("No errors! Galing galing naman!");
         } else {
             String output = "";
-            for(String msg : parsedResult){
-              output += msg + "\n";
+            for(CustomError err : parsedResult){
+              String lineNum = String.valueOf(err.getLineNumber());
+              String charNum = String.valueOf(err.getCharNumber());
+              String errPrefix = err.getErrorPrefix(); 
+              String errSuffix = err.getErrorSuffix();
+              String errMsg = errPrefix + errSuffix;
+              output += "In line "+lineNum +":"+charNum+" "+errMsg+"\n";
             }
             terminalPane.getConsole().setText(output);
         }
