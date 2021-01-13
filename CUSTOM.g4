@@ -118,7 +118,7 @@ printStatementList
     ;
 
 expressionStatement
-    : expression+ Semi
+    : (experssionStandAlone | call) Semi
     ;
 
 compoundStatement
@@ -184,6 +184,10 @@ expression
     | arrayExpression
     | sumExpression
     | mulExpression
+    ;
+
+experssionStandAlone
+    : mutable Assign (simpleExpression | arrayExpression)
     ;
 
 conditionalExpression

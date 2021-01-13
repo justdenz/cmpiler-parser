@@ -388,6 +388,16 @@ public interface CUSTOMListener extends ParseTreeListener {
 	 */
 	void exitExpression(CUSTOMParser.ExpressionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link CUSTOMParser#experssionStandAlone}.
+	 * @param ctx the parse tree
+	 */
+	void enterExperssionStandAlone(CUSTOMParser.ExperssionStandAloneContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CUSTOMParser#experssionStandAlone}.
+	 * @param ctx the parse tree
+	 */
+	void exitExperssionStandAlone(CUSTOMParser.ExperssionStandAloneContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link CUSTOMParser#conditionalExpression}.
 	 * @param ctx the parse tree
 	 */

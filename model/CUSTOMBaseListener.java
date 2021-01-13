@@ -472,6 +472,18 @@ public class CUSTOMBaseListener implements CUSTOMListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterExperssionStandAlone(CUSTOMParser.ExperssionStandAloneContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExperssionStandAlone(CUSTOMParser.ExperssionStandAloneContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterConditionalExpression(CUSTOMParser.ConditionalExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
