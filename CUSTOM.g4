@@ -112,14 +112,11 @@ scanStatement
 
 printStatement
     : Print LeftParen printStatementList RightParen Semi
-    | Print LeftParen printStatementList  Semi {notifyErrorListeners("Lacking closing parenthesis");}
-    | Print printStatementList RightParen Semi {notifyErrorListeners("Lacking opening parenthesis");}
     ;
 
 printStatementList
     : (sumExpression | STRINGCONSTANT)
     | printStatementList Plus (sumExpression | STRINGCONSTANT)
-    | printStatementList (IDENTIFIER | INTEGERCONSTANT)+ {notifyErrorListeners("Missing double quotes");}
     ;
 
 expressionStatement
