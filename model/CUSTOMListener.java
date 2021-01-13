@@ -108,16 +108,6 @@ public interface CUSTOMListener extends ParseTreeListener {
 	 */
 	void exitVariableDeclaration(CUSTOMParser.VariableDeclarationContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link CUSTOMParser#scopedVariableDeclaration}.
-	 * @param ctx the parse tree
-	 */
-	void enterScopedVariableDeclaration(CUSTOMParser.ScopedVariableDeclarationContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link CUSTOMParser#scopedVariableDeclaration}.
-	 * @param ctx the parse tree
-	 */
-	void exitScopedVariableDeclaration(CUSTOMParser.ScopedVariableDeclarationContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link CUSTOMParser#variableDeclarationList}.
 	 * @param ctx the parse tree
 	 */
@@ -228,6 +218,16 @@ public interface CUSTOMListener extends ParseTreeListener {
 	 */
 	void exitScanStatement(CUSTOMParser.ScanStatementContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link CUSTOMParser#scanStatementList}.
+	 * @param ctx the parse tree
+	 */
+	void enterScanStatementList(CUSTOMParser.ScanStatementListContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CUSTOMParser#scanStatementList}.
+	 * @param ctx the parse tree
+	 */
+	void exitScanStatementList(CUSTOMParser.ScanStatementListContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link CUSTOMParser#printStatement}.
 	 * @param ctx the parse tree
 	 */
@@ -267,16 +267,6 @@ public interface CUSTOMListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitCompoundStatement(CUSTOMParser.CompoundStatementContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link CUSTOMParser#localDeclarations}.
-	 * @param ctx the parse tree
-	 */
-	void enterLocalDeclarations(CUSTOMParser.LocalDeclarationsContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link CUSTOMParser#localDeclarations}.
-	 * @param ctx the parse tree
-	 */
-	void exitLocalDeclarations(CUSTOMParser.LocalDeclarationsContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link CUSTOMParser#selectionStatement}.
 	 * @param ctx the parse tree
@@ -338,6 +328,36 @@ public interface CUSTOMListener extends ParseTreeListener {
 	 */
 	void exitForStatement(CUSTOMParser.ForStatementContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link CUSTOMParser#forCondition}.
+	 * @param ctx the parse tree
+	 */
+	void enterForCondition(CUSTOMParser.ForConditionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CUSTOMParser#forCondition}.
+	 * @param ctx the parse tree
+	 */
+	void exitForCondition(CUSTOMParser.ForConditionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CUSTOMParser#forDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterForDeclaration(CUSTOMParser.ForDeclarationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CUSTOMParser#forDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitForDeclaration(CUSTOMParser.ForDeclarationContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CUSTOMParser#forExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterForExpression(CUSTOMParser.ForExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CUSTOMParser#forExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitForExpression(CUSTOMParser.ForExpressionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link CUSTOMParser#returnStatement}.
 	 * @param ctx the parse tree
 	 */
@@ -347,6 +367,16 @@ public interface CUSTOMListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitReturnStatement(CUSTOMParser.ReturnStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CUSTOMParser#returnStatementList}.
+	 * @param ctx the parse tree
+	 */
+	void enterReturnStatementList(CUSTOMParser.ReturnStatementListContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CUSTOMParser#returnStatementList}.
+	 * @param ctx the parse tree
+	 */
+	void exitReturnStatementList(CUSTOMParser.ReturnStatementListContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link CUSTOMParser#expression}.
 	 * @param ctx the parse tree

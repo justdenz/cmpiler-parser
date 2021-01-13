@@ -5,12 +5,12 @@ program
     ;
 
 mainBlock
-    : Main LeftParen RightParen LeftBrace (declarationList | statement) * RightBrace
+    : Main LeftParen RightParen LeftBrace (declarationList | statement) * RightBrace EOF
     ;
 
 funcBlock
-    : Func (typeSpecifier | arrayTypeSpecifier) IDENTIFIER LeftParen params RightParen statement*
-    | Func Void IDENTIFIER LeftParen params RightParen statement* //think about void statement
+    : Func (typeSpecifier | arrayTypeSpecifier) IDENTIFIER LeftParen params RightParen LeftBrace (declarationList | statement) * RightBrace
+    | Func Void IDENTIFIER LeftParen params RightParen LeftBrace (declarationList | statement) * RightBrace //think about void statement
     ; 
 
 declarationList
@@ -19,12 +19,12 @@ declarationList
     ;
 
 declaration
-    : arrayDeclaration Semi
-    | variableDeclaration Semi
+    : arrayDeclaration
+    | variableDeclaration
     ;
 
 arrayDeclaration
-    : arrayTypeSpecifier arrayDeclarationList
+    : arrayTypeSpecifier arrayDeclarationList Semi
     ;
 
 arrayDeclarationList
@@ -42,13 +42,7 @@ arrayDeclarationIdentifier
     ;
 
 variableDeclaration
-    : ConstantKey? typeSpecifier variableDeclarationList
-    ;
-
-    
-scopedVariableDeclaration
-    : arrayDeclaration Semi
-    | variableDeclaration Semi
+    : ConstantKey? typeSpecifier variableDeclarationList Semi
     ;
 
 variableDeclarationList
@@ -97,8 +91,8 @@ paramDeclarationIdentifer
 
 /* statements */
 statement
-    : scanStatement
-    | printStatement
+    : scanStatement Semi
+    | printStatement Semi
     | expressionStatement
     | compoundStatement
     | selectionStatement
@@ -107,11 +101,15 @@ statement
     ;
 
 scanStatement
-    : Scan LeftParen STRINGCONSTANT* Comma IDENTIFIER RightParen Semi
+    : Scan LeftParen scanStatementList RightParen
+    ;
+
+scanStatementList
+    : STRINGCONSTANT Comma IDENTIFIER
     ;
 
 printStatement
-    : Print LeftParen printStatementList RightParen Semi
+    : Print LeftParen printStatementList RightParen
     ;
 
 printStatementList
@@ -121,25 +119,20 @@ printStatementList
 
 expressionStatement
     : expression Semi
-    | Semi
+    //| Semi
     ;
 
 compoundStatement
-    : LeftBrace (localDeclarations | statementList)* RightBrace
-    ;
-
-localDeclarations
-    : localDeclarations scopedVariableDeclaration
-    | scopedVariableDeclaration
+    : LeftBrace (variableDeclaration | statementList)* RightBrace
     ;
 
 selectionStatement
-    : If LeftParen conditionalExpression RightParen Then LeftBrace statement* RightBrace selectionStatementList?
+    : If LeftParen simpleExpression RightParen Then LeftBrace statement* RightBrace selectionStatementList
     ;
 
 selectionStatementList
-    : ElseIf LeftParen conditionalExpression RightParen Then LeftBrace statement* RightBrace selectionStatementList?
-    | Else Then LeftBrace statement* RightBrace 
+    : ElseIf LeftParen simpleExpression RightParen Then LeftBrace statement* RightBrace selectionStatementList
+    | Else Then LeftBrace statement* RightBrace
     ;
 
 statementList
@@ -161,14 +154,28 @@ forStatement
     //: For IDENTIFIER (Up | Down) To simpleExpression compoundStatement
     // | For IDENTIFIER Assign simpleExpression (Up | Down) To simpleExpression compoundStatement
     // | For Int IDENTIFIER Assign simpleExpression (Up | Down) To simpleExpression compoundStatement
-    : For IDENTIFIER (Up | Down) To sumExpression compoundStatement
-    | For IDENTIFIER Assign simpleExpression (Up | Down) To sumExpression compoundStatement
-    | For Int IDENTIFIER Assign simpleExpression (Up | Down) To sumExpression compoundStatement
+    : For forCondition compoundStatement
     ; 
 
+forCondition
+    : forDeclaration forExpression
+    ;
+
+forDeclaration
+    : IDENTIFIER
+    | Int? IDENTIFIER Assign simpleExpression
+    ;
+
+forExpression
+    : (Up | Down) To sumExpression
+    ;
+
 returnStatement
-    : Return Semi
-    | Return expression Semi
+    : Return returnStatementList Semi
+    ;
+
+returnStatementList
+    : simpleExpression
     ;
 
 /*expressions */
@@ -181,7 +188,7 @@ expression
     ;
 
 conditionalExpression
-    : sumExpression relop sumExpression
+    : relExpression
     ;
 
 simpleExpression
@@ -286,69 +293,58 @@ constant
     ;
 
 /* keywords */
-ConstantKey : 'constant';
-Int : 'int';
-Float : 'float';
-String : 'String';
+AndAnd : '&&';
+Assign : '=';
 Boolean : 'bool';
-
-Do : 'do';
-Else : 'else';
-For : 'for';
-If : 'if';
-ElseIf: 'else if';
-Then: 'then';
-Return : 'return';
-Void : 'void';
-While : 'while';
+Break: 'break';
+Colon : ':';
+Comma : ',';
+ConstantKey : 'constant';
 Create: 'create';
-Main: 'main';
+Div : '/';
+Do : 'do';
+Dot : '.';
+DoubleQuotation: '"';
+Down : 'down';
+Ellipsis : '...';
+Else : 'else';
+ElseIf: 'else if';
+Equal : '==';
+False: 'F';
+Float : 'float';
+For : 'for';
 Func: 'func';
-Scan: 'scan';
-Print: 'print';
-
-LeftParen : '(';
-RightParen : ')';
-LeftBracket : '[';
-RightBracket : ']';
-LeftBrace : '{';
-RightBrace : '}';
-
-Less : '<';
-LessEqual : '<=';
 Greater : '>';
 GreaterEqual : '>=';
-
-Plus : '+';
+If : 'if';
+Int : 'int';
+LeftBrace : '{';
+LeftBracket : '[';
+LeftParen : '(';
+Less : '<';
+LessEqual : '<=';
+Main: 'main';
 Minus : '-';
-Star : '*';
-Div : '/';
 Mod : '%';
-
-AndAnd : '&&';
-OrOr : '||';
 Not : '!';
-
-Colon : ':';
-Semi : ';';
-Comma : ',';
-
-Assign : '=';
-
-Equal : '==';
 NotEqual : '!=';
-
-Dot : '.';
-Ellipsis : '...';
-
-Up : 'up';
-Down : 'down';
+OrOr : '||';
+Plus : '+';
+Print: 'print';
+Return : 'return';
+RightBrace : '}';
+RightBracket : ']';
+RightParen : ')';
+Scan: 'scan';
+Semi : ';';
+Star : '*';
+String : 'String';
+Then: 'then';
 To: 'to';
 True: 'T';
-False: 'F';
-Break: 'break';
-
-DoubleQuotation: '"';
+Up : 'up';
+Void : 'void';
+While : 'while';
 
 /* primitives */
 fragment
