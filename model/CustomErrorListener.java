@@ -5,60 +5,52 @@ import org.antlr.v4.runtime.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-public class MyListener extends BaseErrorListener{
+
+public class CustomErrorListener extends BaseErrorListener{
+
+    private String NO_VIABLE = "no viable alternative at input";
+    private String MISSING = "missing";
+    private String MISMATCHED = "mismatched input";
+    private String EXTRANEOUS = "extraneous input";
+    private String TOK_RECOG = "token recognition error";
 
     private ArrayList<CustomError> errors = new ArrayList<>();
 
     @Override
-    public void syntaxError(Recognizer<?, ?> recognizer, Object o, int i, int i1, String s, RecognitionException e) {
-        //System.err.println("Syntax Error @ Line " + i + " : " + i1 + " " + s);
+    public void syntaxError(Recognizer<?, ?> recognizer, Object o, int lineNum, int charNum, String message, RecognitionException e) {
 
-        // TODO :
-        // IDENTIFY ERRORS FROM String s
-        //  - Extraneous Input
-        //  - Mismatched Input
-        //  - No viable alternative
-        //  - Missing
-        //  - Token Recognition
-        // CREATE OWN ERROR MESSAGES AND SUGGESTIONS
-        // THEN ADD THEM TO ERRORS LIST
-        // USE getErrors() IN PRINTING THE ERRORS IN CONSOLE
-
-        List<String> stack = ((Parser)recognizer).getRuleInvocationStack(); Collections.reverse(stack);
-        //System.err.println("rule stack: "+stack);
-
+        List<String> stack = ((Parser)recognizer).getRuleInvocationStack(); 
+        Collections.reverse(stack);
         CustomError error = new CustomError();
 
-        error.setLineNumber(i);
-        error.setCharNumber(i1);
+        error.setLineNumber(lineNum);
+        error.setCharNumber(charNum);
 
-        if (s.contains(CustomError.MISSING_KEY)) {
+        if (message.contains(MISSING)) {
 
             error.setType(CustomError.ErrorType.MISSING);
 
-            String split[] = s.split(CustomError.MISSING_KEY);
+            String split[] = message.split(MISSING);
 
             String tokens[] = split[1].split("at");
 
             error.setErrorPrefix("missing " + tokens[0] + " before " + tokens[1] + "");
-            error.setLineLayout("line " + i + " @ " + i1);
             error.setErrorSuffix(". Try adding " + tokens[0] + " before " + tokens[1] + ".");
 
-        } else if (s.contains(CustomError.NO_VIABLE_ALT_KEY)) {
+        } else if (message.contains(NO_VIABLE)) {
 
             error.setType(CustomError.ErrorType.NO_VIABLE_ALTERNATIVE);
 
-            String split[] = s.split(CustomError.NO_VIABLE_ALT_KEY);
+            String split[] = message.split(NO_VIABLE);
 
             error.setErrorPrefix("could not resolve the token " + split[1] + "");
-            error.setLineLayout("line " + i + " @ " + i1);
             error.setErrorSuffix(".");
 
-        } else if (s.contains(CustomError.MISMATCHED_INPUT_KEY)) {
+        } else if (message.contains(MISMATCHED)) {
 
             error.setType(CustomError.ErrorType.MISMATCHED_INPUT);
 
-            String split[] = s.split(CustomError.MISMATCHED_INPUT_KEY);
+            String split[] = message.split(MISMATCHED);
 
             String str[] = new String[1];
 
@@ -66,7 +58,6 @@ public class MyListener extends BaseErrorListener{
                 str = split[1].split("expecting");
             }
 
-            error.setLineLayout("line " + i + " @ " + i1);
             error.setErrorSuffix(".");
 
             if (str[1].contains("IntegerLiteral") && str[1].contains("FloatingPointLiteral") && str[1].contains("BooleanLiteral") && str[1].contains("CharacterLiteral")
@@ -74,26 +65,21 @@ public class MyListener extends BaseErrorListener{
 
                 error.setErrorPrefix("mismatched input " + str[0] + " try replacing it with an expression");
             } else if (str[1].contains("Identifier")) {
-                //resultedMessage = "Expected identifier at line " + i + " @ " + i1;
-
                 error.setErrorPrefix("expected identifier");
             } else {
-
                 error.setErrorPrefix("mismatched input " + str[0] + " try replacing it with " + str[1] + "");
             }
 
-        } else if (s.contains(CustomError.EXTRANEOUS_INPUT_KEY)) {
+        } else if (message.contains(EXTRANEOUS)) {
 
             error.setType(CustomError.ErrorType.EXTRANEOUS_INPUT);
 
-            String split[] = s.split(CustomError.EXTRANEOUS_INPUT_KEY);
+            String split[] = message.split(EXTRANEOUS);
 
-            error.setLineLayout("line " + i + " @ " + i1);
             error.setErrorPrefix("extraneous input");
 
             String str[] = new String[1];
-            for (int k = 0; k < split.length; k++) { // test
-                //System.out.print("k: ");
+            for (int k = 0; k < split.length; k++) {
                 split[k] = split[k].trim();
 
                 if (split[k].contains("expecting")) {
@@ -109,8 +95,6 @@ public class MyListener extends BaseErrorListener{
             } else if (str[1].contains("IntegerLiteral") && str[1].contains("FloatingPointLiteral") && str[1].contains("BooleanLiteral") && str[1].contains("CharacterLiteral")
                     && str[1].contains("StringLiteral") && str[1].contains("Identifier")) {
 
-                System.out.println("--==-=-=-==" + i);
-
                 error.setErrorSuffix(" : consider removing " + str[0] + " and replacing it with an expression.");
 
             } else if (str[1].contains("Identifier"))  {
@@ -123,12 +107,13 @@ public class MyListener extends BaseErrorListener{
 
             }
 
-        } else if (s.contains(CustomError.TOKEN_RECOGNITION_KEY)) {
+        } else if (message.contains(TOK_RECOG)) {
+
             error.setType(CustomError.ErrorType.TOKEN_RECOGNITION);
 
             error.setErrorPrefix("token recognition error");
-            error.setLineLayout("line " + i + " @ " + i1);
             error.setErrorSuffix(".");
+
         }
         errors.add(error);
     }
@@ -136,17 +121,4 @@ public class MyListener extends BaseErrorListener{
     public ArrayList<CustomError> getErrors () {
         return this.errors;
     }
-
-    /*@Override
-    public void reportAmbiguity(Parser parser, DFA dfa, int i, int i1, boolean b, BitSet bitSet, ATNConfigSet atnConfigSet) {
-        System.err.println("Ambiguity @ Line " + i + " : " + i1);
-    }
-    @Override
-    public void reportAttemptingFullContext(Parser parser, DFA dfa, int i, int i1, BitSet bitSet, ATNConfigSet atnConfigSet) {
-        System.err.println("Attempting Full Context @ Line " + i + " : " + i1);
-    }
-    @Override
-    public void reportContextSensitivity(Parser parser, DFA dfa, int i, int i1, int i2, ATNConfigSet atnConfigSet) {
-        System.err.println("Context Sensitivity @ Line " + i + " : " + i1);
-    }*/
 }

@@ -11,7 +11,7 @@ import javafx.event.EventHandler;
 
 import model.CUSTOMLexer;
 import model.CUSTOMParser;
-import model.MyListener;
+import model.CustomErrorListener;
 import model.CustomError;
 
 import org.antlr.v4.gui.TreeViewer;
@@ -27,7 +27,7 @@ public class Controller {
 
   public ArrayList<CustomError> run(String input) throws Exception {
     ArrayList<CustomError> output = new ArrayList<>();
-    MyListener errorListener = new MyListener();
+    CustomErrorListener errorListener = new CustomErrorListener();
     // InputStream inputStream = MainGUI.class.getResourceAsStream(input);
     InputStream inputStream = new ByteArrayInputStream(input.getBytes());
     try {

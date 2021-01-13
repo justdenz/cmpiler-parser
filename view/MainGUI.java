@@ -65,7 +65,7 @@ public class MainGUI extends Application {
               String errPrefix = err.getErrorPrefix(); 
               String errSuffix = err.getErrorSuffix();
               String errMsg = errPrefix + errSuffix;
-              output += "In line "+lineNum +":"+charNum+" "+errMsg+"\n";
+              output += "In line "+lineNum +":"+charNum+" - "+errMsg+"\n";
             }
             terminalPane.getConsole().setText(output);
         }
