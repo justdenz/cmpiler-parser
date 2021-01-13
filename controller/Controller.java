@@ -6,9 +6,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-
 import model.CUSTOMLexer;
 import model.CUSTOMParser;
 import model.CustomErrorListener;
@@ -28,7 +25,6 @@ public class Controller {
   public ArrayList<CustomError> run(String input) throws Exception {
     ArrayList<CustomError> output = new ArrayList<>();
     CustomErrorListener errorListener = new CustomErrorListener();
-    // InputStream inputStream = MainGUI.class.getResourceAsStream(input);
     InputStream inputStream = new ByteArrayInputStream(input.getBytes());
     try {
       Lexer lexer = new CUSTOMLexer(CharStreams.fromStream(inputStream));

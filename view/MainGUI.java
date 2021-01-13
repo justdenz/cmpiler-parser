@@ -62,9 +62,7 @@ public class MainGUI extends Application {
             for(CustomError err : parsedResult){
               String lineNum = String.valueOf(err.getLineNumber());
               String charNum = String.valueOf(err.getCharNumber());
-              String errPrefix = err.getErrorPrefix(); 
-              String errSuffix = err.getErrorSuffix();
-              String errMsg = errPrefix + errSuffix;
+              String errMsg = err.getErrorMessage();
               output += "In line "+lineNum +":"+charNum+" - "+errMsg+"\n";
             }
             terminalPane.getConsole().setText(output);

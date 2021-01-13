@@ -2,11 +2,10 @@ package model;
 
 public class CustomError {
 
-    private int lineNumber;
-    private int charNumber = -1;
-    private String errorPrefix;
-    private String errorSuffix;
-    private ErrorType type;
+    private int lineNum;
+    private int charNum = -1;
+    private String errorMessage;
+    private ErrorType errorType;
 
     public enum ErrorType {
         NO_VIABLE_ALTERNATIVE,
@@ -17,42 +16,34 @@ public class CustomError {
     }
 
     public int getLineNumber() {
-        return lineNumber;
+        return lineNum;
     }
 
-    public void setLineNumber(int lineNumber) {
-        this.lineNumber = lineNumber;
+    public void setLineNumber(int lineNum) {
+        this.lineNum = lineNum;
     }
 
     public int getCharNumber() {
-        return charNumber;
+        return charNum;
     }
 
-    public void setCharNumber(int charNumber) {
-        this.charNumber = charNumber;
+    public void setCharNumber(int charNum) {
+        this.charNum = charNum;
     }
 
-    public String getErrorPrefix() {
-        return errorPrefix;
+    public String getErrorMessage() {
+        return errorMessage;
     }
 
-    public void setErrorPrefix(String errorPrefix) {
-        this.errorPrefix = errorPrefix;
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
 
-    public String getErrorSuffix() {
-        return errorSuffix;
+    public ErrorType getErrorType() {
+        return errorType;
     }
 
-    public void setErrorSuffix(String errorSuffix) {
-        this.errorSuffix = errorSuffix;
-    }
-
-    public ErrorType getType() {
-        return type;
-    }
-
-    public void setType(ErrorType type) {
-        this.type = type;
+    public void setErrorType(ErrorType errorType) {
+        this.errorType = errorType;
     }
 }
