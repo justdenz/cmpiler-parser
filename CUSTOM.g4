@@ -91,8 +91,8 @@ paramDeclarationIdentifer
 
 /* statements */
 statement
-    : scanStatement Semi
-    | printStatement Semi
+    : scanStatement
+    | printStatement
     | expressionStatement
     | compoundStatement
     | selectionStatement
@@ -101,7 +101,7 @@ statement
     ;
 
 scanStatement
-    : Scan LeftParen scanStatementList RightParen
+    : Scan LeftParen scanStatementList RightParen Semi
     ;
 
 scanStatementList
@@ -109,17 +109,16 @@ scanStatementList
     ;
 
 printStatement
-    : Print LeftParen printStatementList RightParen
+    : Print LeftParen printStatementList RightParen Semi
     ;
 
 printStatementList
-    : (sumExpression | STRINGCONSTANT)
-    | printStatementList Plus (sumExpression | STRINGCONSTANT)
+    : (simpleExpression | STRINGCONSTANT)
+    | printStatementList Plus (simpleExpression | STRINGCONSTANT)
     ;
 
 expressionStatement
-    : expression Semi
-    //| Semi
+    : expression+ Semi
     ;
 
 compoundStatement
