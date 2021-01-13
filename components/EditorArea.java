@@ -103,6 +103,11 @@ public class EditorArea {
     ")"
   );
 
+  private static final String mainText = String.join(
+    "\n",
+    new String[] { "main(){", "", "}" }
+  );
+
   public ExecutorService executor;
   private CodeArea codeArea = new CodeArea();
 
@@ -126,6 +131,7 @@ public class EditorArea {
       )
       .subscribe(this::applyHighlighting);
 
+    codeArea.replaceText(0, 0, mainText);
     return codeArea;
   }
 
