@@ -7,7 +7,7 @@ Instructions to Run:
 
 For Windows Command Line:
 ```
-run.bat
+run
 ```
 
 For Mac Terminal:
