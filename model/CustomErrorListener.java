@@ -30,9 +30,12 @@ public class CustomErrorListener extends BaseErrorListener{
 
             error.setErrorType(CustomError.ErrorType.MISSING);
             String split[] = message.split(MISSING);
-            String tokens[] = split[1].split("at");
-            error.setErrorMessage("Missing " + tokens[0] + " before " + tokens[1] + " . Consider adding " + tokens[0] + " before " + tokens[1] + ".");
-
+            if(!message.contains("missing valid operators")){
+                String tokens[] = split[1].split("at");
+                error.setErrorMessage("Missing " + tokens[0] + " before " + tokens[1] + " . Consider adding " + tokens[0] + " before " + tokens[1] + ".");
+            } else {
+                error.setErrorMessage("Missing valid operators. Consider replacing it with valid operators.");
+            }
         } else if (message.contains(NO_VIABLE)) {
 
             error.setErrorType(CustomError.ErrorType.NO_VIABLE_ALTERNATIVE);
@@ -99,6 +102,9 @@ public class CustomErrorListener extends BaseErrorListener{
         } else if (message.contains(TOK_RECOG)) {
             error.setErrorType(CustomError.ErrorType.TOKEN_RECOGNITION);
             error.setErrorMessage("Token recognition error.");
+        } else {
+            //error.setErrorType(CustomError.ErrorType.TOKEN_RECOGNITION);
+            error.setErrorMessage(message);
         }
         errors.add(error);
     }

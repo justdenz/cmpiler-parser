@@ -10,7 +10,7 @@ mainBlock
 
 funcBlock
     : Func (typeSpecifier | arrayTypeSpecifier) IDENTIFIER LeftParen params RightParen LeftBrace (declarationList | statement) * RightBrace
-    | Func Void IDENTIFIER LeftParen params RightParen LeftBrace (declarationList | statement) * RightBrace //think about void statement
+    | Func Void IDENTIFIER LeftParen params RightParen LeftBrace (declarationList | statement) * RightBrace
     ; 
 
 declarationList
@@ -25,7 +25,6 @@ declaration
 
 arrayDeclaration
     : arrayTypeSpecifier arrayDeclarationList Semi
-    | arrayTypeSpecifier arrayDeclarationList {notifyErrorListeners("Missing ;");}
     ;
 
 arrayDeclarationList
@@ -44,7 +43,6 @@ arrayDeclarationIdentifier
 
 variableDeclaration
     : ConstantKey? typeSpecifier variableDeclarationList Semi
-    | ConstantKey? typeSpecifier variableDeclarationList {notifyErrorListeners("missing ;");}
     ;
 
 variableDeclarationList
@@ -104,57 +102,37 @@ statement
 
 scanStatement
     : Scan LeftParen scanStatementList RightParen Semi
-    | Scan LeftParen scanStatementList RightParen {notifyErrorListeners("missing ; at scan statement");}
-    | Scan scanStatementList RightParen Semi {notifyErrorListeners("lacking opening parenthesis");}		
-    | Scan LeftParen scanStatementList Semi {notifyErrorListeners("lacking closing parenthesis");}
     ;
 
 scanStatementList
     : STRINGCONSTANT Comma IDENTIFIER
-    | STRINGCONSTANT IDENTIFIER {notifyErrorListeners("expecting , before identifier");}		
-    | STRINGCONSTANT {notifyErrorListeners("expecting , and identifier");}		
-    | Comma IDENTIFIER {notifyErrorListeners("expecting string before ,");}		
-    | {notifyErrorListeners("missing scan parameters");}		
-    | .+? {notifyErrorListeners("missing double quotes");}
     ;
 
 printStatement
     : Print LeftParen printStatementList RightParen Semi
-    | Print LeftParen printStatementList RightParen {notifyErrorListeners("missing ; at print statement");}
-    | Print LeftParen printStatementList Semi {notifyErrorListeners("lacking closing parenthesis");}		
-    | Print printStatementList RightParen Semi {notifyErrorListeners("lacking opening parenthesis");}
     ;
 
 printStatementList
-    : (simpleExpression | STRINGCONSTANT)
+    : (IDENTIFIER | INTEGERCONSTANT) (IDENTIFIER | INTEGERCONSTANT)+ {notifyErrorListeners("Missing double quotes in print statement. Consider wrapping it with double quotes.");}
+    | (simpleExpression | STRINGCONSTANT)
     | printStatementList Plus (simpleExpression | STRINGCONSTANT)
-    | printStatementList (IDENTIFIER | INTEGERCONSTANT)+ {notifyErrorListeners("missing double quotes");}
+    | printStatementList Plus {notifyErrorListeners("Excess '+' found in print statement. Consider removing it or concatenate with a variable.");}
     ;
 
 expressionStatement
     : (experssionStandAlone | call) Semi
-    | (experssionStandAlone | call) {notifyErrorListeners("redundant parenthesis or expecting ';' at the end");}
     ;
 
 compoundStatement
     : LeftBrace (variableDeclaration | statementList)* RightBrace
-    // causes left recursion error
-    // | (variableDeclaration | statementList)* RightBrace {notifyErrorListeners("lacking opening braces");}
-    // | LeftBrace (variableDeclaration | statementList)* {notifyErrorListeners("lacking closing braces");}
     ;
 
 selectionStatement
     : If LeftParen simpleExpression RightParen Then LeftBrace statement* RightBrace selectionStatementList
-    | If simpleExpression RightParen Then {notifyErrorListeners("lacking opening parenthesis");} LeftBrace statement* RightBrace selectionStatementList 		
-    | If LeftParen simpleExpression Then {notifyErrorListeners("lacking closing parenthesis");} LeftBrace statement* RightBrace selectionStatementList		
-    | If simpleExpression Then {notifyErrorListeners("lacking parenthesis on experssion");} LeftBrace statement* RightBrace selectionStatementList
     ;
 
 selectionStatementList
     : ElseIf LeftParen simpleExpression RightParen Then LeftBrace statement* RightBrace selectionStatementList
-    | ElseIf simpleExpression RightParen Then {notifyErrorListeners("lacking opening parenthesis");} LeftBrace statement* RightBrace selectionStatementList		
-    | ElseIf LeftParen simpleExpression Then {notifyErrorListeners("lacking closing parenthesis");} LeftBrace statement* RightBrace selectionStatementList	
-    | ElseIf simpleExpression Then {notifyErrorListeners("lacking parenthesis on experssion");} LeftBrace statement* RightBrace selectionStatementList
     | Else Then LeftBrace statement* RightBrace
     ;
 
@@ -175,21 +153,16 @@ whileStatement
 
 forStatement
     : For forCondition compoundStatement
-    | For {notifyErrorListeners("missing for condition");} compoundStatement		
-    | For forCondition {notifyErrorListeners("for loop cannot be empty");}		
-    | For {notifyErrorListeners("invalid for condition");}
     ; 
 
 forCondition
     : forDeclaration forExpression
-    | {notifyErrorListeners("invalid for declaration");} forExpression		
     | forDeclaration {notifyErrorListeners("expecting 'up to' or 'down to' then expression");}
     ;
 
 forDeclaration
     : IDENTIFIER
     | Int? IDENTIFIER Assign simpleExpression
-    | Int? IDENTIFIER {notifyErrorListeners("expecting an assignment to identifier");} 
     ;
 
 forExpression
@@ -200,13 +173,10 @@ forExpression
 
 returnStatement
     : Return returnStatementList Semi
-    | Return returnStatementList {notifyErrorListeners("missing ';'");}
     ;
 
 returnStatementList
     : simpleExpression
-    | typeSpecifier {notifyErrorListeners("expecting identifier or expression to be returned");} 		
-    | simpleExpression LeftParen RightParen {notifyErrorListeners("redundant parentheses");}  
     ;
 
 /*expressions */
@@ -262,7 +232,7 @@ relop
 
 sumExpression
     : sumExpression sumop mulExpression
-    | sumExpression sumop g=sumop+ mulExpression {notifyErrorListeners("expecting '+', '-', '*', or '/' as operator only");}
+    | sumExpression sumop g=sumop+ mulExpression {notifyErrorListeners("Mismatched input " + $g.text + ". Expecting '+', '-', '*', or '/' as operator only.");}
     | mulExpression
     ;
 
@@ -273,7 +243,7 @@ sumop
 
 mulExpression
     : mulExpression mulop unaryExpression
-    | mulExpression mulop g=mulop+ unaryExpression {notifyErrorListeners("expecting '+', '-', '*', or '/' as operator only");}
+    | mulExpression mulop g=mulop+ unaryExpression {notifyErrorListeners("Mismatched input " + $g.text + ". Expecting '+', '-', '*', or '/' as operator only.");}
     | unaryExpression
     ;
 
