@@ -36,6 +36,7 @@ public class CustomErrorListener extends BaseErrorListener{
             } else {
                 error.setErrorMessage("Missing valid operators. Consider replacing it with valid operators.");
             }
+            
         } else if (message.contains(NO_VIABLE)) {
 
             error.setErrorType(CustomError.ErrorType.NO_VIABLE_ALTERNATIVE);

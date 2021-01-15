@@ -43,6 +43,7 @@ arrayDeclarationIdentifier
 
 variableDeclaration
     : ConstantKey? typeSpecifier variableDeclarationList Semi
+    | ConstantKey? typeSpecifier g=typeSpecifier+ {notifyErrorListeners("Excess " + $g.text + " found in declaration. Consider removing it.");} variableDeclarationList Semi
     ;
 
 variableDeclarationList
@@ -157,7 +158,7 @@ forStatement
 
 forCondition
     : forDeclaration forExpression
-    | forDeclaration {notifyErrorListeners("expecting 'up to' or 'down to' then expression");}
+    | forDeclaration {notifyErrorListeners("Expecting 'up to' or 'down to' then expression");}
     ;
 
 forDeclaration
@@ -167,8 +168,8 @@ forDeclaration
 
 forExpression
     : (Up | Down) To sumExpression
-    | {notifyErrorListeners("expecting the word 'up' or 'down'");} To sumExpression		
-    | (Up | Down) {notifyErrorListeners("expecting the word 'to'");} sumExpression
+    | {notifyErrorListeners("Expecting the word 'up' or 'down'");} To sumExpression		
+    | (Up | Down) {notifyErrorListeners("Expecting the word 'to'");} sumExpression
     ;
 
 returnStatement
