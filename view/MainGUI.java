@@ -56,7 +56,7 @@ public class MainGUI extends Application {
         parsedResult = controller.run(input);
 
         if(parsedResult.size() == 0){
-          terminalPane.getConsole().setText("No errors! Galing galing naman!");
+          terminalPane.getConsole().setText("No syntax errors found!");
         } else {
             String output = "";
             for(CustomError err : parsedResult){
