@@ -1,7 +1,7 @@
 # CMPILER Interpreter System
 
-Denzel Co
-Schuyler Ng
+Denzel Co <br />
+Schuyler Ng <br />
 Raeanne Villanueva
 
 Entry Class File: app.java
