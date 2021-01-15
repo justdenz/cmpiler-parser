@@ -2,13 +2,10 @@ grammar CUSTOM;
 
 program
     : funcBlock* mainBlock
-    | funcBlock+ {notifyErrorListeners("Lacking main function");}
     ;
 
 mainBlock
     : Main LeftParen RightParen LeftBrace (declarationList | statement) * RightBrace EOF
-    | Main LeftParen RightParen {notifyErrorListeners("Lacking opening curly braces in main");} (declarationList | statement) * RightBrace EOF		
-    | Main LeftParen RightParen LeftBrace (declarationList | statement) * EOF {notifyErrorListeners("Lacking closing curly braces in main");}
     ;
 
 funcBlock
@@ -232,7 +229,7 @@ conditionalExpression
 simpleExpression
     : andExpression
     | simpleExpression OrOr andExpression
-    | mutable Assign expression {notifyErrorListeners("expecting comparison operator");}
+    | simpleExpression simpleExpression+ {notifyErrorListeners("missing valid operators");}
     ;
 
 arrayExpression
@@ -265,7 +262,7 @@ relop
 
 sumExpression
     : sumExpression sumop mulExpression
-    | sumExpression sumop {notifyErrorListeners("expecting '+', '-', '*', or '/' as operator only");}
+    | sumExpression sumop g=sumop+ mulExpression {notifyErrorListeners("expecting '+', '-', '*', or '/' as operator only");}
     | mulExpression
     ;
 
@@ -276,7 +273,7 @@ sumop
 
 mulExpression
     : mulExpression mulop unaryExpression
-    | mulExpression mulop {notifyErrorListeners("expecting '+', '-', '*', or '/' as operator only");}
+    | mulExpression mulop g=mulop+ unaryExpression {notifyErrorListeners("expecting '+', '-', '*', or '/' as operator only");}
     | unaryExpression
     ;
 
