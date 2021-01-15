@@ -2,10 +2,13 @@ grammar CUSTOM;
 
 program
     : funcBlock* mainBlock
+    | funcBlock+ {notifyErrorListeners("Lacking main function");}
     ;
 
 mainBlock
     : Main LeftParen RightParen LeftBrace (declarationList | statement) * RightBrace EOF
+    | Main LeftParen RightParen {notifyErrorListeners("Lacking opening curly braces in main");} (declarationList | statement) * RightBrace EOF		
+    | Main LeftParen RightParen LeftBrace (declarationList | statement) * EOF {notifyErrorListeners("Lacking closing curly braces in main");}
     ;
 
 funcBlock
@@ -25,6 +28,7 @@ declaration
 
 arrayDeclaration
     : arrayTypeSpecifier arrayDeclarationList Semi
+    | arrayTypeSpecifier arrayDeclarationList {notifyErrorListeners("Missing ;");}
     ;
 
 arrayDeclarationList
@@ -43,6 +47,7 @@ arrayDeclarationIdentifier
 
 variableDeclaration
     : ConstantKey? typeSpecifier variableDeclarationList Semi
+    | ConstantKey? typeSpecifier variableDeclarationList {notifyErrorListeners("missing ;");}
     ;
 
 variableDeclarationList
@@ -102,35 +107,56 @@ statement
 
 scanStatement
     : Scan LeftParen scanStatementList RightParen Semi
+    | Scan LeftParen scanStatementList RightParen {notifyErrorListeners("missing ; at scan statement");}
+    | Scan scanStatementList RightParen Semi {notifyErrorListeners("lacking opening parenthesis");}		
+    | Scan LeftParen scanStatementList Semi {notifyErrorListeners("lacking closing parenthesis");}
     ;
 
 scanStatementList
     : STRINGCONSTANT Comma IDENTIFIER
+    | STRINGCONSTANT IDENTIFIER {notifyErrorListeners("expecting , before identifier");}		
+    | STRINGCONSTANT {notifyErrorListeners("expecting , and identifier");}		
+    | Comma IDENTIFIER {notifyErrorListeners("expecting string before ,");}		
+    | {notifyErrorListeners("missing scan parameters");}		
+    | .+? {notifyErrorListeners("missing double quotes");}
     ;
 
 printStatement
     : Print LeftParen printStatementList RightParen Semi
+    | Print LeftParen printStatementList RightParen {notifyErrorListeners("missing ; at print statement");}
+    | Print LeftParen printStatementList Semi {notifyErrorListeners("lacking closing parenthesis");}		
+    | Print printStatementList RightParen Semi {notifyErrorListeners("lacking opening parenthesis");}
     ;
 
 printStatementList
     : (simpleExpression | STRINGCONSTANT)
     | printStatementList Plus (simpleExpression | STRINGCONSTANT)
+    | printStatementList (IDENTIFIER | INTEGERCONSTANT)+ {notifyErrorListeners("missing double quotes");}
     ;
 
 expressionStatement
     : (experssionStandAlone | call) Semi
+    | (experssionStandAlone | call) {notifyErrorListeners("redundant parenthesis or expecting ';' at the end");}
     ;
 
 compoundStatement
     : LeftBrace (variableDeclaration | statementList)* RightBrace
+    | (variableDeclaration | statementList)* RightBrace {notifyErrorListeners("lacking opening braces");}
+    | LeftBrace (variableDeclaration | statementList)* {notifyErrorListeners("lacking closing braces");}
     ;
 
 selectionStatement
     : If LeftParen simpleExpression RightParen Then LeftBrace statement* RightBrace selectionStatementList
+    | If simpleExpression RightParen Then {notifyErrorListeners("lacking opening parenthesis");} LeftBrace statement* RightBrace selectionStatementList 		
+    | If LeftParen simpleExpression Then {notifyErrorListeners("lacking closing parenthesis");} LeftBrace statement* RightBrace selectionStatementList		
+    | If simpleExpression Then {notifyErrorListeners("lacking parenthesis on experssion");} LeftBrace statement* RightBrace selectionStatementList
     ;
 
 selectionStatementList
     : ElseIf LeftParen simpleExpression RightParen Then LeftBrace statement* RightBrace selectionStatementList
+    | ElseIf simpleExpression RightParen Then {notifyErrorListeners("lacking opening parenthesis");} LeftBrace statement* RightBrace selectionStatementList		
+    | ElseIf LeftParen simpleExpression Then {notifyErrorListeners("lacking closing parenthesis");} LeftBrace statement* RightBrace selectionStatementList	
+    | ElseIf simpleExpression Then {notifyErrorListeners("lacking parenthesis on experssion");} LeftBrace statement* RightBrace selectionStatementList
     | Else Then LeftBrace statement* RightBrace
     ;
 
@@ -150,31 +176,39 @@ whileStatement
     ;
 
 forStatement
-    //: For IDENTIFIER (Up | Down) To simpleExpression compoundStatement
-    // | For IDENTIFIER Assign simpleExpression (Up | Down) To simpleExpression compoundStatement
-    // | For Int IDENTIFIER Assign simpleExpression (Up | Down) To simpleExpression compoundStatement
     : For forCondition compoundStatement
+    | For {notifyErrorListeners("missing for condition");} compoundStatement		
+    | For forCondition {notifyErrorListeners("for loop cannot be empty");}		
+    | For {notifyErrorListeners("invalid for condition");}
     ; 
 
 forCondition
     : forDeclaration forExpression
+    | {notifyErrorListeners("invalid for declaration");} forExpression		
+    | forDeclaration {notifyErrorListeners("expecting 'up to' or 'down to' then expression");}
     ;
 
 forDeclaration
     : IDENTIFIER
     | Int? IDENTIFIER Assign simpleExpression
+    | Int? IDENTIFIER {notifyErrorListeners("expecting an assignment to identifier");} 
     ;
 
 forExpression
     : (Up | Down) To sumExpression
+    | {notifyErrorListeners("expecting the word 'up' or 'down'");} To sumExpression		
+    | (Up | Down) {notifyErrorListeners("expecting the word 'to'");} sumExpression
     ;
 
 returnStatement
     : Return returnStatementList Semi
+    | Return returnStatementList {notifyErrorListeners("missing ';'");}
     ;
 
 returnStatementList
     : simpleExpression
+    | typeSpecifier {notifyErrorListeners("expecting identifier or expression to be returned");} 		
+    | simpleExpression LeftParen RightParen {notifyErrorListeners("redundant parentheses");}  
     ;
 
 /*expressions */
@@ -197,6 +231,7 @@ conditionalExpression
 simpleExpression
     : andExpression
     | simpleExpression OrOr andExpression
+    | mutable Assign expression {notifyErrorListeners("expecting comparison operator");}
     ;
 
 arrayExpression
@@ -229,6 +264,7 @@ relop
 
 sumExpression
     : sumExpression sumop mulExpression
+    | sumExpression sumop {notifyErrorListeners("expecting '+', '-', '*', or '/' as operator only");}
     | mulExpression
     ;
 
@@ -239,6 +275,7 @@ sumop
 
 mulExpression
     : mulExpression mulop unaryExpression
+    | mulExpression mulop {notifyErrorListeners("expecting '+', '-', '*', or '/' as operator only");}
     | unaryExpression
     ;
 
