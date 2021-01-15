@@ -141,8 +141,9 @@ expressionStatement
 
 compoundStatement
     : LeftBrace (variableDeclaration | statementList)* RightBrace
-    | (variableDeclaration | statementList)* RightBrace {notifyErrorListeners("lacking opening braces");}
-    | LeftBrace (variableDeclaration | statementList)* {notifyErrorListeners("lacking closing braces");}
+    // causes left recursion error
+    // | (variableDeclaration | statementList)* RightBrace {notifyErrorListeners("lacking opening braces");}
+    // | LeftBrace (variableDeclaration | statementList)* {notifyErrorListeners("lacking closing braces");}
     ;
 
 selectionStatement
