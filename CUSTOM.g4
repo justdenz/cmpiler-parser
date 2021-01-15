@@ -114,10 +114,14 @@ printStatement
     ;
 
 printStatementList
-    : (IDENTIFIER | INTEGERCONSTANT) (IDENTIFIER | INTEGERCONSTANT)+ {notifyErrorListeners("Missing double quotes in print statement. Consider wrapping it with double quotes.");}
+    : (IDENTIFIER | INTEGERCONSTANT | illegalSymbols) (IDENTIFIER | INTEGERCONSTANT | illegalSymbols)+ {notifyErrorListeners("Missing double quotes in print statement. Consider wrapping it with double quotes.");}
     | (simpleExpression | STRINGCONSTANT)
     | printStatementList Plus (simpleExpression | STRINGCONSTANT)
     | printStatementList Plus {notifyErrorListeners("Excess '+' found in print statement. Consider removing it or concatenate with a variable.");}
+    ;
+
+illegalSymbols
+    : '!' | ',' | ':' | '-' | ';' | '*' | '{' | '}' | '[' | ']' | '?' | '%' | '^' | '@' | '#' | '`' | '~'
     ;
 
 expressionStatement
