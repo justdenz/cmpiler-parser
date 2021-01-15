@@ -248,6 +248,16 @@ public interface CUSTOMListener extends ParseTreeListener {
 	 */
 	void exitPrintStatementList(CUSTOMParser.PrintStatementListContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link CUSTOMParser#illegalSymbols}.
+	 * @param ctx the parse tree
+	 */
+	void enterIllegalSymbols(CUSTOMParser.IllegalSymbolsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CUSTOMParser#illegalSymbols}.
+	 * @param ctx the parse tree
+	 */
+	void exitIllegalSymbols(CUSTOMParser.IllegalSymbolsContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link CUSTOMParser#expressionStatement}.
 	 * @param ctx the parse tree
 	 */
