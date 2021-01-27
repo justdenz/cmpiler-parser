@@ -4,24 +4,24 @@ import java.util.List;
 
 import builder.BuildChecker;
 import builder.ErrorRepository;
-// import generatedexp.JavaParser.ArgumentsContext;
-// import generatedexp.JavaParser.ExpressionContext;
-// import ide.console.Console;
+import model.CUSTOMParser.ArgsContext;
+import model.CUSTOMParser.ExpressionContext;
+import console.Console;
 import semantics.representations.Function;
 
 public class ParamMismatchChecker implements ErrorCheckerInterface{
-  private Function function;
-	private List<ExpressionContext> exprCtxList;
+	private Function function;
+	private List<ExpressionContext> expressionCtxList;
 	private int lineNumber;
 	
-	public ParamMismatchChecker(Function func, ArgumentsContext argumentsCtx) {
+	public ParamMismatchChecker(Function func, ArgsContext expressionCtxList) {
 		this.function = func;
 
-		if(argumentsCtx.expressionList() != null) {
-			this.exprCtxList = argumentsCtx.expressionList().expression();
+		if(expressionCtxList != null) {
+			this.expressionCtxList = expressionCtxList.argList().expression();
 		}
 		
-		this.lineNumber = argumentsCtx.getStart().getLine();
+		this.lineNumber = expressionCtxList.getStart().getLine();
 	}
 	
 	@Override
@@ -30,10 +30,10 @@ public class ParamMismatchChecker implements ErrorCheckerInterface{
 			return;
 		}
 		
-		if(this.exprCtxList == null && this.function.getParameterValueSize() != 0) {
+		if(this.expressionCtxList == null && this.function.getParameterValueSize() != 0) {
 			BuildChecker.reportCustomError(ErrorRepository.PARAMETER_COUNT_MISMATCH, "", this.function.getFunctionName(), this.lineNumber);
 		}
-		else if(this.exprCtxList != null && this.exprCtxList.size() != this.function.getParameterValueSize()) {
+		else if(this.expressionCtxList != null && this.expressionCtxList.size() != this.function.getParameterValueSize()) {
 			BuildChecker.reportCustomError(ErrorRepository.PARAMETER_COUNT_MISMATCH, "", this.function.getFunctionName(), this.lineNumber);
 		}
 	}

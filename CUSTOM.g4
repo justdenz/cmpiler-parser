@@ -293,8 +293,8 @@ args
     ;
 
 argList
-    : argList Comma expression
-    | expression
+    : expression (Comma expression)*
+    | 
     ;
 
 constant
