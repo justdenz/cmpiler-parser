@@ -1,9 +1,6 @@
 package semantics.symboltable.scopes;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Stack;
 
 import console.Console;
 import semantics.representations.CstmFunction;
@@ -12,24 +9,21 @@ import semantics.representations.CstmValue.PrimitiveType;
 import semantics.utils.CstmRecognizedKeywords;
 
 /**
- * Represents a class scope with mappings of variables and functions
+ * Represents a class scope with mappings of cstmVariables and cstmFunctions
  *
  */
 public class CstmClassScope implements CstmScopeInterface{
-    private String className;
-	
-	private HashMap<String, CstmValue> variables;
-	private HashMap<String, CstmFunction> functions;
+
+	private HashMap<String, CstmValue> cstmVariables;
+	private HashMap<String, CstmFunction> cstmFunctions;
 	
 	private CstmLocalScope parentLocalScope; //represents the parent local scope which is the local scope covered by the main() function. Other classes may not contain this.
 	
 	public CstmClassScope() {
-		
-		this.variables = new HashMap<String, CstmValue>();
-		this.functions = new HashMap<String, CstmFunction>();
+		this.cstmVariables = new HashMap<String, CstmValue>();
+		this.cstmFunctions = new HashMap<String, CstmFunction>();
 	}
 	
-
 	/*
 	 * Sets the parent local scope which is instantiated if this class contains a main function.
 	 */
@@ -40,8 +34,6 @@ public class CstmClassScope implements CstmScopeInterface{
 	@Override
 	/* 
 	 * A class scope is automatically the parent of local scopes.
-	 * (non-Javadoc)
-	 * @see com.neildg.mobiprog.semantics.symboltable.scopes.IScope#isParent()
 	 */
 	public boolean isParent(){
 		return true;
@@ -51,45 +43,45 @@ public class CstmClassScope implements CstmScopeInterface{
 	 * Attempts to add an empty variable based from keywords
 	 */
 	public void addEmptyVariableFromKeywords(String primitiveTypeString, String identifierString) {
-		//create empty value
-		CstmValue value = CstmValue.createEmptyVariableFromKeywords(primitiveTypeString);
+		//create empty cstmValue
+		CstmValue cstmValue = CstmValue.createEmptyVariableFromKeywords(primitiveTypeString);
 		
-		this.variables.put(identifierString, value);
-		Console.log("Created variable " +identifierString+ " type: " +value.getPrimitiveType());
+		this.cstmVariables.put(identifierString, cstmValue);
+		Console.log("Created variable " +identifierString+ " type: " +cstmValue.getPrimitiveType());
 	}
 	
 	/*
-	 * Attempts to add an initialized variable value
+	 * Attempts to add an initialized variable cstmValue
 	 */
 	public void addInitializedVariableFromKeywords(String classModifierString, String primitiveTypeString, String identifierString, String valueString) {
 		
 		this.addEmptyVariableFromKeywords(primitiveTypeString, identifierString);
 
-		CstmValue value = this.variables.get(identifierString);
-		value.setValue(valueString);
-		Console.log("Updated variable " +identifierString+ " of type " +value.getPrimitiveType()+ " with value " +valueString);
+		CstmValue cstmValue = this.cstmVariables.get(identifierString);
+		cstmValue.setValue(valueString);
+		Console.log("Updated variable " +identifierString+ " of type " +cstmValue.getPrimitiveType()+ " with cstmValue " +valueString);
 
 	}
 	
 	public CstmValue getVariable(String identifier) {
-		return this.variables.get(identifier);
+		return this.cstmVariables.get(identifier);
 	}
 	
-	public void addValue(String identifier, CstmValue value) {
-		this.variables.put(identifier, value);
+	public void addValue(String identifier, CstmValue cstmValue) {
+		this.cstmVariables.put(identifier, cstmValue);
 	}
 	
 	public CstmFunction getFunction(String identifier) {
-		return this.functions.get(identifier);
+		return this.cstmFunctions.get(identifier);
 	}
 
 	public void addFunction(String identifer, CstmFunction function){
-		this.functions.put(identifer, function);
+		this.cstmFunctions.put(identifer, function);
 	}
 	
 	public CstmFunction searchFunction(String identifier) {
 		if(this.containsFunction(identifier)) {
-			return this.functions.get(identifier);
+			return this.cstmFunctions.get(identifier);
 		}
 		else {
 			Console.log(identifier + " is not found");
@@ -98,26 +90,25 @@ public class CstmClassScope implements CstmScopeInterface{
 	}
 
 	public boolean containsFunction(String identifier) {
-		return this.functions.containsKey(identifier);
+		return this.cstmFunctions.containsKey(identifier);
 	}
 	
 
 	@Override
-	/* Attempts to find a variable on the local scopes.
-	 * (non-Javadoc)
-	 * @see com.neildg.mobiprog.semantics.symboltable.scopes.IScope#getVariable(java.lang.String)
+	/* 
+	 * Attempts to find a variable on the local scopes.
 	 */
 	public CstmValue searchVariableIncludingLocal(String identifier) {
-		CstmValue value;
-		value = CstmLocalScopeCreator.searchVariableInLocalIterative(identifier, this.parentLocalScope);
-		return value;
+		CstmValue cstmValue;
+		cstmValue = CstmLocalScopeCreator.searchVariableInLocalIterative(identifier, this.parentLocalScope);
+		return cstmValue;
 	}
 	
 	/*
-	 * Resets all stored variables. This is called after the execution manager finishes
+	 * Resets all stored cstmVariables. This is called after the execution manager finishes
 	 */
 	public void resetValues() {
-		CstmValue[] values = this.variables.values().toArray(new CstmValue[this.variables.size()]);
+		CstmValue[] values = this.cstmVariables.values().toArray(new CstmValue[this.cstmVariables.size()]);
 		
 		for(int i = 0; i < values.length; i++) {
 			values[i].reset();

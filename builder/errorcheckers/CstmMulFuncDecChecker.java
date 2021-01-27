@@ -28,9 +28,9 @@ public class CstmMulFuncDecChecker implements CstmErrCheckerInterface {
 	private void verifyFunctionCall(String identifierString) {
 
 		CstmClassScope classScope = CstmSymbolTable.getInstance().getClassScope();
-		CstmFunction function = classScope.searchFunction(identifierString);
+		CstmFunction cstmFunction = classScope.searchFunction(identifierString);
 		
-		if(function != null) {
+		if(cstmFunction != null) {
 			CstmBuildChecker.reportCustomError(CstmErrorRepo.MULTIPLE_FUNCTION, "", identifierString, this.lineNumber);
 		}
 	}

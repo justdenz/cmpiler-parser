@@ -53,6 +53,7 @@ public class CstmConstChecker implements CstmErrCheckerInterface, ParseTreeListe
 	public void enterEveryRule(ParserRuleContext ctx) {
 		if(ctx instanceof ExpressionContext) {
 			ExpressionContext exprCtx = (ExpressionContext) ctx;
+			this.verifyVariableOrConst(exprCtx);
 			// if(EvaluationCommand.isVariableOrConst(exprCtx)) {
 			// 	this.verifyVariableOrConst(exprCtx);
 			// }

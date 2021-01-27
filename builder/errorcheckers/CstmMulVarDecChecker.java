@@ -61,25 +61,25 @@ public class CstmMulVarDecChecker implements CstmErrCheckerInterface, ParseTreeL
 	}
 	
 	private void verifyVariableOrConst(String identifierString) {
-		CstmValue mobiValue = null;
+		CstmValue cstmValue = null;
 		
 		// if(ExecutionManager.getInstance().isInFunctionExecution()) {
 		// 	Function function = ExecutionManager.getInstance().getCurrentFunction();
-		// 	mobiValue = VariableSearcher.searchVariableInFunction(function, identifierString);
+		// 	cstmValue = VariableSearcher.searchVariableInFunction(function, identifierString);
 		// }
 		
 		//if after function finding, mobi value is still null, search local scope
-		if(mobiValue == null) {
-			mobiValue = CstmLocalScopeCreator.searchVariableInLocalIterative(identifierString, CstmLocalScopeCreator.getInstance().getActiveLocalScope());
+		if(cstmValue == null) {
+			cstmValue = CstmLocalScopeCreator.searchVariableInLocalIterative(identifierString, CstmLocalScopeCreator.getInstance().getActiveLocalScope());
 		}
 		
 		//if mobi value is still null, search class
-		// if(mobiValue == null) {
+		// if(cstmValue == null) {
 		// 	ClassScope classScope = SymbolTable.getInstance().getClassScope();
-		// 	mobiValue = VariableSearcher.searchVariableInClass(classScope, identifierString);
+		// 	cstmValue = VariableSearcher.searchVariableInClass(classScope, identifierString);
 		// }
 		
-		if(mobiValue != null) {
+		if(cstmValue != null) {
 			CstmBuildChecker.reportCustomError(CstmErrorRepo.MULTIPLE_VARIABLE, "", identifierString, this.lineNumber);
 		}
 	}

@@ -16,12 +16,12 @@ import semantics.representations.CstmValue.PrimitiveType;
 
 public class CstmTypeChecker implements CstmErrCheckerInterface, ParseTreeListener{
 
-	private CstmValue value;
+	private CstmValue cstmValue;
 	private ExpressionContext expressionContext;
 	private int lineNumber;
 
     public CstmTypeChecker(CstmValue assignmentValue, ExpressionContext expressionContext) {
-		this.value = assignmentValue;
+		this.cstmValue = assignmentValue;
 		this.expressionContext = expressionContext;
 		
 		Token firstToken = expressionContext.getStart();
@@ -52,35 +52,34 @@ public class CstmTypeChecker implements CstmErrCheckerInterface, ParseTreeListen
 	@Override
 	public void enterEveryRule(ParserRuleContext ctx) {
 		if(ctx instanceof TypeSpecifierContext) {
-			if(this.value == null) {
+			if(this.cstmValue == null) {
 				return;
 			}
 			TypeSpecifierContext typeSpecifierContext = (TypeSpecifierContext) ctx;
 			String expressionString = typeSpecifierContext.getText();
 			
-			if(this.value.getPrimitiveType() == PrimitiveType.ARRAY) {
+			if(this.cstmValue.getPrimitiveType() == PrimitiveType.ARRAY) {
 				
 			}
-			else if(this.value.getPrimitiveType() == PrimitiveType.BOOLEAN) {
+			else if(this.cstmValue.getPrimitiveType() == PrimitiveType.BOOLEAN) {
 				if(typeSpecifierContext.Boolean() == null) {
 					String additionalMessage = "Expected bool.";
 					CstmBuildChecker.reportCustomError(CstmErrorRepo.TYPE_MISMATCH,  additionalMessage, this.lineNumber);
 				}
 			}
-			else if(this.value.getPrimitiveType() == PrimitiveType.INT) {
+			else if(this.cstmValue.getPrimitiveType() == PrimitiveType.INT) {
 				if(typeSpecifierContext.Int() == null) {
 					String additionalMessage = "Expected int.";
 					CstmBuildChecker.reportCustomError(CstmErrorRepo.TYPE_MISMATCH,  additionalMessage, this.lineNumber);
 				}
 			}
-			else if(this.value.getPrimitiveType() == PrimitiveType.FLOAT) {
+			else if(this.cstmValue.getPrimitiveType() == PrimitiveType.FLOAT) {
 				if(typeSpecifierContext.Float() == null) {
 					String additionalMessage = "Expected floating point.";
 					CstmBuildChecker.reportCustomError(CstmErrorRepo.TYPE_MISMATCH,  additionalMessage, this.lineNumber);
 				}
 			}
-			
-			else if(this.value.getPrimitiveType() == PrimitiveType.STRING) {
+			else if(this.cstmValue.getPrimitiveType() == PrimitiveType.STRING) {
 				if(expressionString.charAt(0) != '\"' && expressionString.charAt(expressionString.length() - 1) != '\"') {
 					String additionalMessage = "Expected string.";
 					CstmBuildChecker.reportCustomError(CstmErrorRepo.TYPE_MISMATCH,  additionalMessage, this.lineNumber);
