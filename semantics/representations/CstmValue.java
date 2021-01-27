@@ -17,17 +17,17 @@ public class CstmValue {
     }
     
     private Object defaultValue; //this value will no longer change.
-	private Object value;
-	private PrimitiveType primitiveType = PrimitiveType.NOT_YET_IDENTIFIED;
+		private Object objValue;
+		private PrimitiveType primitiveType = PrimitiveType.NOT_YET_IDENTIFIED;
     private boolean finalFlag = false;
     
     public CstmValue(Object value, PrimitiveType primitiveType) {
 		if(value == null || checkValueType(value, primitiveType)) {
-			this.value = value;
+			this.objValue = value;
 			this.primitiveType = primitiveType;
 		}
 		else {
-			System.out.println("Value is not appropriate for  " +primitiveType+ "!");
+			System.out.println("Value is not appropriate for  " + primitiveType + "!");
 		}
 	}
 	
@@ -36,7 +36,7 @@ public class CstmValue {
 	}
 	
 	public void reset() {
-		this.value = this.defaultValue;
+		this.objValue = this.defaultValue;
     }
 
     /*
@@ -57,7 +57,7 @@ public class CstmValue {
 		}
 		
 		else if(this.primitiveType == PrimitiveType.STRING) {
-			this.value = value.replace("\"", "");
+			this.objValue = value.replace("\"", "");
 		}
 		else if(this.primitiveType == PrimitiveType.ARRAY) {
 			System.out.println(this.primitiveType + " is an array. Cannot directly change value.");
@@ -65,7 +65,7 @@ public class CstmValue {
     }
     
     public Object getValue() {
-		return this.value;
+		return this.objValue;
 	}
 	
 	public PrimitiveType getPrimitiveType() {
@@ -109,8 +109,8 @@ public class CstmValue {
 		}
 		
 		//create empty mobi value
-		CstmValue value = new CstmValue(null, primitiveType);
+		CstmValue cstmValue = new CstmValue(null, primitiveType);
 	
-		return value;
+		return cstmValue;
 	}
 }

@@ -54,7 +54,7 @@ public class CstmFunction {
     public void setReturnType(FunctionType functionType) {
 		this.returnType = functionType;
 		
-		//create an empty mobi value as a return value
+		//create an empty value as a return value
 		switch(this.returnType) {
 			case BOOLEAN_TYPE: this.returnValue = new CstmValue(true, PrimitiveType.BOOLEAN); break;
 			case INT_TYPE: this.returnValue = new CstmValue(0, PrimitiveType.INT); break;
@@ -81,8 +81,8 @@ public class CstmFunction {
 	 */
 	public void mapParameterByValue(String... values) {
 		for(int i = 0; i < values.length; i++) {
-			CstmValue value = this.getParameterAt(i);
-			value.setValue(values[i]);
+			CstmValue cstmValue = this.getParameterAt(i);
+			cstmValue.setValue(values[i]);
 		}
 	}
 	
@@ -95,23 +95,23 @@ public class CstmFunction {
 		tempValue.setValue(value);
     }
     
-    public void mapArrayAt(CstmValue value, int index, String identifier) {
+    public void mapArrayAt(CstmValue cstmValue, int index, String identifier) {
 		if(index >= this.parameterValues.size()) {
 			return;
 		}
 		
-		CstmArray mobiArray = (CstmArray) value.getValue();
+		CstmArray cstmArray = (CstmArray) cstmValue.getValue();
 		
-		CstmArray newArray = new CstmArray(mobiArray.getPrimitiveType(), identifier);
-		CstmValue newValue = new CstmValue(newArray, PrimitiveType.ARRAY);
+		CstmArray newCstmArray = new CstmArray(cstmArray.getPrimitiveType(), identifier);
+		CstmValue newCstmValue = new CstmValue(newCstmArray, PrimitiveType.ARRAY);
 		
-		newArray.initializeSize(mobiArray.getSize());
+		newCstmArray.initializeSize(cstmArray.getSize());
 		
-		for(int i = 0; i < newArray.getSize(); i++) {
-			newArray.updateValueAt(mobiArray.getValueAt(i), i);
+		for(int i = 0; i < newCstmArray.getSize(); i++) {
+			newCstmArray.updateValueAt(cstmArray.getValueAt(i), i);
 		}
 		
-		this.parameterValues.put(this.getParameterKeyAt(index), newValue);
+		this.parameterValues.put(this.getParameterKeyAt(index), newCstmValue);
 		
     }
     
@@ -124,8 +124,8 @@ public class CstmFunction {
 			return;
 		}
 		
-		CstmValue value = this.getParameterAt(index);
-		CstmTypeChecker typeChecker = new CstmTypeChecker(value, exprCtx);
+		CstmValue cstmValue = this.getParameterAt(index);
+		CstmTypeChecker typeChecker = new CstmTypeChecker(cstmValue, exprCtx);
 		typeChecker.verify();
     }
     
@@ -136,9 +136,9 @@ public class CstmFunction {
 		Console.log("Mapping of parameter by reference not yet supported.");
 	}
 	
-	public void addParameter(String identifierString, CstmValue value) {
-		this.parameterValues.put(identifierString, value);
-		Console.log(this.functionName + " added an empty parameter " +identifierString+ " type " +value.getPrimitiveType());
+	public void addParameter(String identifierString, CstmValue cstmValue) {
+		this.parameterValues.put(identifierString, cstmValue);
+		Console.log(this.functionName + " added an empty parameter " + identifierString + " type " + cstmValue.getPrimitiveType());
 	}
 	
 	public boolean hasParameter(String identifierString) {
@@ -158,9 +158,9 @@ public class CstmFunction {
 	public CstmValue getParameterAt(int index) {
 		int i = 0;
 
-		for(CstmValue value : this.parameterValues.values()) {
+		for(CstmValue cstmValue : this.parameterValues.values()) {
 			if(i == index) {
-				return value;
+				return cstmValue;
 			}
 			
 			i++;
