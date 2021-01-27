@@ -23,17 +23,13 @@ public class ClassScope implements ScopeInterface{
 	
 	private LocalScope parentLocalScope; //represents the parent local scope which is the local scope covered by the main() function. Other classes may not contain this.
 	
-	public ClassScope(String className) {
-		this.className = className;
+	public ClassScope() {
 		
 		this.variables = new HashMap<String, Value>();
 		this.functions = new HashMap<String, Function>();
 	}
 	
-	public String getClassName() {
-		return this.className;
-	}
-	
+
 	/*
 	 * Sets the parent local scope which is instantiated if this class contains a main function.
 	 */
@@ -91,6 +87,21 @@ public class ClassScope implements ScopeInterface{
 		this.functions.put(identifer, function);
 	}
 	
+	public Function searchFunction(String identifier) {
+		if(this.containsFunction(identifier)) {
+			return this.functions.get(identifier);
+		}
+		else {
+			Console.log(identifier + " is not found");
+			return null;
+		}
+	}
+
+	public boolean containsFunction(String identifier) {
+		return this.functions.containsKey(identifier);
+	}
+	
+
 	@Override
 	/* Attempts to find a variable on the local scopes.
 	 * (non-Javadoc)
