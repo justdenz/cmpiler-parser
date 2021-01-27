@@ -7,6 +7,7 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import model.CUSTOMParser.ExpressionContext;
 import semantics.representations.Value;
 import semantics.representations.Function;
 import semantics.representations.ValueSearcher;

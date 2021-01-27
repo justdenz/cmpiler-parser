@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import builder.errorcheckers.TypeChecker;
 import console.Console;
+import model.CUSTOMParser.ExpressionContext;
 import semantics.representations.Value.PrimitiveType;
 import semantics.symboltable.scopes.ClassScope;
 import semantics.symboltable.scopes.LocalScope;
@@ -89,8 +91,8 @@ public class Function {
 			return;
 		}
 		
-		Value value = this.getParameterAt(index);
-		value.setValue(value);
+		Value tempValue = this.getParameterAt(index);
+		tempValue.setValue(value);
     }
     
     public void mapArrayAt(Value value, int index, String identifier) {

@@ -7,6 +7,10 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import builder.BuildChecker;
+import builder.ErrorRepository;
+import model.CUSTOMParser.ExpressionContext;
+import model.CUSTOMParser.TypeSpecifierContext;
 import semantics.representations.Value;
 import semantics.representations.Value.PrimitiveType;
 
@@ -47,30 +51,30 @@ public class TypeChecker implements ErrorCheckerInterface, ParseTreeListener{
 
 	@Override
 	public void enterEveryRule(ParserRuleContext ctx) {
-		if(ctx instanceof LiteralContext) {
+		if(ctx instanceof TypeSpecifierContext) {
 			if(this.value == null) {
 				return;
 			}
-			LiteralContext literalCtx = (LiteralContext) ctx;
-			String expressionString = literalCtx.getText();
+			TypeSpecifierContext typeSpecifierContext = (TypeSpecifierContext) ctx;
+			String expressionString = typeSpecifierContext.getText();
 			
 			if(this.value.getPrimitiveType() == PrimitiveType.ARRAY) {
 				
 			}
 			else if(this.value.getPrimitiveType() == PrimitiveType.BOOLEAN) {
-				if(literalCtx.BooleanLiteral() == null) {
+				if(typeSpecifierContext.Boolean() == null) {
 					String additionalMessage = "Expected bool.";
 					BuildChecker.reportCustomError(ErrorRepository.TYPE_MISMATCH,  additionalMessage, this.lineNumber);
 				}
 			}
 			else if(this.value.getPrimitiveType() == PrimitiveType.INT) {
-				if(literalCtx.IntegerLiteral() == null) {
+				if(typeSpecifierContext.Int() == null) {
 					String additionalMessage = "Expected int.";
 					BuildChecker.reportCustomError(ErrorRepository.TYPE_MISMATCH,  additionalMessage, this.lineNumber);
 				}
 			}
-			else if(this.value.getPrimitiveType() == PrimitiveType.FLOAT || this.value.getPrimitiveType() == PrimitiveType.DOUBLE) {
-				if(literalCtx.FloatingPointLiteral() == null) {
+			else if(this.value.getPrimitiveType() == PrimitiveType.FLOAT) {
+				if(typeSpecifierContext.Float() == null) {
 					String additionalMessage = "Expected floating point.";
 					BuildChecker.reportCustomError(ErrorRepository.TYPE_MISMATCH,  additionalMessage, this.lineNumber);
 				}
@@ -82,7 +86,7 @@ public class TypeChecker implements ErrorCheckerInterface, ParseTreeListener{
 					BuildChecker.reportCustomError(ErrorRepository.TYPE_MISMATCH,  additionalMessage, this.lineNumber);
 				}
 				
-				else if(literalCtx.StringLiteral() == null) {
+				else if(typeSpecifierContext.String() == null) {
 					String additionalMessage = "Expected string.";
 					BuildChecker.reportCustomError(ErrorRepository.TYPE_MISMATCH,  additionalMessage, this.lineNumber);
 				}
