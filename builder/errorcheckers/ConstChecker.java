@@ -7,6 +7,8 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import builder.BuildChecker;
+import builder.ErrorRepository;
 import model.CUSTOMParser.ExpressionContext;
 import semantics.representations.Value;
 import semantics.representations.Function;
@@ -68,7 +70,7 @@ public class ConstChecker implements ErrorCheckerInterface, ParseTreeListener{
 		
 		if(ExecutionManager.getInstance().isInFunctionExecution()) {
 			Function function = ExecutionManager.getInstance().getCurrentFunction();
-			value = VariableSearcher.searchVariableInFunction(function, varExprCtx.primary().Identifier().getText());
+			value = VariableSearcher.searchVariableInFunction(function, varExprCtx.mutable().IDENTIFIER().getText());
 		}
 		
 		//if after function finding, mobi value is still null, search class
