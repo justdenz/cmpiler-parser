@@ -47,6 +47,10 @@ public class ErrorRepository {
 	}
 	
 	public static String getErrorMessage(int errorCode) {
-		return sharedInstance.errorMessageDictionary.get(errorCode, "Error code "+errorCode+ " not found.");
+    if (sharedInstance.errorMessageDictionary.get(errorCode).isEmpty()){
+      return "Error not found in the dictionary.";
+    }else {
+      return sharedInstance.errorMessageDictionary.get(errorCode);
+    }
 	} 
 }
