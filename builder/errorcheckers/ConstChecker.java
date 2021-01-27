@@ -7,12 +7,15 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import builder.BuildChecker;
+import builder.ErrorRepository;
 import model.CUSTOMParser.ExpressionContext;
 import semantics.representations.Value;
 import semantics.representations.Function;
 import semantics.representations.ValueSearcher;
 import semantics.representations.Value.PrimitiveType;
 import semantics.symboltable.scopes.ClassScope;
+import semantics.symboltable.SymbolTable;
 
 public class ConstChecker implements ErrorCheckerInterface, ParseTreeListener{
 	
@@ -65,13 +68,13 @@ public class ConstChecker implements ErrorCheckerInterface, ParseTreeListener{
 		
 		if(ExecutionManager.getInstance().isInFunctionExecution()) {
 			Function function = ExecutionManager.getInstance().getCurrentFunction();
-			value = VariableSearcher.searchVariableInFunction(function, varExprCtx.primary().Identifier().getText());
+			value = VariableSearcher.searchVariableInFunction(function, varExprCtx.mutable().IDENTIFIER().getText());
 		}
 		
 		//if after function finding, mobi value is still null, search class
 		if(value == null) {
-			ClassScope classScope = SymbolTableManager.getInstance().getClassScope(ParserHandler.getInstance().getCurrentClassName());
-			value = VariableSearcher.searchVariableInClassIncludingLocal(classScope, varExprCtx.primary().Identifier().getText());
+			ClassScope classScope = SymbolTable.getInstance().getClassScope();
+			value = VariableSearcher.searchVariableInClassIncludingLocal(classScope, varExprCtx.mutable().IDENTIFIER().getText());
 		}
 		
 		if(value != null && value.isFinal()) {

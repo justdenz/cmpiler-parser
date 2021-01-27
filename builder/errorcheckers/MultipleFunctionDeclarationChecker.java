@@ -4,28 +4,25 @@ import org.antlr.v4.runtime.Token;
 
 import builder.BuildChecker;
 import builder.ErrorRepository;
-import model.CUSTOMParser.MainBlockContext;
+import model.CUSTOMParser.FuncBlockContext;
 import semantics.representations.Function;
 import semantics.symboltable.SymbolTable;
 import semantics.symboltable.scopes.ClassScope;
 
 public class MultipleFunctionDeclarationChecker implements ErrorCheckerInterface {
-    private MainBlockContext mainBlockContext;
+    private FuncBlockContext funcBlockContext;
 	private int lineNumber;
 	
-	public MultipleFunctionDeclarationChecker(MainBlockContext mainBlockContext) {
-		this.mainBlockContext = mainBlockContext;
+	public MultipleFunctionDeclarationChecker(FuncBlockContext funcBlockContext) {
+		this.funcBlockContext = funcBlockContext;
 		
-		Token firstToken = mainBlockContext.getStart();
+		Token firstToken = funcBlockContext.getStart();
 		this.lineNumber = firstToken.getLine();
 	}
 	
-	/* (non-Javadoc)
-	 * @see com.neildg.mobiprog.builder.errorcheckers.IErrorChecker#verify()
-	 */
 	@Override
 	public void verify() {
-		this.verifyFunctionCall(this.mainBlockContext.Identifier().getText());
+		this.verifyFunctionCall(this.funcBlockContext.IDENTIFIER().getText());
 	}
 	
 	private void verifyFunctionCall(String identifierString) {
