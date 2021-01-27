@@ -1,5 +1,6 @@
 package semantics.representations;
 
+import console.Console;
 import semantics.representations.Value.PrimitiveType;
 import semantics.utils.RecognizedKeywords;
 
