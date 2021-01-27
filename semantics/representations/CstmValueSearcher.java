@@ -8,7 +8,7 @@ package semantics.representations;
 public class CstmValueSearcher {
     public static CstmValue searchValue(String identifier) {
 		
-		CstmValue mobiValue = null;
+		CstmValue cstmValue = null;
 		
 		// if(FunctionTracker.getInstance().isInsideFunction()) {
 		// 	Function function = FunctionTracker.getInstance().getLatestFunction();
@@ -26,7 +26,7 @@ public class CstmValueSearcher {
 		// 	mobiValue = classScope.searchVariableIncludingLocal(identifier);
 		// }
 		
-		return mobiValue;
+		return cstmValue;
 		
 	}
 }
