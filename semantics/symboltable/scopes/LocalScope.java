@@ -3,7 +3,7 @@ package semantics.symboltable.scopes;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-// import ide.console.Console;
+import console.Console;
 import semantics.representations.Value;
 import semantics.utils.RecognizedKeywords;
 
@@ -84,7 +84,7 @@ public class LocalScope implements ScopeInterface{
 			return this.localVariables.get(identifier);
 		}
 		else {
-			System.out.println(identifier + " not found!");
+			Console.log(identifier + " not found!");
 			return null;
 		}
 	}
@@ -104,8 +104,8 @@ public class LocalScope implements ScopeInterface{
 	public void addEmptyVariableFromKeywords(String primitiveTypeString, String identifierString) {
 		this.initializeLocalVariableMap();
 		
-		Value mobiValue = Value.createEmptyVariableFromKeywords(primitiveTypeString);
-		this.localVariables.put(identifierString, mobiValue);
+		Value value = Value.createEmptyVariableFromKeywords(primitiveTypeString);
+		this.localVariables.put(identifierString, value);
 	}
 	
 	/*
@@ -115,13 +115,13 @@ public class LocalScope implements ScopeInterface{
 		this.initializeLocalVariableMap();
 		
 		this.addEmptyVariableFromKeywords(primitiveTypeString, identifierString);
-		Value mobiValue = this.localVariables.get(identifierString);
-		mobiValue.setValue(valueString);
+		Value value = this.localVariables.get(identifierString);
+		value.setValue(valueString);
 	}
 	
-	public void addMobiValue(String identifier, Value mobiValue) {
+	public void addValue(String identifier, Value value) {
 		this.initializeLocalVariableMap();
-		this.localVariables.put(identifier, mobiValue);
+		this.localVariables.put(identifier, value);
 	}
 	
 	/*

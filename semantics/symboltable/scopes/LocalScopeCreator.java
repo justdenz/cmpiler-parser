@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Stack;
 
 // import execution.ExecutionManager;
-// import ide.console.Console;
+import console.Console;
 import semantics.representations.Value;
 
 public class LocalScopeCreator {
@@ -61,10 +61,10 @@ public class LocalScopeCreator {
 			this.activeLocalScope = (LocalScope) this.activeLocalScope.getParent();
 		}
 		else if(this.activeLocalScope.getParent() == null) {
-			System.out.println("Cannot change parent. Current active local scope no longer has a parent.");
+			Console.log("Cannot change parent. Current active local scope no longer has a parent.");
 		}
 		else {
-			System.out.println("Cannot change parent. Current active local scope's parent is now a class scope.");
+			Console.log("Cannot change parent. Current active local scope's parent is now a class scope.");
 		}
 	}
 	
@@ -74,7 +74,7 @@ public class LocalScopeCreator {
 	public static Value searchVariableInLocalIterative(String identifier, LocalScope localScope) {
 		
 		if(localScope == null) {
-			System.out.println(identifier + " not found in any local scope!");
+			Console.log(identifier + " not found in any local scope!");
 			return null;
 		}
 		
@@ -102,7 +102,7 @@ public class LocalScopeCreator {
 			}
 		}
 		
-		System.out.println(identifier + " not found in any local scope!");
+		Console.log(identifier + " not found in any local scope!");
 		return null;
 	}
 }
