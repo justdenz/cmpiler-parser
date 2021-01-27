@@ -79,8 +79,8 @@ public class Function {
 	 */
 	public void mapParameterByValue(String... values) {
 		for(int i = 0; i < values.length; i++) {
-			Value mobiValue = this.getParameterAt(i);
-			mobiValue.setValue(values[i]);
+			Value value = this.getParameterAt(i);
+			value.setValue(values[i]);
 		}
 	}
 	
@@ -89,16 +89,16 @@ public class Function {
 			return;
 		}
 		
-		Value mobiValue = this.getParameterAt(index);
-		mobiValue.setValue(value);
+		Value value = this.getParameterAt(index);
+		value.setValue(value);
     }
     
-    public void mapArrayAt(Value mobiValue, int index, String identifier) {
+    public void mapArrayAt(Value value, int index, String identifier) {
 		if(index >= this.parameterValues.size()) {
 			return;
 		}
 		
-		Array mobiArray = (Array) mobiValue.getValue();
+		Array mobiArray = (Array) value.getValue();
 		
 		Array newArray = new Array(mobiArray.getPrimitiveType(), identifier);
 		Value newValue = new Value(newArray, PrimitiveType.ARRAY);
@@ -117,15 +117,15 @@ public class Function {
 		return this.parameterValues.size();
 	}
 	
-	// public void verifyParameterByValueAt(ExpressionContext exprCtx, int index) {
-	// 	if(index >= this.parameterValues.size()) {
-	// 		return;
-	// 	}
+	public void verifyParameterByValueAt(ExpressionContext exprCtx, int index) {
+		if(index >= this.parameterValues.size()) {
+			return;
+		}
 		
-	// 	Value mobiValue = this.getParameterAt(index);
-	// 	TypeChecker typeChecker = new TypeChecker(mobiValue, exprCtx);
-	// 	typeChecker.verify();
-    // }
+		Value value = this.getParameterAt(index);
+		TypeChecker typeChecker = new TypeChecker(value, exprCtx);
+		typeChecker.verify();
+    }
     
     /*
 	 * Maps parameters by reference, in this case, accept a class scope.
@@ -156,9 +156,9 @@ public class Function {
 	public Value getParameterAt(int index) {
 		int i = 0;
 
-		for(Value mobiValue : this.parameterValues.values()) {
+		for(Value value : this.parameterValues.values()) {
 			if(i == index) {
-				return mobiValue;
+				return value;
 			}
 			
 			i++;

@@ -1,5 +1,8 @@
 package semantics.symboltable;
+
 import java.util.HashMap;
+
+import console.Console;
 import semantics.symboltable.scopes.ClassScope;
 
 public class SymbolTable {
@@ -34,7 +37,7 @@ public class SymbolTable {
 			return this.classTable.get(className);
 		}
 		else {
-			Log.e(TAG, className + " is not found!");
+			Console.log(className + " is not found!");
 			return null;
 		}
 	}
