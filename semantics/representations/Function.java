@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import console.Console;
 import semantics.representations.Value.PrimitiveType;
 import semantics.symboltable.scopes.ClassScope;
 import semantics.symboltable.scopes.LocalScope;
@@ -130,12 +131,12 @@ public class Function {
 	 * Maps parameters by reference, in this case, accept a class scope.
 	 */
 	public void mapParameterByReference(ClassScope... classScopes) {
-		System.out.println("Mapping of parameter by reference not yet supported.");
+		Console.log("Mapping of parameter by reference not yet supported.");
 	}
 	
-	public void addParameter(String identifierString, Value mobiValue) {
-		this.parameterValues.put(identifierString, mobiValue);
-		//onsole.log(LogType.DEBUG, this.functionName + " added an empty parameter " +identifierString+ " type " +mobiValue.getPrimitiveType());
+	public void addParameter(String identifierString, Value value) {
+		this.parameterValues.put(identifierString, value);
+		Console.log(this.functionName + " added an empty parameter " +identifierString+ " type " +value.getPrimitiveType());
 	}
 	
 	public boolean hasParameter(String identifierString) {
@@ -147,7 +148,7 @@ public class Function {
 			return this.parameterValues.get(identifierString);
 		}
 		else {
-			System.out.println(identifierString + " not found in parameter list");
+			Console.log(identifierString + " not found in parameter list");
 			return null;
 		}
 	}
@@ -163,7 +164,7 @@ public class Function {
 			i++;
 		}
 		
-		System.out.println(index + " has exceeded parameter list.");
+		Console.log(index + " has exceeded parameter list.");
 		return null;
     }
     
@@ -178,7 +179,7 @@ public class Function {
 			i++;
 		}
 		
-		System.out.println(index + " has exceeded parameter list.");
+		Console.log(index + " has exceeded parameter list.");
 		return null;
 	}
 	
