@@ -113,12 +113,6 @@ public class ClassScope implements ScopeInterface{
 		return value;
 	}
 	
-	public Value searchVariable(String identifier) {
-		Value value = null;
-		value = this.getVariable(identifier);
-		return value;
-	}
-	
 	/*
 	 * Resets all stored variables. This is called after the execution manager finishes
 	 */

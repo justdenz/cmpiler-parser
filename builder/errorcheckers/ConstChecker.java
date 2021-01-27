@@ -51,9 +51,9 @@ public class ConstChecker implements ErrorCheckerInterface, ParseTreeListener{
 	public void enterEveryRule(ParserRuleContext ctx) {
 		if(ctx instanceof ExpressionContext) {
 			ExpressionContext exprCtx = (ExpressionContext) ctx;
-			if(EvaluationCommand.isVariableOrConst(exprCtx)) {
-				this.verifyVariableOrConst(exprCtx);
-			}
+			// if(EvaluationCommand.isVariableOrConst(exprCtx)) {
+			// 	this.verifyVariableOrConst(exprCtx);
+			// }
 		}
 	}
 
@@ -66,16 +66,16 @@ public class ConstChecker implements ErrorCheckerInterface, ParseTreeListener{
 	private void verifyVariableOrConst(ExpressionContext varExprCtx) {
 		Value value = null;
 		
-		if(ExecutionManager.getInstance().isInFunctionExecution()) {
-			Function function = ExecutionManager.getInstance().getCurrentFunction();
-			value = VariableSearcher.searchVariableInFunction(function, varExprCtx.mutable().IDENTIFIER().getText());
-		}
+		// if(ExecutionManager.getInstance().isInFunctionExecution()) {
+		// 	Function function = ExecutionManager.getInstance().getCurrentFunction();
+		// 	value = VariableSearcher.searchVariableInFunction(function, varExprCtx.mutable().IDENTIFIER().getText());
+		// }
 		
-		//if after function finding, mobi value is still null, search class
-		if(value == null) {
-			ClassScope classScope = SymbolTable.getInstance().getClassScope();
-			value = VariableSearcher.searchVariableInClassIncludingLocal(classScope, varExprCtx.mutable().IDENTIFIER().getText());
-		}
+		// //if after function finding, mobi value is still null, search class
+		// if(value == null) {
+		// 	ClassScope classScope = SymbolTable.getInstance().getClassScope();
+		// 	value = VariableSearcher.searchVariableInClassIncludingLocal(classScope, varExprCtx.mutable().IDENTIFIER().getText());
+		// }
 		
 		if(value != null && value.isFinal()) {
 			BuildChecker.reportCustomError(ErrorRepository.CONST_REASSIGNMENT, "", varExprCtx.getText(), this.lineNumber);
