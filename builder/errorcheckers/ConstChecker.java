@@ -15,6 +15,8 @@ import semantics.representations.Function;
 import semantics.representations.ValueSearcher;
 import semantics.representations.Value.PrimitiveType;
 import semantics.symboltable.scopes.ClassScope;
+import builder.BuildChecker;
+import builder.ErrorRepository;
 import semantics.symboltable.SymbolTable;
 
 public class ConstChecker implements ErrorCheckerInterface, ParseTreeListener{
