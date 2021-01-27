@@ -7,20 +7,20 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
-import builder.BuildChecker;
-import builder.ErrorRepository;
+import builder.CstmBuildChecker;
+import builder.CstmErrorRepo;
 import model.CUSTOMParser.ExpressionContext;
 import model.CUSTOMParser.TypeSpecifierContext;
-import semantics.representations.Value;
-import semantics.representations.Value.PrimitiveType;
+import semantics.representations.CstmValue;
+import semantics.representations.CstmValue.PrimitiveType;
 
-public class TypeChecker implements ErrorCheckerInterface, ParseTreeListener{
+public class CstmTypeChecker implements CstmErrCheckerInterface, ParseTreeListener{
 
-	private Value value;
+	private CstmValue value;
 	private ExpressionContext expressionContext;
 	private int lineNumber;
 
-    public TypeChecker(Value assignmentValue, ExpressionContext expressionContext) {
+    public CstmTypeChecker(CstmValue assignmentValue, ExpressionContext expressionContext) {
 		this.value = assignmentValue;
 		this.expressionContext = expressionContext;
 		
@@ -64,31 +64,31 @@ public class TypeChecker implements ErrorCheckerInterface, ParseTreeListener{
 			else if(this.value.getPrimitiveType() == PrimitiveType.BOOLEAN) {
 				if(typeSpecifierContext.Boolean() == null) {
 					String additionalMessage = "Expected bool.";
-					BuildChecker.reportCustomError(ErrorRepository.TYPE_MISMATCH,  additionalMessage, this.lineNumber);
+					CstmBuildChecker.reportCustomError(CstmErrorRepo.TYPE_MISMATCH,  additionalMessage, this.lineNumber);
 				}
 			}
 			else if(this.value.getPrimitiveType() == PrimitiveType.INT) {
 				if(typeSpecifierContext.Int() == null) {
 					String additionalMessage = "Expected int.";
-					BuildChecker.reportCustomError(ErrorRepository.TYPE_MISMATCH,  additionalMessage, this.lineNumber);
+					CstmBuildChecker.reportCustomError(CstmErrorRepo.TYPE_MISMATCH,  additionalMessage, this.lineNumber);
 				}
 			}
 			else if(this.value.getPrimitiveType() == PrimitiveType.FLOAT) {
 				if(typeSpecifierContext.Float() == null) {
 					String additionalMessage = "Expected floating point.";
-					BuildChecker.reportCustomError(ErrorRepository.TYPE_MISMATCH,  additionalMessage, this.lineNumber);
+					CstmBuildChecker.reportCustomError(CstmErrorRepo.TYPE_MISMATCH,  additionalMessage, this.lineNumber);
 				}
 			}
 			
 			else if(this.value.getPrimitiveType() == PrimitiveType.STRING) {
 				if(expressionString.charAt(0) != '\"' && expressionString.charAt(expressionString.length() - 1) != '\"') {
 					String additionalMessage = "Expected string.";
-					BuildChecker.reportCustomError(ErrorRepository.TYPE_MISMATCH,  additionalMessage, this.lineNumber);
+					CstmBuildChecker.reportCustomError(CstmErrorRepo.TYPE_MISMATCH,  additionalMessage, this.lineNumber);
 				}
 				
 				else if(typeSpecifierContext.String() == null) {
 					String additionalMessage = "Expected string.";
-					BuildChecker.reportCustomError(ErrorRepository.TYPE_MISMATCH,  additionalMessage, this.lineNumber);
+					CstmBuildChecker.reportCustomError(CstmErrorRepo.TYPE_MISMATCH,  additionalMessage, this.lineNumber);
 				}
 			}
 		}

@@ -1,5 +1,5 @@
 package builder.errorcheckers;
 
-public interface ErrorCheckerInterface {
+public interface CstmErrCheckerInterface {
     public abstract void verify();
 }

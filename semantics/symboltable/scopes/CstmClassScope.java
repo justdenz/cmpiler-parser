@@ -6,34 +6,34 @@ import java.util.List;
 import java.util.Stack;
 
 import console.Console;
-import semantics.representations.Function;
-import semantics.representations.Value;
-import semantics.representations.Value.PrimitiveType;
-import semantics.utils.RecognizedKeywords;
+import semantics.representations.CstmFunction;
+import semantics.representations.CstmValue;
+import semantics.representations.CstmValue.PrimitiveType;
+import semantics.utils.CstmRecognizedKeywords;
 
 /**
  * Represents a class scope with mappings of variables and functions
  *
  */
-public class ClassScope implements ScopeInterface{
+public class CstmClassScope implements CstmScopeInterface{
     private String className;
 	
-	private HashMap<String, Value> variables;
-	private HashMap<String, Function> functions;
+	private HashMap<String, CstmValue> variables;
+	private HashMap<String, CstmFunction> functions;
 	
-	private LocalScope parentLocalScope; //represents the parent local scope which is the local scope covered by the main() function. Other classes may not contain this.
+	private CstmLocalScope parentLocalScope; //represents the parent local scope which is the local scope covered by the main() function. Other classes may not contain this.
 	
-	public ClassScope() {
+	public CstmClassScope() {
 		
-		this.variables = new HashMap<String, Value>();
-		this.functions = new HashMap<String, Function>();
+		this.variables = new HashMap<String, CstmValue>();
+		this.functions = new HashMap<String, CstmFunction>();
 	}
 	
 
 	/*
 	 * Sets the parent local scope which is instantiated if this class contains a main function.
 	 */
-	public void setParentLocalScope(LocalScope localScope) {
+	public void setParentLocalScope(CstmLocalScope localScope) {
 		this.parentLocalScope = localScope;
 	}
 	
@@ -52,7 +52,7 @@ public class ClassScope implements ScopeInterface{
 	 */
 	public void addEmptyVariableFromKeywords(String primitiveTypeString, String identifierString) {
 		//create empty value
-		Value value = Value.createEmptyVariableFromKeywords(primitiveTypeString);
+		CstmValue value = CstmValue.createEmptyVariableFromKeywords(primitiveTypeString);
 		
 		this.variables.put(identifierString, value);
 		Console.log("Created variable " +identifierString+ " type: " +value.getPrimitiveType());
@@ -65,29 +65,29 @@ public class ClassScope implements ScopeInterface{
 		
 		this.addEmptyVariableFromKeywords(primitiveTypeString, identifierString);
 
-		Value value = this.variables.get(identifierString);
+		CstmValue value = this.variables.get(identifierString);
 		value.setValue(valueString);
 		Console.log("Updated variable " +identifierString+ " of type " +value.getPrimitiveType()+ " with value " +valueString);
 
 	}
 	
-	public Value getVariable(String identifier) {
+	public CstmValue getVariable(String identifier) {
 		return this.variables.get(identifier);
 	}
 	
-	public void addValue(String identifier, Value value) {
+	public void addValue(String identifier, CstmValue value) {
 		this.variables.put(identifier, value);
 	}
 	
-	public Function getFunction(String identifier) {
+	public CstmFunction getFunction(String identifier) {
 		return this.functions.get(identifier);
 	}
 
-	public void addFunction(String identifer, Function function){
+	public void addFunction(String identifer, CstmFunction function){
 		this.functions.put(identifer, function);
 	}
 	
-	public Function searchFunction(String identifier) {
+	public CstmFunction searchFunction(String identifier) {
 		if(this.containsFunction(identifier)) {
 			return this.functions.get(identifier);
 		}
@@ -107,9 +107,9 @@ public class ClassScope implements ScopeInterface{
 	 * (non-Javadoc)
 	 * @see com.neildg.mobiprog.semantics.symboltable.scopes.IScope#getVariable(java.lang.String)
 	 */
-	public Value searchVariableIncludingLocal(String identifier) {
-		Value value;
-		value = LocalScopeCreator.searchVariableInLocalIterative(identifier, this.parentLocalScope);
+	public CstmValue searchVariableIncludingLocal(String identifier) {
+		CstmValue value;
+		value = CstmLocalScopeCreator.searchVariableInLocalIterative(identifier, this.parentLocalScope);
 		return value;
 	}
 	
@@ -117,7 +117,7 @@ public class ClassScope implements ScopeInterface{
 	 * Resets all stored variables. This is called after the execution manager finishes
 	 */
 	public void resetValues() {
-		Value[] values = this.variables.values().toArray(new Value[this.variables.size()]);
+		CstmValue[] values = this.variables.values().toArray(new CstmValue[this.variables.size()]);
 		
 		for(int i = 0; i < values.length; i++) {
 			values[i].reset();

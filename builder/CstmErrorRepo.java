@@ -2,7 +2,7 @@ package builder;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class ErrorRepository {
+public class CstmErrorRepo {
 	
 	public final static int INCONSISTENT_CLASS_NAME = 1000;
 	public final static int TYPE_MISMATCH = 2000;
@@ -15,17 +15,17 @@ public class ErrorRepository {
 	public final static int RUNTIME_ARRAY_OUT_OF_BOUNDS = 7000;
 	public final static int MISSING_THIS_KEYWORD = 8000;
 	
-	private static ErrorRepository sharedInstance = null;
+	private static CstmErrorRepo sharedInstance = null;
 	
 	private ArrayList<String> errorMessageDictionary;
 	
-	private ErrorRepository() {
+	private CstmErrorRepo() {
 		this.errorMessageDictionary = new ArrayList<String>();
 		this.populateErrorMessages();
 	}
 	
 	private void populateErrorMessages() {
-		this.errorMessageDictionary.add(ErrorRepository.INCONSISTENT_CLASS_NAME, "Inconsistent class name. ");
+		this.errorMessageDictionary.add(CstmErrorRepo.INCONSISTENT_CLASS_NAME, "Inconsistent class name. ");
 		this.errorMessageDictionary.add(TYPE_MISMATCH, "Type mismatch at line %d. ");
 		this.errorMessageDictionary.add(UNDECLARED_VARIABLE, "%s undeclared variable at line %d. ");
 		this.errorMessageDictionary.add(UNDECLARED_FUNCTION, "%s undeclared function at line %d. ");
@@ -38,7 +38,7 @@ public class ErrorRepository {
 	}
 	
 	public static void initialize() {
-		sharedInstance = new ErrorRepository();
+		sharedInstance = new CstmErrorRepo();
 	}
 	
 	public static void reset() {

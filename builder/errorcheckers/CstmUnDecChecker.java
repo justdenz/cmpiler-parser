@@ -7,23 +7,23 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
-import builder.BuildChecker;
-import builder.ErrorRepository;
+import builder.CstmBuildChecker;
+import builder.CstmErrorRepo;
 import model.CUSTOMParser.CallContext;
 import model.CUSTOMParser.ExpressionContext;
 import model.CUSTOMParser.MutableContext;
 import console.Console;
-import semantics.representations.Value;
-import semantics.representations.Function;
-import semantics.symboltable.SymbolTable;
-import semantics.symboltable.scopes.ClassScope;
-import semantics.symboltable.scopes.LocalScopeCreator;
+import semantics.representations.CstmValue;
+import semantics.representations.CstmFunction;
+import semantics.symboltable.CstmSymbolTable;
+import semantics.symboltable.scopes.CstmClassScope;
+import semantics.symboltable.scopes.CstmLocalScopeCreator;
 
-public class UndeclaredChecker implements ErrorCheckerInterface, ParseTreeListener{
+public class CstmUnDecChecker implements CstmErrCheckerInterface, ParseTreeListener{
     private ExpressionContext exprCtx;
 	private int lineNumber;
 	
-	public UndeclaredChecker(ExpressionContext exprCtx) {
+	public CstmUnDecChecker(ExpressionContext exprCtx) {
 		this.exprCtx = exprCtx;
 		
 		Token firstToken = this.exprCtx.getStart();
@@ -67,11 +67,11 @@ public class UndeclaredChecker implements ErrorCheckerInterface, ParseTreeListen
 
         CallContext callCtx = (CallContext) ctx;
 
-		ClassScope classScope = SymbolTable.getInstance().getClassScope();
-		Function function = classScope.searchFunction(callCtx.IDENTIFIER().getText());
+		CstmClassScope classScope = CstmSymbolTable.getInstance().getClassScope();
+		CstmFunction function = classScope.searchFunction(callCtx.IDENTIFIER().getText());
 		
 		if(function == null) {
-			BuildChecker.reportCustomError(ErrorRepository.UNDECLARED_FUNCTION, "Function not found", this.lineNumber);
+			CstmBuildChecker.reportCustomError(CstmErrorRepo.UNDECLARED_FUNCTION, "Function not found", this.lineNumber);
 		}
 		else {
 			Console.log("Function found: " +function.getFunctionName());
@@ -82,11 +82,11 @@ public class UndeclaredChecker implements ErrorCheckerInterface, ParseTreeListen
 
         MutableContext mutableCtx = (MutableContext) ctx;
 
-        ClassScope classScope = SymbolTable.getInstance().getClassScope();
-		Value value = classScope.getVariable(mutableCtx.IDENTIFIER().getText());
+        CstmClassScope classScope = CstmSymbolTable.getInstance().getClassScope();
+		CstmValue value = classScope.getVariable(mutableCtx.IDENTIFIER().getText());
 		
 		if(value == null) {
-			BuildChecker.reportCustomError(ErrorRepository.UNDECLARED_VARIABLE, "Variable not found", this.lineNumber);
+			CstmBuildChecker.reportCustomError(CstmErrorRepo.UNDECLARED_VARIABLE, "Variable not found", this.lineNumber);
         } else {
 			Console.log("Variable found: " +value.getValue().toString());
 		}

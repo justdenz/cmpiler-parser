@@ -7,24 +7,24 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
-import builder.BuildChecker;
-import builder.ErrorRepository;
+import builder.CstmBuildChecker;
+import builder.CstmErrorRepo;
 import model.CUSTOMParser.ExpressionContext;
-import semantics.representations.Value;
-import semantics.representations.Function;
-import semantics.representations.ValueSearcher;
-import semantics.representations.Value.PrimitiveType;
-import semantics.symboltable.scopes.ClassScope;
-import builder.BuildChecker;
-import builder.ErrorRepository;
-import semantics.symboltable.SymbolTable;
+import semantics.representations.CstmValue;
+import semantics.representations.CstmFunction;
+import semantics.representations.CstmValueSearcher;
+import semantics.representations.CstmValue.PrimitiveType;
+import semantics.symboltable.scopes.CstmClassScope;
+import builder.CstmBuildChecker;
+import builder.CstmErrorRepo;
+import semantics.symboltable.CstmSymbolTable;
 
-public class ConstChecker implements ErrorCheckerInterface, ParseTreeListener{
+public class CstmConstChecker implements CstmErrCheckerInterface, ParseTreeListener{
 	
 	private ExpressionContext exprCtx;
 	private int lineNumber;
 	
-	public ConstChecker(ExpressionContext exprCtx) {
+	public CstmConstChecker(ExpressionContext exprCtx) {
 		this.exprCtx = exprCtx;
 		
 		Token firstToken = this.exprCtx.getStart();
@@ -66,7 +66,7 @@ public class ConstChecker implements ErrorCheckerInterface, ParseTreeListener{
 	}
 	
 	private void verifyVariableOrConst(ExpressionContext varExprCtx) {
-		Value value = null;
+		CstmValue value = null;
 		
 		// if(ExecutionManager.getInstance().isInFunctionExecution()) {
 		// 	Function function = ExecutionManager.getInstance().getCurrentFunction();
@@ -80,7 +80,7 @@ public class ConstChecker implements ErrorCheckerInterface, ParseTreeListener{
 		// }
 		
 		if(value != null && value.isFinal()) {
-			BuildChecker.reportCustomError(ErrorRepository.CONST_REASSIGNMENT, "", varExprCtx.getText(), this.lineNumber);
+			CstmBuildChecker.reportCustomError(CstmErrorRepo.CONST_REASSIGNMENT, "", varExprCtx.getText(), this.lineNumber);
 		}
 	}
 }

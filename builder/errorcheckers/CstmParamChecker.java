@@ -2,19 +2,19 @@ package builder.errorcheckers;
 
 import java.util.List;
 
-import builder.BuildChecker;
-import builder.ErrorRepository;
+import builder.CstmBuildChecker;
+import builder.CstmErrorRepo;
 import model.CUSTOMParser.ArgsContext;
 import model.CUSTOMParser.ExpressionContext;
 import console.Console;
-import semantics.representations.Function;
+import semantics.representations.CstmFunction;
 
-public class ParamMismatchChecker implements ErrorCheckerInterface{
-	private Function function;
+public class CstmParamChecker implements CstmErrCheckerInterface{
+	private CstmFunction function;
 	private List<ExpressionContext> expressionCtxList;
 	private int lineNumber;
 	
-	public ParamMismatchChecker(Function func, ArgsContext expressionCtxList) {
+	public CstmParamChecker(CstmFunction func, ArgsContext expressionCtxList) {
 		this.function = func;
 
 		if(expressionCtxList != null) {
@@ -31,10 +31,10 @@ public class ParamMismatchChecker implements ErrorCheckerInterface{
 		}
 		
 		if(this.expressionCtxList == null && this.function.getParameterValueSize() != 0) {
-			BuildChecker.reportCustomError(ErrorRepository.PARAMETER_COUNT_MISMATCH, "", this.function.getFunctionName(), this.lineNumber);
+			CstmBuildChecker.reportCustomError(CstmErrorRepo.PARAMETER_COUNT_MISMATCH, "", this.function.getFunctionName(), this.lineNumber);
 		}
 		else if(this.expressionCtxList != null && this.expressionCtxList.size() != this.function.getParameterValueSize()) {
-			BuildChecker.reportCustomError(ErrorRepository.PARAMETER_COUNT_MISMATCH, "", this.function.getFunctionName(), this.lineNumber);
+			CstmBuildChecker.reportCustomError(CstmErrorRepo.PARAMETER_COUNT_MISMATCH, "", this.function.getFunctionName(), this.lineNumber);
 		}
 	}
 }

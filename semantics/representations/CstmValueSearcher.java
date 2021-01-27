@@ -5,10 +5,10 @@ package semantics.representations;
  * If it is in a function, it looks in the function parameters and local scope first before the global scope.
  */
 
-public class ValueSearcher {
-    public static Value searchValue(String identifier) {
+public class CstmValueSearcher {
+    public static CstmValue searchValue(String identifier) {
 		
-		Value mobiValue = null;
+		CstmValue mobiValue = null;
 		
 		// if(FunctionTracker.getInstance().isInsideFunction()) {
 		// 	Function function = FunctionTracker.getInstance().getLatestFunction();

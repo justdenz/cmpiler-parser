@@ -5,19 +5,19 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import builder.errorcheckers.TypeChecker;
+import builder.errorcheckers.CstmTypeChecker;
 import console.Console;
 import model.CUSTOMParser.ExpressionContext;
-import semantics.representations.Value.PrimitiveType;
-import semantics.symboltable.scopes.ClassScope;
-import semantics.symboltable.scopes.LocalScope;
-import semantics.utils.RecognizedKeywords;
+import semantics.representations.CstmValue.PrimitiveType;
+import semantics.symboltable.scopes.CstmClassScope;
+import semantics.symboltable.scopes.CstmLocalScope;
+import semantics.utils.CstmRecognizedKeywords;
 
 /**
  * Represents the intermediate representation of a function
  */
 
-public class Function {
+public class CstmFunction {
 
     public enum FunctionType {
 		INT_TYPE,
@@ -30,24 +30,24 @@ public class Function {
     private String functionName;
 	//private List<ICommand> commandSequences; //the list of commands execution by the function
 	
-    private LocalScope parentLocalScope; //refers to the parent local scope of this function.
+    private CstmLocalScope parentLocalScope; //refers to the parent local scope of this function.
 
-    private LinkedHashMap<String, ClassScope> parameterReferences; //the list of parameters accepted that follows the 'call-by-reference' standard.
-	private LinkedHashMap<String, Value> parameterValues;	//the list of parameters accepted that follows the 'call-by-value' standard.
-	private Value returnValue; //the return value of the function. null if it's a void type
+    private LinkedHashMap<String, CstmClassScope> parameterReferences; //the list of parameters accepted that follows the 'call-by-reference' standard.
+	private LinkedHashMap<String, CstmValue> parameterValues;	//the list of parameters accepted that follows the 'call-by-value' standard.
+	private CstmValue returnValue; //the return value of the function. null if it's a void type
 	private FunctionType returnType = FunctionType.VOID_TYPE; //the return type of the function
     
-    public Function() {
+    public CstmFunction() {
 		//this.commandSequences = new ArrayList<ICommand>();
-		this.parameterValues = new LinkedHashMap<String,Value>();
-		this.parameterReferences = new LinkedHashMap<String, ClassScope>();
+		this.parameterValues = new LinkedHashMap<String,CstmValue>();
+		this.parameterReferences = new LinkedHashMap<String, CstmClassScope>();
     }
     
-    public void setParentLocalScope(LocalScope localScope) {
+    public void setParentLocalScope(CstmLocalScope localScope) {
 		this.parentLocalScope = localScope;
 	}
 	
-	public LocalScope getParentLocalScope() {
+	public CstmLocalScope getParentLocalScope() {
 		return this.parentLocalScope;
     }
     
@@ -56,10 +56,10 @@ public class Function {
 		
 		//create an empty mobi value as a return value
 		switch(this.returnType) {
-			case BOOLEAN_TYPE: this.returnValue = new Value(true, PrimitiveType.BOOLEAN); break;
-			case INT_TYPE: this.returnValue = new Value(0, PrimitiveType.INT); break;
-			case FLOAT_TYPE: this.returnValue = new Value(0, PrimitiveType.FLOAT); break;
-			case STRING_TYPE: this.returnValue = new Value("", PrimitiveType.STRING); break;
+			case BOOLEAN_TYPE: this.returnValue = new CstmValue(true, PrimitiveType.BOOLEAN); break;
+			case INT_TYPE: this.returnValue = new CstmValue(0, PrimitiveType.INT); break;
+			case FLOAT_TYPE: this.returnValue = new CstmValue(0, PrimitiveType.FLOAT); break;
+			case STRING_TYPE: this.returnValue = new CstmValue("", PrimitiveType.STRING); break;
 			default:break;	
 		}
     }
@@ -81,7 +81,7 @@ public class Function {
 	 */
 	public void mapParameterByValue(String... values) {
 		for(int i = 0; i < values.length; i++) {
-			Value value = this.getParameterAt(i);
+			CstmValue value = this.getParameterAt(i);
 			value.setValue(values[i]);
 		}
 	}
@@ -91,19 +91,19 @@ public class Function {
 			return;
 		}
 		
-		Value tempValue = this.getParameterAt(index);
+		CstmValue tempValue = this.getParameterAt(index);
 		tempValue.setValue(value);
     }
     
-    public void mapArrayAt(Value value, int index, String identifier) {
+    public void mapArrayAt(CstmValue value, int index, String identifier) {
 		if(index >= this.parameterValues.size()) {
 			return;
 		}
 		
-		Array mobiArray = (Array) value.getValue();
+		CstmArray mobiArray = (CstmArray) value.getValue();
 		
-		Array newArray = new Array(mobiArray.getPrimitiveType(), identifier);
-		Value newValue = new Value(newArray, PrimitiveType.ARRAY);
+		CstmArray newArray = new CstmArray(mobiArray.getPrimitiveType(), identifier);
+		CstmValue newValue = new CstmValue(newArray, PrimitiveType.ARRAY);
 		
 		newArray.initializeSize(mobiArray.getSize());
 		
@@ -124,19 +124,19 @@ public class Function {
 			return;
 		}
 		
-		Value value = this.getParameterAt(index);
-		TypeChecker typeChecker = new TypeChecker(value, exprCtx);
+		CstmValue value = this.getParameterAt(index);
+		CstmTypeChecker typeChecker = new CstmTypeChecker(value, exprCtx);
 		typeChecker.verify();
     }
     
     /*
 	 * Maps parameters by reference, in this case, accept a class scope.
 	 */
-	public void mapParameterByReference(ClassScope... classScopes) {
+	public void mapParameterByReference(CstmClassScope... classScopes) {
 		Console.log("Mapping of parameter by reference not yet supported.");
 	}
 	
-	public void addParameter(String identifierString, Value value) {
+	public void addParameter(String identifierString, CstmValue value) {
 		this.parameterValues.put(identifierString, value);
 		Console.log(this.functionName + " added an empty parameter " +identifierString+ " type " +value.getPrimitiveType());
 	}
@@ -145,7 +145,7 @@ public class Function {
 		return this.parameterValues.containsKey(identifierString);
     }
     
-    public Value getParameter(String identifierString) {
+    public CstmValue getParameter(String identifierString) {
 		if(this.hasParameter(identifierString)) {
 			return this.parameterValues.get(identifierString);
 		}
@@ -155,10 +155,10 @@ public class Function {
 		}
 	}
 	
-	public Value getParameterAt(int index) {
+	public CstmValue getParameterAt(int index) {
 		int i = 0;
 
-		for(Value value : this.parameterValues.values()) {
+		for(CstmValue value : this.parameterValues.values()) {
 			if(i == index) {
 				return value;
 			}
@@ -185,7 +185,7 @@ public class Function {
 		return null;
 	}
 	
-	public Value getReturnValue() {
+	public CstmValue getReturnValue() {
 		if(this.returnType == FunctionType.VOID_TYPE) {
 			//Console.log(LogType.DEBUG, this.functionName + " is a void function. Null mobi value is returned");
 			return null;
@@ -225,16 +225,16 @@ public class Function {
 
 	public static FunctionType identifyFunctionType(String primitiveTypeString) {
 		
-		if(RecognizedKeywords.matchesKeyword(RecognizedKeywords.PRIMITIVE_TYPE_BOOLEAN, primitiveTypeString)) {
+		if(CstmRecognizedKeywords.matchesKeyword(CstmRecognizedKeywords.PRIMITIVE_TYPE_BOOLEAN, primitiveTypeString)) {
 			return FunctionType.BOOLEAN_TYPE;
 		}
-		else if(RecognizedKeywords.matchesKeyword(RecognizedKeywords.PRIMITIVE_TYPE_FLOAT, primitiveTypeString)) {
+		else if(CstmRecognizedKeywords.matchesKeyword(CstmRecognizedKeywords.PRIMITIVE_TYPE_FLOAT, primitiveTypeString)) {
 			return FunctionType.FLOAT_TYPE;
 		}
-		else if(RecognizedKeywords.matchesKeyword(RecognizedKeywords.PRIMITIVE_TYPE_INT, primitiveTypeString)) {
+		else if(CstmRecognizedKeywords.matchesKeyword(CstmRecognizedKeywords.PRIMITIVE_TYPE_INT, primitiveTypeString)) {
 			return FunctionType.INT_TYPE;
 		}
-		else if(RecognizedKeywords.matchesKeyword(RecognizedKeywords.PRIMITIVE_TYPE_STRING, primitiveTypeString)) {
+		else if(CstmRecognizedKeywords.matchesKeyword(CstmRecognizedKeywords.PRIMITIVE_TYPE_STRING, primitiveTypeString)) {
 			return FunctionType.STRING_TYPE;
 		}
 		

@@ -2,9 +2,9 @@ package semantics.representations;
 
 import javax.swing.text.StringContent;
 
-import semantics.utils.RecognizedKeywords;
+import semantics.utils.CstmRecognizedKeywords;
 
-public class Value {
+public class CstmValue {
     
     //these are the accepted primitive types
     public enum PrimitiveType {
@@ -21,7 +21,7 @@ public class Value {
 	private PrimitiveType primitiveType = PrimitiveType.NOT_YET_IDENTIFIED;
     private boolean finalFlag = false;
     
-    public Value(Object value, PrimitiveType primitiveType) {
+    public CstmValue(Object value, PrimitiveType primitiveType) {
 		if(value == null || checkValueType(value, primitiveType)) {
 			this.value = value;
 			this.primitiveType = primitiveType;
@@ -90,26 +90,26 @@ public class Value {
 		}
     }
     
-    public static Value createEmptyVariableFromKeywords(String primitiveTypeString) {
+    public static CstmValue createEmptyVariableFromKeywords(String primitiveTypeString) {
 		
 		//identify primitive type
 		PrimitiveType primitiveType = PrimitiveType.NOT_YET_IDENTIFIED;
 		
-		if(RecognizedKeywords.matchesKeyword(RecognizedKeywords.PRIMITIVE_TYPE_BOOLEAN, primitiveTypeString)) {
+		if(CstmRecognizedKeywords.matchesKeyword(CstmRecognizedKeywords.PRIMITIVE_TYPE_BOOLEAN, primitiveTypeString)) {
 			primitiveType = PrimitiveType.BOOLEAN;
 		}
-		else if(RecognizedKeywords.matchesKeyword(RecognizedKeywords.PRIMITIVE_TYPE_FLOAT, primitiveTypeString)) {
+		else if(CstmRecognizedKeywords.matchesKeyword(CstmRecognizedKeywords.PRIMITIVE_TYPE_FLOAT, primitiveTypeString)) {
 			primitiveType = PrimitiveType.FLOAT;
 		}
-		else if(RecognizedKeywords.matchesKeyword(RecognizedKeywords.PRIMITIVE_TYPE_INT, primitiveTypeString)) {
+		else if(CstmRecognizedKeywords.matchesKeyword(CstmRecognizedKeywords.PRIMITIVE_TYPE_INT, primitiveTypeString)) {
 			primitiveType = PrimitiveType.INT;
 		}
-		else if(RecognizedKeywords.matchesKeyword(RecognizedKeywords.PRIMITIVE_TYPE_STRING, primitiveTypeString)) {
+		else if(CstmRecognizedKeywords.matchesKeyword(CstmRecognizedKeywords.PRIMITIVE_TYPE_STRING, primitiveTypeString)) {
 			primitiveType = PrimitiveType.STRING;
 		}
 		
 		//create empty mobi value
-		Value value = new Value(null, primitiveType);
+		CstmValue value = new CstmValue(null, primitiveType);
 	
 		return value;
 	}

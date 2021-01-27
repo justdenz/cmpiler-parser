@@ -5,7 +5,7 @@ package semantics.utils;
  * creating intermediate representations
  */
 
-public class RecognizedKeywords {
+public class CstmRecognizedKeywords {
 	
 	public static String PRIMITIVE_TYPE_BOOLEAN = "bool";
 	public static String PRIMITIVE_TYPE_INT = "int";

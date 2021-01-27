@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import console.Console;
-import semantics.representations.Value;
-import semantics.utils.RecognizedKeywords;
+import semantics.representations.CstmValue;
+import semantics.utils.CstmRecognizedKeywords;
 
 /**
  * Represents a local scope, which is either a function, a code block or inside a certain loop/conditional statement.
@@ -13,18 +13,18 @@ import semantics.utils.RecognizedKeywords;
  * 
  * LocalScope can be viewed as a tree structure wherein it has a parent and children.
  */
-public class LocalScope implements ScopeInterface{
+public class CstmLocalScope implements CstmScopeInterface{
 
-    private ScopeInterface parentScope;
-	private ArrayList<LocalScope> childScopeList = null;
+    private CstmScopeInterface parentScope;
+	private ArrayList<CstmLocalScope> childScopeList = null;
 	
-	private HashMap<String, Value> localVariables = null;
+	private HashMap<String, CstmValue> localVariables = null;
 	
-	public LocalScope() {
+	public CstmLocalScope() {
 		this.parentScope = null;
 	}
 	
-	public LocalScope(ScopeInterface parentScope) {
+	public CstmLocalScope(CstmScopeInterface parentScope) {
 		this.parentScope = parentScope;
 	}
 	
@@ -33,7 +33,7 @@ public class LocalScope implements ScopeInterface{
 	 */
 	public void initializeLocalVariableMap() {
 		if(this.localVariables == null) {
-			this.localVariables = new HashMap<String, Value>();
+			this.localVariables = new HashMap<String, CstmValue>();
 		}
 	}
 	
@@ -42,15 +42,15 @@ public class LocalScope implements ScopeInterface{
 	 */
 	public void initializeChildList() {
 		if(this.childScopeList == null) {
-			this.childScopeList = new ArrayList<LocalScope>();
+			this.childScopeList = new ArrayList<CstmLocalScope>();
 		}
 	}
 	
-	public void setParent(ScopeInterface parentScope) {
+	public void setParent(CstmScopeInterface parentScope) {
 		this.parentScope = parentScope;
 	}
 	
-	public void addChild(LocalScope localScope) {
+	public void addChild(CstmLocalScope localScope) {
 		this.initializeChildList();
 		
 		this.childScopeList.add(localScope);
@@ -60,7 +60,7 @@ public class LocalScope implements ScopeInterface{
 		return (this.parentScope == null);
 	}
 	
-	public ScopeInterface getParent() {
+	public CstmScopeInterface getParent() {
 		return this.parentScope;
 	}
 	
@@ -71,7 +71,7 @@ public class LocalScope implements ScopeInterface{
 			return 0;
 	}
 	
-	public LocalScope getChildAt(int index) {
+	public CstmLocalScope getChildAt(int index) {
 		if(this.childScopeList != null)
 			return this.childScopeList.get(index);
 		else
@@ -79,7 +79,7 @@ public class LocalScope implements ScopeInterface{
 	}
 	
 	@Override
-	public Value searchVariableIncludingLocal(String identifier) {
+	public CstmValue searchVariableIncludingLocal(String identifier) {
 		if(this.containsVariable(identifier)) {
 			return this.localVariables.get(identifier);
 		}
@@ -104,8 +104,8 @@ public class LocalScope implements ScopeInterface{
 	public void addEmptyVariableFromKeywords(String primitiveTypeString, String identifierString) {
 		this.initializeLocalVariableMap();
 		
-		Value value = Value.createEmptyVariableFromKeywords(primitiveTypeString);
-		this.localVariables.put(identifierString, value);
+		CstmValue cstmValue = CstmValue.createEmptyVariableFromKeywords(primitiveTypeString);
+		this.localVariables.put(identifierString, cstmValue);
 	}
 	
 	/*
@@ -115,13 +115,13 @@ public class LocalScope implements ScopeInterface{
 		this.initializeLocalVariableMap();
 		
 		this.addEmptyVariableFromKeywords(primitiveTypeString, identifierString);
-		Value value = this.localVariables.get(identifierString);
-		value.setValue(valueString);
+		CstmValue cstmValue = this.localVariables.get(identifierString);
+		cstmValue.setValue(valueString);
 	}
 	
-	public void addValue(String identifier, Value value) {
+	public void addValue(String identifier, CstmValue cstmValue) {
 		this.initializeLocalVariableMap();
-		this.localVariables.put(identifier, value);
+		this.localVariables.put(identifier, cstmValue);
 	}
 	
 	/*
@@ -130,17 +130,17 @@ public class LocalScope implements ScopeInterface{
 	public int getDepth() {
 		int depthCount = -1;
 		
-		LocalScope scope = (LocalScope) this;
+		CstmLocalScope scope = (CstmLocalScope) this;
 		
 		while(scope != null) {
 			depthCount++;
 			
-			ScopeInterface abstractScope = scope.getParent();
+			CstmScopeInterface abstractScope = scope.getParent();
 			
-			if(abstractScope instanceof ClassScope)
+			if(abstractScope instanceof CstmClassScope)
 				break;
 			
-			scope = (LocalScope) abstractScope;
+			scope = (CstmLocalScope) abstractScope;
 		}
 		
 		

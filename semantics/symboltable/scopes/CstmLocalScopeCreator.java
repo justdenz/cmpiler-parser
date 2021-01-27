@@ -6,24 +6,24 @@ import java.util.Stack;
 
 // import execution.ExecutionManager;
 import console.Console;
-import semantics.representations.Value;
+import semantics.representations.CstmValue;
 
-public class LocalScopeCreator {
+public class CstmLocalScopeCreator {
 	
-	private static LocalScopeCreator sharedInstance = null;
+	private static CstmLocalScopeCreator sharedInstance = null;
 	
-	public static LocalScopeCreator getInstance() {
+	public static CstmLocalScopeCreator getInstance() {
 		return sharedInstance;
 	}
 	
-	private LocalScope activeLocalScope = null;
+	private CstmLocalScope activeLocalScope = null;
 	
-	private LocalScopeCreator() {
+	private CstmLocalScopeCreator() {
 		
 	}
 	
 	public static void initialize() {
-		sharedInstance = new LocalScopeCreator();
+		sharedInstance = new CstmLocalScopeCreator();
 	}
 	
 	public static void reset() {
@@ -35,12 +35,12 @@ public class LocalScopeCreator {
 	 * it creates a new one and sets it as a parent. Otherwise, the active local scope is set as
 	 * a parent of the new instance, then the new instance becomes the active local scope.
 	 */
-	public LocalScope openLocalScope() {
+	public CstmLocalScope openLocalScope() {
 		if(this.activeLocalScope == null) {
-			this.activeLocalScope = new LocalScope();
+			this.activeLocalScope = new CstmLocalScope();
 		}
 		else {
-			LocalScope childLocalScope = new LocalScope(); 
+			CstmLocalScope childLocalScope = new CstmLocalScope(); 
 			childLocalScope.setParent(this.activeLocalScope);//point this current local scope as parent
 			this.activeLocalScope.addChild(childLocalScope); //add the new scope as child for this current local scope
 			this.activeLocalScope = childLocalScope; //change pointer to the child scope
@@ -49,7 +49,7 @@ public class LocalScopeCreator {
 		return this.activeLocalScope;
 	}
 	
-	public LocalScope getActiveLocalScope() {
+	public CstmLocalScope getActiveLocalScope() {
 		return this.activeLocalScope;
 	}
 	
@@ -57,8 +57,8 @@ public class LocalScopeCreator {
 	 * Closes the active local scope which changes the pointer to the parent of the active local scope.
 	 */
 	public void closeLocalScope() {
-		if(this.activeLocalScope.getParent() != null && this.activeLocalScope.getParent() instanceof LocalScope) {
-			this.activeLocalScope = (LocalScope) this.activeLocalScope.getParent();
+		if(this.activeLocalScope.getParent() != null && this.activeLocalScope.getParent() instanceof CstmLocalScope) {
+			this.activeLocalScope = (CstmLocalScope) this.activeLocalScope.getParent();
 		}
 		else if(this.activeLocalScope.getParent() == null) {
 			Console.log("Cannot change parent. Current active local scope no longer has a parent.");
@@ -71,19 +71,19 @@ public class LocalScopeCreator {
 	/*
 	 * Searches for a local variable using an iterative depth-first search.
 	 */
-	public static Value searchVariableInLocalIterative(String identifier, LocalScope localScope) {
+	public static CstmValue searchVariableInLocalIterative(String identifier, CstmLocalScope localScope) {
 		
 		if(localScope == null) {
 			Console.log(identifier + " not found in any local scope!");
 			return null;
 		}
 		
-		Stack<LocalScope> stack = new Stack<LocalScope>();
+		Stack<CstmLocalScope> stack = new Stack<CstmLocalScope>();
 		
 		stack.push(localScope);
 		
-		List<LocalScope> discoveredScopes = new ArrayList<LocalScope>();
-		LocalScope scope;
+		List<CstmLocalScope> discoveredScopes = new ArrayList<CstmLocalScope>();
+		CstmLocalScope scope;
 		
 		while(!stack.isEmpty()) {
 			scope = stack.pop();
@@ -96,7 +96,7 @@ public class LocalScopeCreator {
 				discoveredScopes.add(scope);
 				
 				for(int i = 0; i < scope.getChildCount(); i++) {
-					LocalScope childScope = scope.getChildAt(i);
+					CstmLocalScope childScope = scope.getChildAt(i);
 					stack.push(childScope);
 				}
 			}

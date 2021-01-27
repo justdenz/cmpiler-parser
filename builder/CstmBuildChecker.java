@@ -11,28 +11,28 @@ import org.antlr.v4.runtime.Recognizer;
 import org.antlr.v4.runtime.atn.ATNConfigSet;
 import org.antlr.v4.runtime.dfa.DFA;
 
-public class BuildChecker implements ANTLRErrorListener{
+public class CstmBuildChecker implements ANTLRErrorListener{
 	
-	private static BuildChecker sharedInstance = null;
+	private static CstmBuildChecker sharedInstance = null;
 	
 	private boolean successful = true;
 	
-	public static BuildChecker getInstance() {
+	public static CstmBuildChecker getInstance() {
 		return sharedInstance;
 	}
 	
-	private BuildChecker() {
+	private CstmBuildChecker() {
 		
 	}
 	
 	public static void initialize() {
-		sharedInstance = new BuildChecker();
-		ErrorRepository.initialize();
+		sharedInstance = new CstmBuildChecker();
+		CstmErrorRepo.initialize();
 	}
 	
 	public static void reset() {
 		sharedInstance.successful  = true;
-		ErrorRepository.reset();
+		CstmErrorRepo.reset();
 	}
 	
 	public boolean canExecute() {
@@ -71,14 +71,14 @@ public class BuildChecker implements ANTLRErrorListener{
 	}
 	
 	public static void reportCustomError(int errorCode, String additionalMessage) {
-		String errorMessage = ErrorRepository.getErrorMessage(errorCode) + " " + additionalMessage;
+		String errorMessage = CstmErrorRepo.getErrorMessage(errorCode) + " " + additionalMessage;
 		Console.log(errorMessage);
 		
 		sharedInstance.successful = false;
 	}
 	
 	public static void reportCustomError(int errorCode, String additionalMessage, Object... parameters) {
-		String errorMessage = String.format(ErrorRepository.getErrorMessage(errorCode) + " " + additionalMessage, parameters);
+		String errorMessage = String.format(CstmErrorRepo.getErrorMessage(errorCode) + " " + additionalMessage, parameters);
 		Console.log(errorMessage);
 		
 		sharedInstance.successful = false;

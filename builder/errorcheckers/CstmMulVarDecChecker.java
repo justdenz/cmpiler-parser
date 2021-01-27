@@ -7,21 +7,21 @@ import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
-import builder.BuildChecker;
-import builder.ErrorRepository;
+import builder.CstmBuildChecker;
+import builder.CstmErrorRepo;
 import model.CUSTOMParser.VariableDeclarationContext;
-import semantics.representations.Value;
-import semantics.representations.Function;
-import semantics.symboltable.SymbolTable;
-import semantics.symboltable.scopes.ClassScope;
-import semantics.symboltable.scopes.LocalScopeCreator;
+import semantics.representations.CstmValue;
+import semantics.representations.CstmFunction;
+import semantics.symboltable.CstmSymbolTable;
+import semantics.symboltable.scopes.CstmClassScope;
+import semantics.symboltable.scopes.CstmLocalScopeCreator;
 
-public class MultipleVariableDeclarationChecker implements ErrorCheckerInterface, ParseTreeListener{
+public class CstmMulVarDecChecker implements CstmErrCheckerInterface, ParseTreeListener{
     
     private VariableDeclarationContext varDecCtx;
     private int lineNumber;
     
-    public MultipleVariableDeclarationChecker(VariableDeclarationContext varDecCtx){
+    public CstmMulVarDecChecker(VariableDeclarationContext varDecCtx){
         this.varDecCtx = varDecCtx;
 		
 		Token firstToken = this.varDecCtx.getStart();
@@ -61,7 +61,7 @@ public class MultipleVariableDeclarationChecker implements ErrorCheckerInterface
 	}
 	
 	private void verifyVariableOrConst(String identifierString) {
-		Value mobiValue = null;
+		CstmValue mobiValue = null;
 		
 		// if(ExecutionManager.getInstance().isInFunctionExecution()) {
 		// 	Function function = ExecutionManager.getInstance().getCurrentFunction();
@@ -70,7 +70,7 @@ public class MultipleVariableDeclarationChecker implements ErrorCheckerInterface
 		
 		//if after function finding, mobi value is still null, search local scope
 		if(mobiValue == null) {
-			mobiValue = LocalScopeCreator.searchVariableInLocalIterative(identifierString, LocalScopeCreator.getInstance().getActiveLocalScope());
+			mobiValue = CstmLocalScopeCreator.searchVariableInLocalIterative(identifierString, CstmLocalScopeCreator.getInstance().getActiveLocalScope());
 		}
 		
 		//if mobi value is still null, search class
@@ -80,7 +80,7 @@ public class MultipleVariableDeclarationChecker implements ErrorCheckerInterface
 		// }
 		
 		if(mobiValue != null) {
-			BuildChecker.reportCustomError(ErrorRepository.MULTIPLE_VARIABLE, "", identifierString, this.lineNumber);
+			CstmBuildChecker.reportCustomError(CstmErrorRepo.MULTIPLE_VARIABLE, "", identifierString, this.lineNumber);
 		}
 	}
 }
