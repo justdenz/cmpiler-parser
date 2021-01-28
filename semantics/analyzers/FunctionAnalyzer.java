@@ -7,7 +7,9 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import org.antlr.v4.runtime.tree.ErrorNode;
 
 import builder.errorcheckers.CstmMulFuncDecChecker;
+import model.CUSTOMParser.CompoundStatementContext;
 import model.CUSTOMParser.FuncBlockContext;
+import model.CUSTOMParser.ParamsContext;
 import model.CUSTOMParser.TypeSpecifierContext;
 import semantics.representations.CstmFunction;
 import semantics.representations.CstmFunction.FunctionType;
@@ -55,7 +57,14 @@ public class FunctionAnalyzer implements ParseTreeListener{
 
 	@Override
 	public void enterEveryRule(ParserRuleContext ctx) {
-        // add paramater context here, insert params analyzer
+        if(ctx instanceof ParamsContext){
+			ParamsContext paramCtx = (ParamsContext) ctx;
+			ParamsAnalyzer paramsAnalyzer = new ParamsAnalyzer(this.function);
+			paramsAnalyzer.analyze(paramCtx.paramList());
+		}
+		else if (ctx instanceof CompoundStatementContext){
+			// compound statement analyzer
+		}
 	}
 
     @Override

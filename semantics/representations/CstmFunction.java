@@ -153,6 +153,10 @@ public class CstmFunction {
 			return null;
 		}
 	}
+
+	public LinkedHashMap<String, CstmValue> getParameters(){
+		return this.parameterValues;
+	}
 	
 	public CstmValue getParameterAt(int index) {
 		int i = 0;
