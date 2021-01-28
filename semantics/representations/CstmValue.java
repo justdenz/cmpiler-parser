@@ -17,8 +17,8 @@ public class CstmValue {
     }
     
     private Object defaultValue; //this value will no longer change.
-		private Object objValue;
-		private PrimitiveType primitiveType = PrimitiveType.NOT_YET_IDENTIFIED;
+	private Object objValue;
+	private PrimitiveType primitiveType = PrimitiveType.NOT_YET_IDENTIFIED;
     private boolean finalFlag = false;
     
     public CstmValue(Object value, PrimitiveType primitiveType) {
@@ -108,7 +108,7 @@ public class CstmValue {
 			primitiveType = PrimitiveType.STRING;
 		}
 		
-		//create empty mobi value
+		//create empty cstmValue
 		CstmValue cstmValue = new CstmValue(null, primitiveType);
 	
 		return cstmValue;

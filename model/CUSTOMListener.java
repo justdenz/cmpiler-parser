@@ -188,16 +188,6 @@ public interface CUSTOMListener extends ParseTreeListener {
 	 */
 	void exitParamList(CUSTOMParser.ParamListContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link CUSTOMParser#paramDeclarationIdentifer}.
-	 * @param ctx the parse tree
-	 */
-	void enterParamDeclarationIdentifer(CUSTOMParser.ParamDeclarationIdentiferContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link CUSTOMParser#paramDeclarationIdentifer}.
-	 * @param ctx the parse tree
-	 */
-	void exitParamDeclarationIdentifer(CUSTOMParser.ParamDeclarationIdentiferContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link CUSTOMParser#statement}.
 	 * @param ctx the parse tree
 	 */

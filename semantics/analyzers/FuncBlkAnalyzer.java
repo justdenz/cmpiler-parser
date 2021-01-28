@@ -14,11 +14,11 @@ import model.CUSTOMParser.TypeSpecifierContext;
 import semantics.representations.CstmFunction;
 import semantics.representations.CstmFunction.FunctionType;
 
-public class FunctionAnalyzer implements ParseTreeListener{
+public class FuncBlkAnalyzer implements ParseTreeListener{
 
 	private CstmFunction function = new CstmFunction();
 
-    public FunctionAnalyzer() {}
+    public FuncBlkAnalyzer() {}
 	
 	public void analyze(FuncBlockContext ctx) {
 		
@@ -59,8 +59,11 @@ public class FunctionAnalyzer implements ParseTreeListener{
 	public void enterEveryRule(ParserRuleContext ctx) {
         if(ctx instanceof ParamsContext){
 			ParamsContext paramCtx = (ParamsContext) ctx;
-			ParamsAnalyzer paramsAnalyzer = new ParamsAnalyzer(this.function);
-			paramsAnalyzer.analyze(paramCtx.paramList());
+			if(paramCtx.paramList() != null){
+				ParamsAnalyzer paramsAnalyzer = new ParamsAnalyzer(this.function);
+				paramsAnalyzer.analyze(paramCtx.paramList());
+			}
+			
 		}
 		else if (ctx instanceof CompoundStatementContext){
 			// compound statement analyzer

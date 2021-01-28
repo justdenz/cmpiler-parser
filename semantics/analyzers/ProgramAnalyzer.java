@@ -8,13 +8,9 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
-import model.CUSTOMParser.CompoundStatementContext;
 import model.CUSTOMParser.FuncBlockContext;
+import model.CUSTOMParser.MainBlockContext;
 import model.CUSTOMParser.ProgramContext;
-import semantics.representations.CstmValue;
-import semantics.representations.CstmFunction;
-import semantics.symboltable.GlobalScopeManager;
-import semantics.symboltable.scopes.CstmLocalScope;
 
 public class ProgramAnalyzer implements ParseTreeListener{
     
@@ -41,10 +37,13 @@ public class ProgramAnalyzer implements ParseTreeListener{
 	public void enterEveryRule(ParserRuleContext ctx) {
 		if(ctx instanceof FuncBlockContext) {
 			FuncBlockContext funcCtx = (FuncBlockContext) ctx;
-			FunctionAnalyzer funcAnalyzer = new FunctionAnalyzer();
+			FuncBlkAnalyzer funcAnalyzer = new FuncBlkAnalyzer();
 			funcAnalyzer.analyze(funcCtx);
-        } 
-        // add main block context here so make a main analyzer
+        } else if(ctx instanceof MainBlockContext) {
+			MainBlockContext mainCtx = (MainBlockContext) ctx;
+			MainBlkAnalyzer mainAnalyzer = new MainBlkAnalyzer();
+			mainAnalyzer.analyze(mainCtx);
+		}
 	}
 
 	@Override
