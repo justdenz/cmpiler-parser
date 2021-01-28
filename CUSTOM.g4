@@ -311,8 +311,7 @@ constant
     : INTEGERCONSTANT
     | FLOATCONSTANT
     | STRINGCONSTANT
-    | True
-    | False 
+    | BOOLCONSTANT
     ;
 
 /* keywords */

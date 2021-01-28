@@ -3032,13 +3032,12 @@ public class CUSTOMParser extends Parser {
 			setState(480);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
-			case False:
 			case LeftParen:
 			case Minus:
 			case Not:
-			case True:
 			case INTEGERCONSTANT:
 			case FLOATCONSTANT:
+			case BOOLCONSTANT:
 			case STRINGCONSTANT:
 			case IDENTIFIER:
 				{
@@ -3394,12 +3393,11 @@ public class CUSTOMParser extends Parser {
 				unaryRelExpression();
 				}
 				break;
-			case False:
 			case LeftParen:
 			case Minus:
-			case True:
 			case INTEGERCONSTANT:
 			case FLOATCONSTANT:
+			case BOOLCONSTANT:
 			case STRINGCONSTANT:
 			case IDENTIFIER:
 				enterOuterAlt(_localctx, 2);
@@ -3914,11 +3912,10 @@ public class CUSTOMParser extends Parser {
 				unaryExpression();
 				}
 				break;
-			case False:
 			case LeftParen:
-			case True:
 			case INTEGERCONSTANT:
 			case FLOATCONSTANT:
+			case BOOLCONSTANT:
 			case STRINGCONSTANT:
 			case IDENTIFIER:
 				enterOuterAlt(_localctx, 2);
@@ -4146,10 +4143,9 @@ public class CUSTOMParser extends Parser {
 				call();
 				}
 				break;
-			case False:
-			case True:
 			case INTEGERCONSTANT:
 			case FLOATCONSTANT:
+			case BOOLCONSTANT:
 			case STRINGCONSTANT:
 				enterOuterAlt(_localctx, 3);
 				{
@@ -4304,13 +4300,12 @@ public class CUSTOMParser extends Parser {
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case Create:
-			case False:
 			case LeftParen:
 			case Minus:
 			case Not:
-			case True:
 			case INTEGERCONSTANT:
 			case FLOATCONSTANT:
+			case BOOLCONSTANT:
 			case STRINGCONSTANT:
 			case IDENTIFIER:
 				enterOuterAlt(_localctx, 1);
@@ -4359,8 +4354,7 @@ public class CUSTOMParser extends Parser {
 		public TerminalNode INTEGERCONSTANT() { return getToken(CUSTOMParser.INTEGERCONSTANT, 0); }
 		public TerminalNode FLOATCONSTANT() { return getToken(CUSTOMParser.FLOATCONSTANT, 0); }
 		public TerminalNode STRINGCONSTANT() { return getToken(CUSTOMParser.STRINGCONSTANT, 0); }
-		public TerminalNode True() { return getToken(CUSTOMParser.True, 0); }
-		public TerminalNode False() { return getToken(CUSTOMParser.False, 0); }
+		public TerminalNode BOOLCONSTANT() { return getToken(CUSTOMParser.BOOLCONSTANT, 0); }
 		public ConstantContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -4384,7 +4378,7 @@ public class CUSTOMParser extends Parser {
 			{
 			setState(630);
 			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << False) | (1L << True) | (1L << INTEGERCONSTANT) | (1L << FLOATCONSTANT) | (1L << STRINGCONSTANT))) != 0)) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << INTEGERCONSTANT) | (1L << FLOATCONSTANT) | (1L << BOOLCONSTANT) | (1L << STRINGCONSTANT))) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -4558,22 +4552,22 @@ public class CUSTOMParser extends Parser {
 		"$\62@X\\dh@\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,.\60\62\64\66"+
 		"8:<>@BDFHJLNPRTVXZ\\^`bdfhjlnprtvxz|\2\t\6\2\13\13\33\33!!\66\66\b\2\3"+
 		"\b\r\16\"#(*\60\61\64\65\4\2\25\25::\6\2\31\31\36\37%&++\4\2((--\5\2\21"+
-		"\21))\65\65\6\2\32\3299=>@@\2\u0286\2\u0081\3\2\2\2\4\u0086\3\2\2\2\6"+
-		"\u009f\3\2\2\2\b\u00a3\3\2\2\2\n\u00a5\3\2\2\2\f\u00b1\3\2\2\2\16\u00b3"+
-		"\3\2\2\2\20\u00b7\3\2\2\2\22\u00c7\3\2\2\2\24\u00c9\3\2\2\2\26\u00df\3"+
-		"\2\2\2\30\u00e1\3\2\2\2\32\u00f1\3\2\2\2\34\u00f3\3\2\2\2\36\u00f5\3\2"+
-		"\2\2 \u00f7\3\2\2\2\"\u00fd\3\2\2\2$\u00ff\3\2\2\2&\u010c\3\2\2\2(\u0114"+
-		"\3\2\2\2*\u011d\3\2\2\2,\u011f\3\2\2\2.\u0125\3\2\2\2\60\u0129\3\2\2\2"+
-		"\62\u0141\3\2\2\2\64\u0151\3\2\2\2\66\u0155\3\2\2\28\u0159\3\2\2\2:\u0164"+
-		"\3\2\2\2<\u0166\3\2\2\2>\u018e\3\2\2\2@\u0190\3\2\2\2B\u019c\3\2\2\2D"+
-		"\u01ac\3\2\2\2F\u01ae\3\2\2\2H\u01b8\3\2\2\2J\u01c1\3\2\2\2L\u01cc\3\2"+
-		"\2\2N\u01ce\3\2\2\2P\u01d2\3\2\2\2R\u01dc\3\2\2\2T\u01de\3\2\2\2V\u01e4"+
-		"\3\2\2\2X\u01e6\3\2\2\2Z\u01f9\3\2\2\2\\\u01ff\3\2\2\2^\u020d\3\2\2\2"+
-		"`\u0214\3\2\2\2b\u0216\3\2\2\2d\u0218\3\2\2\2f\u022e\3\2\2\2h\u0230\3"+
-		"\2\2\2j\u0246\3\2\2\2l\u024c\3\2\2\2n\u024e\3\2\2\2p\u0252\3\2\2\2r\u025a"+
-		"\3\2\2\2t\u0262\3\2\2\2v\u0264\3\2\2\2x\u026b\3\2\2\2z\u0276\3\2\2\2|"+
-		"\u0278\3\2\2\2~\u0080\5\6\4\2\177~\3\2\2\2\u0080\u0083\3\2\2\2\u0081\177"+
-		"\3\2\2\2\u0081\u0082\3\2\2\2\u0082\u0084\3\2\2\2\u0083\u0081\3\2\2\2\u0084"+
+		"\21))\65\65\3\2=@\2\u0286\2\u0081\3\2\2\2\4\u0086\3\2\2\2\6\u009f\3\2"+
+		"\2\2\b\u00a3\3\2\2\2\n\u00a5\3\2\2\2\f\u00b1\3\2\2\2\16\u00b3\3\2\2\2"+
+		"\20\u00b7\3\2\2\2\22\u00c7\3\2\2\2\24\u00c9\3\2\2\2\26\u00df\3\2\2\2\30"+
+		"\u00e1\3\2\2\2\32\u00f1\3\2\2\2\34\u00f3\3\2\2\2\36\u00f5\3\2\2\2 \u00f7"+
+		"\3\2\2\2\"\u00fd\3\2\2\2$\u00ff\3\2\2\2&\u010c\3\2\2\2(\u0114\3\2\2\2"+
+		"*\u011d\3\2\2\2,\u011f\3\2\2\2.\u0125\3\2\2\2\60\u0129\3\2\2\2\62\u0141"+
+		"\3\2\2\2\64\u0151\3\2\2\2\66\u0155\3\2\2\28\u0159\3\2\2\2:\u0164\3\2\2"+
+		"\2<\u0166\3\2\2\2>\u018e\3\2\2\2@\u0190\3\2\2\2B\u019c\3\2\2\2D\u01ac"+
+		"\3\2\2\2F\u01ae\3\2\2\2H\u01b8\3\2\2\2J\u01c1\3\2\2\2L\u01cc\3\2\2\2N"+
+		"\u01ce\3\2\2\2P\u01d2\3\2\2\2R\u01dc\3\2\2\2T\u01de\3\2\2\2V\u01e4\3\2"+
+		"\2\2X\u01e6\3\2\2\2Z\u01f9\3\2\2\2\\\u01ff\3\2\2\2^\u020d\3\2\2\2`\u0214"+
+		"\3\2\2\2b\u0216\3\2\2\2d\u0218\3\2\2\2f\u022e\3\2\2\2h\u0230\3\2\2\2j"+
+		"\u0246\3\2\2\2l\u024c\3\2\2\2n\u024e\3\2\2\2p\u0252\3\2\2\2r\u025a\3\2"+
+		"\2\2t\u0262\3\2\2\2v\u0264\3\2\2\2x\u026b\3\2\2\2z\u0276\3\2\2\2|\u0278"+
+		"\3\2\2\2~\u0080\5\6\4\2\177~\3\2\2\2\u0080\u0083\3\2\2\2\u0081\177\3\2"+
+		"\2\2\u0081\u0082\3\2\2\2\u0082\u0084\3\2\2\2\u0083\u0081\3\2\2\2\u0084"+
 		"\u0085\5\4\3\2\u0085\3\3\2\2\2\u0086\u0087\7\'\2\2\u0087\u0088\7$\2\2"+
 		"\u0088\u0089\7\62\2\2\u0089\u008a\58\35\2\u008a\u008b\7\2\2\3\u008b\5"+
 		"\3\2\2\2\u008c\u008f\7\35\2\2\u008d\u0090\5\36\20\2\u008e\u0090\5 \21"+
