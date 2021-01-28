@@ -9,7 +9,7 @@ mainBlock
     ;
 
 funcBlock
-    : Func (typeSpecifier | arrayTypeSpecifier) IDENTIFIER LeftParen params RightParen compoundStatement
+    : Func funcTypeSpecifier IDENTIFIER LeftParen params RightParen compoundStatement
     | Func Void IDENTIFIER LeftParen params RightParen compoundStatement
     ; 
 

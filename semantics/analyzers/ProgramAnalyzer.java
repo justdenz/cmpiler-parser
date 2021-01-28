@@ -16,9 +16,9 @@ import semantics.representations.CstmFunction;
 import semantics.symboltable.GlobalScopeManager;
 import semantics.symboltable.scopes.CstmLocalScope;
 
-public class MainAnalyzer implements ParseTreeListener{
+public class ProgramAnalyzer implements ParseTreeListener{
     
-    public MainAnalyzer() {}
+    public ProgramAnalyzer() {}
 
     public void analyze(ProgramContext ctx) {
         ParseTreeWalker treeWalker = new ParseTreeWalker();
@@ -40,11 +40,11 @@ public class MainAnalyzer implements ParseTreeListener{
 	@Override
 	public void enterEveryRule(ParserRuleContext ctx) {
 		if(ctx instanceof FuncBlockContext) {
-			CompoundStatementContext blockCtx = ((FuncBlockContext) ctx).compoundStatement();
-			BlockAnalyzer blockAnalyzer = new BlockAnalyzer();
-			blockAnalyzer.analyze(blockCtx);
+			FuncBlockContext funcCtx = (FuncBlockContext) ctx;
+			FunctionAnalyzer funcAnalyzer = new FunctionAnalyzer();
+			funcAnalyzer.analyze(funcCtx);
         } 
-        // instance of MainBlockContext
+        // add main block context here so make a main analyzer
 	}
 
 	@Override
