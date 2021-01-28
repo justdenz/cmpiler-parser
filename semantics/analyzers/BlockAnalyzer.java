@@ -4,20 +4,12 @@ import java.util.List;
 
 import model.CUSTOMParser.CompoundStatementContext;
 import model.CUSTOMParser.CompoundStatementListContext;
-import model.CUSTOMParser.StatementListContext;
-import model.CUSTOMParser.FuncBlockContext;
-import model.CUSTOMParser.ProgramContext;
-import model.CUSTOMParser.DeclarationListContext;
-import semantics.representations.CstmValue;
-import semantics.representations.CstmFunction;
 import semantics.symboltable.GlobalScopeManager;
-import semantics.symboltable.scopes.CstmClassScope;
 import semantics.symboltable.scopes.CstmLocalScope;
-import semantics.symboltable.scopes.CstmLocalScopeCreator;
 
 public class BlockAnalyzer {
     public BlockAnalyzer() {
-		CstmLocalScopeCreator.getInstance().openLocalScope();
+		GlobalScopeManager.getInstance().getCurrentScope();
 	}
 	
 	public void analyze(CompoundStatementContext ctx) {
@@ -36,7 +28,9 @@ public class BlockAnalyzer {
 				// declarationAnalyzer.analyze(declarationListCtx.localVariableDeclaration());
 			}
 		}
-		
-		CstmLocalScopeCreator.getInstance().closeLocalScope();
+        
+        CstmLocalScope currScope = GlobalScopeManager.getInstance().getCurrentScope();
+        CstmLocalScope parentScope = currScope.getParent();
+		GlobalScopeManager.getInstance().setCurrentScope(parentScope);
 	}
 }

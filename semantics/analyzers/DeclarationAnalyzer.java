@@ -15,8 +15,8 @@ import model.CUSTOMParser.ExpressionContext;
 import model.CUSTOMParser.VariableDeclarationContext;
 import model.CUSTOMParser.ArrayDeclarationContext;
 import model.CUSTOMParser.ConstantContext;
-import semantics.symboltable.scopes.CstmLocalScopeCreator;
 import semantics.utils.CstmRecognizedKeywords;
+import semantics.symboltable.GlobalScopeManager;
 import semantics.symboltable.scopes.CstmLocalScope;
 import semantics.representations.CstmValue;
 
@@ -36,7 +36,6 @@ public class DeclarationAnalyzer implements ParseTreeListener{
 	
 	public void analyze(DeclarationListContext decListCtx) {
 		this.identifiedTokens = new CstmIdentifiedTokens();
-		
 		ParseTreeWalker treeWalker = new ParseTreeWalker();
 		treeWalker.walk(this, decListCtx);
 	}
@@ -61,13 +60,12 @@ public class DeclarationAnalyzer implements ParseTreeListener{
 	public void exitEveryRule(ParserRuleContext ctx) {
 		// TODO Auto-generated method stub
 		
-	}
+    }
 	
 	private void analyzeVariables(ParserRuleContext ctx) {
 
         if(ctx instanceof ArrayDeclarationContext){
-            Console.log("Array declaration: " +ctx.getText());
-            ArrayAnalyzer arrayAnalyzer = new ArrayAnalyzer(this.identifiedTokens, CstmLocalScopeCreator.getInstance().getActiveLocalScope());
+            ArrayAnalyzer arrayAnalyzer = new ArrayAnalyzer(this.identifiedTokens, GlobalScopeManager.getInstance().getCurrentScope());
             arrayAnalyzer.analyze(ctx.getParent());
             this.hasPassedArrayDeclaration = true;
         }

@@ -15,16 +15,12 @@ import semantics.representations.CstmValue;
 import semantics.representations.CstmFunction;
 import semantics.symboltable.GlobalScopeManager;
 import semantics.symboltable.scopes.CstmLocalScope;
-import semantics.symboltable.scopes.CstmLocalScopeCreator;
 
 public class MainAnalyzer implements ParseTreeListener{
     
     public MainAnalyzer() {}
 
     public void analyze(ProgramContext ctx) {
-        CstmLocalScope localScope = CstmLocalScopeCreator.getInstance().openLocalScope();
-        localScope.setParent(localScope);
-			
         ParseTreeWalker treeWalker = new ParseTreeWalker();
         treeWalker.walk(this, ctx);
 	}
@@ -47,7 +43,8 @@ public class MainAnalyzer implements ParseTreeListener{
 			CompoundStatementContext blockCtx = ((FuncBlockContext) ctx).compoundStatement();
 			BlockAnalyzer blockAnalyzer = new BlockAnalyzer();
 			blockAnalyzer.analyze(blockCtx);
-		}
+        } 
+        // instance of MainBlockContext
 	}
 
 	@Override

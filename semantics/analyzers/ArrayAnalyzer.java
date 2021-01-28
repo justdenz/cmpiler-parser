@@ -9,26 +9,21 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import model.CUSTOMParser.ArrayDeclarationContext;
 import model.CUSTOMParser.ArrayTypeSpecifierContext;
 import semantics.representations.CstmArray;
-import semantics.symboltable.scopes.CstmClassScope;
 import semantics.symboltable.scopes.CstmLocalScope;
+import semantics.utils.CstmIdentifiedTokens;
 
 public class ArrayAnalyzer implements ParseTreeListener {
     private final static String ARRAY_PRIMITIVE_KEY = "ARRAY_PRIMITIVE_KEY";
 	private final static String ARRAY_IDENTIFIER_KEY = "ARRAY_IDENTIFIER_KEY";
 	
-	private IdentifiedTokens identifiedTokens;
-	private CstmClassScope declaredClassScope;
+	private CstmIdentifiedTokens identifiedTokens;
+	private CstmLocalScope declaredLocalScope;
 	private CstmLocalScope localScope;
     private CstmArray declaredArray;
     
-    public ArrayAnalyzer( IdentifiedTokens identifiedTokens, CstmClassScope declaredClassScope) {
+    public ArrayAnalyzer( CstmIdentifiedTokens identifiedTokens, CstmLocalScope declaredLocalScope) {
 		this.identifiedTokens = identifiedTokens;
-		this.declaredClassScope = declaredClassScope;
-	}
-	
-	public ArrayAnalyzer( IdentifiedTokens identifiedTokens, CstmLocalScope localScope) {
-		this.identifiedTokens = identifiedTokens;
-		this.localScope = localScope;
+		this.declaredLocalScope = declaredLocalScope;
 	}
 	
 	public void analyze(ParserRuleContext ctx) {
@@ -78,7 +73,7 @@ public class ArrayAnalyzer implements ParseTreeListener {
 	
 	private void analyzeArray() {
 		
-		if(this.declaredClassScope != null) {
+		if(this.declaredLocalScope != null) {
 			if(this.identifiedTokens.containsTokens(ClassAnalyzer.ACCESS_CONTROL_KEY, ARRAY_PRIMITIVE_KEY, ARRAY_IDENTIFIER_KEY)) {
 				String accessControlString = this.identifiedTokens.getToken(ClassAnalyzer.ACCESS_CONTROL_KEY);
 				String arrayTypeString = this.identifiedTokens.getToken(ARRAY_PRIMITIVE_KEY);
@@ -88,7 +83,7 @@ public class ArrayAnalyzer implements ParseTreeListener {
 				this.declaredArray = MobiArray.createArray(arrayTypeString, arrayIdentifierString);
 				MobiValue mobiValue = new MobiValue(this.declaredArray, PrimitiveType.ARRAY);
 				
-				this.declaredClassScope.addMobiValue(accessControlString, arrayIdentifierString, mobiValue);
+				this.declaredLocalScope.addMobiValue(accessControlString, arrayIdentifierString, mobiValue);
 				Console.log(LogType.DEBUG, "Creating array with type " +arrayTypeString+ " variable " +arrayIdentifierString);
 				
 				this.identifiedTokens.clearTokens();
