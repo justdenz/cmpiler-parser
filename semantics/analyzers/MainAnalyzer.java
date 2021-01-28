@@ -13,8 +13,7 @@ import model.CUSTOMParser.FuncBlockContext;
 import model.CUSTOMParser.ProgramContext;
 import semantics.representations.CstmValue;
 import semantics.representations.CstmFunction;
-import semantics.symboltable.CstmSymbolTable;
-import semantics.symboltable.scopes.CstmClassScope;
+import semantics.symboltable.GlobalScopeManager;
 import semantics.symboltable.scopes.CstmLocalScope;
 import semantics.symboltable.scopes.CstmLocalScopeCreator;
 
@@ -23,10 +22,8 @@ public class MainAnalyzer implements ParseTreeListener{
     public MainAnalyzer() {}
 
     public void analyze(ProgramContext ctx) {
-		CstmClassScope classScope = CstmSymbolTable.getInstance().getClassScope();
         CstmLocalScope localScope = CstmLocalScopeCreator.getInstance().openLocalScope();
-        localScope.setParent(classScope);
-        classScope.setParentLocalScope(localScope);
+        localScope.setParent(localScope);
 			
         ParseTreeWalker treeWalker = new ParseTreeWalker();
         treeWalker.walk(this, ctx);

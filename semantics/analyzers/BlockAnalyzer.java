@@ -10,7 +10,7 @@ import model.CUSTOMParser.ProgramContext;
 import model.CUSTOMParser.DeclarationListContext;
 import semantics.representations.CstmValue;
 import semantics.representations.CstmFunction;
-import semantics.symboltable.CstmSymbolTable;
+import semantics.symboltable.GlobalScopeManager;
 import semantics.symboltable.scopes.CstmClassScope;
 import semantics.symboltable.scopes.CstmLocalScope;
 import semantics.symboltable.scopes.CstmLocalScopeCreator;

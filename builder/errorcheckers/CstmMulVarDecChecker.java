@@ -12,8 +12,7 @@ import builder.CstmErrorRepo;
 import model.CUSTOMParser.VariableDeclarationContext;
 import semantics.representations.CstmValue;
 import semantics.representations.CstmFunction;
-import semantics.symboltable.CstmSymbolTable;
-import semantics.symboltable.scopes.CstmClassScope;
+import semantics.symboltable.GlobalScopeManager;
 import semantics.symboltable.scopes.CstmLocalScopeCreator;
 
 public class CstmMulVarDecChecker implements CstmErrCheckerInterface, ParseTreeListener{

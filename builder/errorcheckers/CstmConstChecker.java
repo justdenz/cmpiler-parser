@@ -14,10 +14,9 @@ import semantics.representations.CstmValue;
 import semantics.representations.CstmFunction;
 import semantics.representations.CstmValueSearcher;
 import semantics.representations.CstmValue.PrimitiveType;
-import semantics.symboltable.scopes.CstmClassScope;
 import builder.CstmBuildChecker;
 import builder.CstmErrorRepo;
-import semantics.symboltable.CstmSymbolTable;
+import semantics.symboltable.GlobalScopeManager;
 
 public class CstmConstChecker implements CstmErrCheckerInterface, ParseTreeListener{
 	

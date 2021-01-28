@@ -15,8 +15,8 @@ import model.CUSTOMParser.MutableContext;
 import console.Console;
 import semantics.representations.CstmValue;
 import semantics.representations.CstmFunction;
-import semantics.symboltable.CstmSymbolTable;
-import semantics.symboltable.scopes.CstmClassScope;
+import semantics.symboltable.GlobalScopeManager;
+import semantics.symboltable.scopes.CstmLocalScope;
 import semantics.symboltable.scopes.CstmLocalScopeCreator;
 
 public class CstmUnDecChecker implements CstmErrCheckerInterface, ParseTreeListener{
@@ -67,8 +67,8 @@ public class CstmUnDecChecker implements CstmErrCheckerInterface, ParseTreeListe
 
         CallContext callCtx = (CallContext) ctx;
 
-		CstmClassScope classScope = CstmSymbolTable.getInstance().getClassScope();
-		CstmFunction function = classScope.searchFunction(callCtx.IDENTIFIER().getText());
+		GlobalScopeManager scopeManager = GlobalScopeManager.getInstance();
+		CstmFunction function = scopeManager.getFunction(callCtx.IDENTIFIER().getText());
 		
 		if(function == null) {
 			CstmBuildChecker.reportCustomError(CstmErrorRepo.UNDECLARED_FUNCTION, "Function not found", this.lineNumber);
@@ -82,8 +82,8 @@ public class CstmUnDecChecker implements CstmErrCheckerInterface, ParseTreeListe
 
         MutableContext mutableCtx = (MutableContext) ctx;
 
-        CstmClassScope classScope = CstmSymbolTable.getInstance().getClassScope();
-		CstmValue value = classScope.getVariable(mutableCtx.IDENTIFIER().getText());
+        CstmLocalScope currentScope = GlobalScopeManager.getInstance().getCurrentScope();
+		CstmValue value = currentScope.searchVariableIncludingLocal(mutableCtx.IDENTIFIER().getText());
 		
 		if(value == null) {
 			CstmBuildChecker.reportCustomError(CstmErrorRepo.UNDECLARED_VARIABLE, "Variable not found", this.lineNumber);

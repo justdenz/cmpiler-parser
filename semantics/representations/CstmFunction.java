@@ -9,7 +9,6 @@ import builder.errorcheckers.CstmTypeChecker;
 import console.Console;
 import model.CUSTOMParser.ExpressionContext;
 import semantics.representations.CstmValue.PrimitiveType;
-import semantics.symboltable.scopes.CstmClassScope;
 import semantics.symboltable.scopes.CstmLocalScope;
 import semantics.utils.CstmRecognizedKeywords;
 
@@ -32,7 +31,7 @@ public class CstmFunction {
 	
     private CstmLocalScope parentLocalScope; //refers to the parent local scope of this function.
 
-    private LinkedHashMap<String, CstmClassScope> parameterReferences; //the list of parameters accepted that follows the 'call-by-reference' standard.
+    private LinkedHashMap<String, CstmLocalScope> parameterReferences; //the list of parameters accepted that follows the 'call-by-reference' standard.
 	private LinkedHashMap<String, CstmValue> parameterValues;	//the list of parameters accepted that follows the 'call-by-value' standard.
 	private CstmValue returnValue; //the return value of the function. null if it's a void type
 	private FunctionType returnType = FunctionType.VOID_TYPE; //the return type of the function
@@ -40,7 +39,7 @@ public class CstmFunction {
     public CstmFunction() {
 		//this.commandSequences = new ArrayList<ICommand>();
 		this.parameterValues = new LinkedHashMap<String,CstmValue>();
-		this.parameterReferences = new LinkedHashMap<String, CstmClassScope>();
+		this.parameterReferences = new LinkedHashMap<String, CstmLocalScope>();
     }
     
     public void setParentLocalScope(CstmLocalScope localScope) {
@@ -132,7 +131,7 @@ public class CstmFunction {
     /*
 	 * Maps parameters by reference, in this case, accept a class scope.
 	 */
-	public void mapParameterByReference(CstmClassScope... classScopes) {
+	public void mapParameterByReference(CstmLocalScope... classScopes) {
 		Console.log("Mapping of parameter by reference not yet supported.");
 	}
 	

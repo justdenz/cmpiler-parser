@@ -6,8 +6,7 @@ import builder.CstmBuildChecker;
 import builder.CstmErrorRepo;
 import model.CUSTOMParser.FuncBlockContext;
 import semantics.representations.CstmFunction;
-import semantics.symboltable.CstmSymbolTable;
-import semantics.symboltable.scopes.CstmClassScope;
+import semantics.symboltable.GlobalScopeManager;
 
 public class CstmMulFuncDecChecker implements CstmErrCheckerInterface {
     private FuncBlockContext funcBlockContext;
@@ -27,8 +26,7 @@ public class CstmMulFuncDecChecker implements CstmErrCheckerInterface {
 	
 	private void verifyFunctionCall(String identifierString) {
 
-		CstmClassScope classScope = CstmSymbolTable.getInstance().getClassScope();
-		CstmFunction cstmFunction = classScope.searchFunction(identifierString);
+		CstmFunction cstmFunction = GlobalScopeManager.getInstance().getFunction(identifierString);
 		
 		if(cstmFunction != null) {
 			CstmBuildChecker.reportCustomError(CstmErrorRepo.MULTIPLE_FUNCTION, "", identifierString, this.lineNumber);

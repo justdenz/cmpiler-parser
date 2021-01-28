@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import console.Console;
+import semantics.representations.CstmFunction;
 import semantics.representations.CstmValue;
 import semantics.utils.CstmRecognizedKeywords;
 
@@ -137,8 +138,8 @@ public class CstmLocalScope implements CstmScopeInterface{
 			
 			CstmScopeInterface abstractScope = scope.getParent();
 			
-			if(abstractScope instanceof CstmClassScope)
-				break;
+			// if(abstractScope instanceof CstmClassScope)
+			// 	break;
 			
 			scope = (CstmLocalScope) abstractScope;
 		}
