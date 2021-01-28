@@ -77,16 +77,11 @@ arrayTypeSpecifier
     ;
 
 params
-    : paramList 
+    : paramList (Comma paramList)
     | 
     ;
 
 paramList
-    : paramList Comma paramTypeList
-    | paramTypeList
-    ;
-
-paramTypeList
     : (typeSpecifier | arrayTypeSpecifier) paramDeclarationIdentifer
     ;
 

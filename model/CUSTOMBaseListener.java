@@ -232,18 +232,6 @@ public class CUSTOMBaseListener implements CUSTOMListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterParamTypeList(CUSTOMParser.ParamTypeListContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitParamTypeList(CUSTOMParser.ParamTypeListContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterParamDeclarationIdentifer(CUSTOMParser.ParamDeclarationIdentiferContext ctx) { }
 	/**
 	 * {@inheritDoc}
