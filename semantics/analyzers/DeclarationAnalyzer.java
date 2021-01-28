@@ -98,8 +98,8 @@ public class DeclarationAnalyzer implements ParseTreeListener{
 				
 				this.processMapping(varCtx);
 				
-				CstmLocalScope localScope = CstmLocalScopeCreator.getInstance().getActiveLocalScope();
-				CstmValue declaredCstmValue = localScope.searchVariableIncludingLocal(varCtx.variableDeclarationList().variableDeclarationInitialize().variableDeclarationIdentifier().getText());
+				CstmLocalScope localScope = GlobalScopeManager.getInstance().getCurrentScope();
+				CstmValue declaredCstmValue = localScope.getVariable(varCtx.variableDeclarationList().variableDeclarationInitialize().variableDeclarationIdentifier().getText());
 				
 				//type check the cstmvalue
 				CstmTypeChecker typeChecker = new CstmTypeChecker(declaredCstmValue, varExprCtx);
@@ -139,14 +139,19 @@ public class DeclarationAnalyzer implements ParseTreeListener{
 			String identifierString = this.identifiedTokens.getToken(IDENTIFIER_KEY);
 			String identifierValueString = null;
 			
-			CstmLocalScope localScope = CstmLocalScopeCreator.getInstance().getActiveLocalScope();
+			CstmLocalScope localScope = GlobalScopeManager.getInstance().getCurrentScope();
 			
 			if(this.identifiedTokens.containsTokens(IDENTIFIER_VALUE_KEY)) {
 				identifierValueString = this.identifiedTokens.getToken(IDENTIFIER_VALUE_KEY);
-				localScope.addInitializedVariableFromKeywords(primitiveTypeString, identifierString, identifierValueString);
+
+				CstmValue cstmValue = CstmValue.createEmptyVariableFromKeywords(primitiveTypeString);
+				cstmValue.setValue(identifierValueString);
+				localScope.addVariable(identifierString, cstmValue);
+				
 			}
 			else {
-				localScope.addEmptyVariableFromKeywords(primitiveTypeString, identifierString);
+				CstmValue cstmValue = CstmValue.createEmptyVariableFromKeywords(primitiveTypeString);
+				localScope.addVariable(identifierString, cstmValue);
 			}
 			
 			//remove the following tokens

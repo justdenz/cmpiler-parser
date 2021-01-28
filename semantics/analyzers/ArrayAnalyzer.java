@@ -6,9 +6,13 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import console.Console;
 import model.CUSTOMParser.ArrayDeclarationContext;
 import model.CUSTOMParser.ArrayTypeSpecifierContext;
+import model.CUSTOMParser.ConstantContext;
 import semantics.representations.CstmArray;
+import semantics.representations.CstmValue;
+import semantics.representations.CstmValue.PrimitiveType;
 import semantics.symboltable.scopes.CstmLocalScope;
 import semantics.utils.CstmIdentifiedTokens;
 
@@ -45,25 +49,25 @@ public class ArrayAnalyzer implements ParseTreeListener {
 
 	@Override
 	public void enterEveryRule(ParserRuleContext ctx) {
-		if(ctx instanceof PrimitiveTypeContext) {
-			PrimitiveTypeContext primitiveCtx = (PrimitiveTypeContext) ctx;
-			this.identifiedTokens.addToken(ARRAY_PRIMITIVE_KEY, primitiveCtx.getText());
-		}
-		else if(ctx instanceof ArrayTypeSpecifierContext) {
+		// if(ctx instanceof ConstantContext) {
+		// ConstantContext constantContext = (ConstantContext) ctx;
+		// 	this.identifiedTokens.addToken(ARRAY_PRIMITIVE_KEY, constantContext.getText());
+		// }
+		if(ctx instanceof ArrayTypeSpecifierContext) {
 			ArrayTypeSpecifierContext varDecIdCtx = (ArrayTypeSpecifierContext) ctx;
 			this.identifiedTokens.addToken(ARRAY_IDENTIFIER_KEY, varDecIdCtx.getText());
 			
 			this.analyzeArray();
 		}
-		else if(ctx instanceof CreatedNameContext) {
-			CreatedNameContext createdNameCtx = (CreatedNameContext) ctx;
-			Console.log(LogType.DEBUG, "Array created name: " +createdNameCtx.getText());
-		}
+		// else if(ctx instanceof CreatedNameContext) {
+		// 	CreatedNameContext createdNameCtx = (CreatedNameContext) ctx;
+		// 	Console.log(LogType.DEBUG, "Array created name: " +createdNameCtx.getText());
+		// }
 		
-		else if(ctx instanceof ArrayCreatorRestContext) {
-			ArrayCreatorRestContext arrayCreatorCtx = (ArrayCreatorRestContext) ctx;
-			this.createInitializeCommand(arrayCreatorCtx);
-		}
+		// else if(ctx instanceof ArrayCreatorRestContext) {
+		// 	ArrayCreatorRestContext arrayCreatorCtx = (ArrayCreatorRestContext) ctx;
+		// 	this.createInitializeCommand(arrayCreatorCtx);
+		// }
 	}
 
 	@Override
@@ -73,33 +77,17 @@ public class ArrayAnalyzer implements ParseTreeListener {
 	
 	private void analyzeArray() {
 		
-		if(this.declaredLocalScope != null) {
-			if(this.identifiedTokens.containsTokens(ClassAnalyzer.ACCESS_CONTROL_KEY, ARRAY_PRIMITIVE_KEY, ARRAY_IDENTIFIER_KEY)) {
-				String accessControlString = this.identifiedTokens.getToken(ClassAnalyzer.ACCESS_CONTROL_KEY);
-				String arrayTypeString = this.identifiedTokens.getToken(ARRAY_PRIMITIVE_KEY);
-				String arrayIdentifierString = this.identifiedTokens.getToken(ARRAY_IDENTIFIER_KEY);
-				
-				//initialize an array mobivalue
-				this.declaredArray = MobiArray.createArray(arrayTypeString, arrayIdentifierString);
-				MobiValue mobiValue = new MobiValue(this.declaredArray, PrimitiveType.ARRAY);
-				
-				this.declaredLocalScope.addMobiValue(accessControlString, arrayIdentifierString, mobiValue);
-				Console.log(LogType.DEBUG, "Creating array with type " +arrayTypeString+ " variable " +arrayIdentifierString);
-				
-				this.identifiedTokens.clearTokens();
-			}
-		}
-		else if(this.localScope != null) {
+		if(this.localScope != null) {
 			if(this.identifiedTokens.containsTokens(ARRAY_PRIMITIVE_KEY, ARRAY_IDENTIFIER_KEY)) {
 				String arrayTypeString = this.identifiedTokens.getToken(ARRAY_PRIMITIVE_KEY);
 				String arrayIdentifierString = this.identifiedTokens.getToken(ARRAY_IDENTIFIER_KEY);
 				
 				//initialize an array mobivalue
-				this.declaredArray = MobiArray.createArray(arrayTypeString, arrayIdentifierString);
-				MobiValue mobiValue = new MobiValue(this.declaredArray, PrimitiveType.ARRAY);
+				this.declaredArray = CstmArray.createArray(arrayTypeString, arrayIdentifierString);
+				CstmValue mobiValue = new CstmValue(this.declaredArray, PrimitiveType.ARRAY);
 				
-				this.localScope.addMobiValue(arrayIdentifierString, mobiValue);
-				Console.log(LogType.DEBUG, "Creating array with type " +arrayTypeString+ " variable " +arrayIdentifierString);
+				this.localScope.addVariable(arrayIdentifierString, mobiValue);
+				Console.log("Creating array with type " +arrayTypeString+ " variable " +arrayIdentifierString);
 				
 				this.identifiedTokens.clearTokens();
 			}
@@ -107,8 +95,8 @@ public class ArrayAnalyzer implements ParseTreeListener {
 		
 	}
 	
-	private void createInitializeCommand(ArrayCreatorRestContext arrayCreatorCtx) {
-		ArrayInitializeCommand arrayInitializeCommand = new ArrayInitializeCommand(this.declaredArray, arrayCreatorCtx);
-		ExecutionManager.getInstance().addCommand(arrayInitializeCommand);
-	}
+	// private void createInitializeCommand(ArrayCreatorRestContext arrayCreatorCtx) {
+	// 	ArrayInitializeCommand arrayInitializeCommand = new ArrayInitializeCommand(this.declaredArray, arrayCreatorCtx);
+	// 	ExecutionManager.getInstance().addCommand(arrayInitializeCommand);
+	// }
 }
