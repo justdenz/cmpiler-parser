@@ -13,7 +13,6 @@ import model.CUSTOMParser.VariableDeclarationContext;
 import semantics.representations.CstmValue;
 import semantics.representations.CstmFunction;
 import semantics.symboltable.GlobalScopeManager;
-import semantics.symboltable.scopes.CstmLocalScopeCreator;
 
 public class CstmMulVarDecChecker implements CstmErrCheckerInterface, ParseTreeListener{
     
@@ -69,7 +68,7 @@ public class CstmMulVarDecChecker implements CstmErrCheckerInterface, ParseTreeL
 		
 		//if after function finding, mobi value is still null, search local scope
 		if(cstmValue == null) {
-			cstmValue = CstmLocalScopeCreator.searchVariableInLocalIterative(identifierString, CstmLocalScopeCreator.getInstance().getActiveLocalScope());
+			cstmValue = GlobalScopeManager.getInstance().getCurrentScope().getVariable(identifierString);
 		}
 		
 		//if mobi value is still null, search class

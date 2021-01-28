@@ -1,6 +1,5 @@
 package semantics.symboltable;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import semantics.representations.CstmFunction;
@@ -14,12 +13,12 @@ public class GlobalScopeManager {
 		return sharedInstance;
 	}
 	
-	private HashMap<String, CstmLocalScope> localScopes;
 	private CstmLocalScope currentScope;
-	private HashMap<String, CstmFunction> functions;
+	private HashMap<String, CstmFunction> functionMap;
 	
 	private GlobalScopeManager() {
-		this.localScopes = new HashMap<String, CstmLocalScope>();
+		this.currentScope = null;
+		this.functionMap = new HashMap<String, CstmFunction>();
 	}
 	
 	public static void initialize() {
@@ -27,24 +26,20 @@ public class GlobalScopeManager {
 	}
 	
 	public static void reset() {
-		sharedInstance.localScopes = new HashMap<String, CstmLocalScope>();
-	}
-	
-
-	public HashMap<String, CstmLocalScope> getLocalScopes() {
-		return this.localScopes;
-	}
-
-	public void addLocalScope(String identifier, CstmLocalScope newLocalScope){
-		this.localScopes.put(identifier, newLocalScope);
-	}
-
-	public void addFunction(String identifier, CstmFunction function){
-		this.functions.put(identifier, function);
+		sharedInstance.currentScope = null;
+		sharedInstance.functionMap = new HashMap<String, CstmFunction>();
 	}
 
 	public CstmFunction getFunction(String identifier){
-		return this.functions.get(identifier);
+		return this.functionMap.get(identifier);
+	}
+
+	public HashMap<String, CstmFunction> getFunctions() {
+		return this.functionMap;
+	}
+
+	public void addFunction(String identifier, CstmFunction function){
+		this.functionMap.put(identifier, function);
 	}
 
 	public CstmLocalScope getCurrentScope(){

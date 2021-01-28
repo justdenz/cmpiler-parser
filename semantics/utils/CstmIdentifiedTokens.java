@@ -8,7 +8,6 @@ import console.Console;
  * Holder for identified tokens found while parsing. Contains a key for easy retrieval of the actual text
  */
 public class CstmIdentifiedTokens {
-    private final static String TAG = "MobiProg_IdentifiedTokens";
 	
 	private HashMap<String, String> tokenMapping;
 	
