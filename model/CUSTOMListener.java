@@ -38,6 +38,16 @@ public interface CUSTOMListener extends ParseTreeListener {
 	 */
 	void exitFuncBlock(CUSTOMParser.FuncBlockContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link CUSTOMParser#funcTypeSpecifier}.
+	 * @param ctx the parse tree
+	 */
+	void enterFuncTypeSpecifier(CUSTOMParser.FuncTypeSpecifierContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CUSTOMParser#funcTypeSpecifier}.
+	 * @param ctx the parse tree
+	 */
+	void exitFuncTypeSpecifier(CUSTOMParser.FuncTypeSpecifierContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link CUSTOMParser#declarationList}.
 	 * @param ctx the parse tree
 	 */
@@ -277,6 +287,16 @@ public interface CUSTOMListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitCompoundStatement(CUSTOMParser.CompoundStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CUSTOMParser#compoundStatementList}.
+	 * @param ctx the parse tree
+	 */
+	void enterCompoundStatementList(CUSTOMParser.CompoundStatementListContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CUSTOMParser#compoundStatementList}.
+	 * @param ctx the parse tree
+	 */
+	void exitCompoundStatementList(CUSTOMParser.CompoundStatementListContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link CUSTOMParser#selectionStatement}.
 	 * @param ctx the parse tree

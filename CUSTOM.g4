@@ -5,13 +5,18 @@ program
     ;
 
 mainBlock
-    : Main LeftParen RightParen LeftBrace (declarationList | statement) * RightBrace EOF
+    : Main LeftParen RightParen compoundStatement EOF
     ;
 
 funcBlock
-    : Func (typeSpecifier | arrayTypeSpecifier) IDENTIFIER LeftParen params RightParen LeftBrace (declarationList | statement) * RightBrace
-    | Func Void IDENTIFIER LeftParen params RightParen LeftBrace (declarationList | statement) * RightBrace
+    : Func (typeSpecifier | arrayTypeSpecifier) IDENTIFIER LeftParen params RightParen compoundStatement
+    | Func Void IDENTIFIER LeftParen params RightParen compoundStatement
     ; 
+
+funcTypeSpecifier
+    : typeSpecifier
+    | arrayTypeSpecifier
+    ;
 
 declarationList
     : declarationList declaration
@@ -129,7 +134,12 @@ expressionStatement
     ;
 
 compoundStatement
-    : LeftBrace (variableDeclaration | statementList)* RightBrace
+    : LeftBrace (compoundStatementList)* RightBrace
+    ;
+
+compoundStatementList
+    : declarationList
+    | statementList
     ;
 
 selectionStatement
