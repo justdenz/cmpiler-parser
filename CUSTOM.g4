@@ -24,22 +24,20 @@ declaration
     ;
 
 arrayDeclaration
-    : arrayTypeSpecifier arrayDeclarationInitialize (Comma arrayDeclarationInitialize)* Semi
+    : arrayTypeSpecifier arrayDeclarationInitialize Semi
     ;
 
 arrayDeclarationInitialize
-    : IDENTIFIER
-    | IDENTIFIER Assign arrayExpression
+    : IDENTIFIER (Assign arrayExpression)
     ;
 
 variableDeclaration
-    : ConstantKey? typeSpecifier variableDeclarationInitialize (Comma variableDeclarationInitialize)* Semi
-    | ConstantKey? typeSpecifier g=typeSpecifier+ {notifyErrorListeners("Excess " + $g.text + " found in declaration. Consider removing it.");} variableDeclarationInitialize (Comma variableDeclarationInitialize)* Semi
+    : ConstantKey? typeSpecifier variableDeclarationInitialize Semi
+    // | ConstantKey? typeSpecifier g=typeSpecifier+ {notifyErrorListeners("Excess " + $g.text + " found in declaration. Consider removing it.");} variableDeclarationInitialize (Comma variableDeclarationInitialize)* Semi
     ;
 
 variableDeclarationInitialize
-    : IDENTIFIER
-    | IDENTIFIER Assign simpleExpression
+    : IDENTIFIER (Assign simpleExpression)
     ;
 
 typeSpecifier

@@ -9,6 +9,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import console.Console;
 import builder.errorcheckers.CstmMulVarDecChecker;
 import builder.errorcheckers.CstmTypeChecker;
+import builder.errorcheckers.CstmUnDecChecker;
 import semantics.utils.CstmIdentifiedTokens;
 import model.CUSTOMParser.DeclarationContext;
 import model.CUSTOMParser.ExpressionContext;
@@ -34,7 +35,7 @@ public class DeclarationListAnalyzer implements ParseTreeListener{
 	public void enterEveryRule(ParserRuleContext ctx) {
 		if(ctx instanceof DeclarationContext){
 			DeclarationContext decCtx = (DeclarationContext) ctx;
-			CstmValue value = null;
+			CstmValue cstmValue = null;
 			// check muna if may multiple declaration ng var or array sa GlobalScopeManager within the current scope
 			CstmMulVarDecChecker checker = new CstmMulVarDecChecker(decCtx);
 			checker.verify();
@@ -43,13 +44,31 @@ public class DeclarationListAnalyzer implements ParseTreeListener{
 			if(decCtx.variableDeclaration() != null){
 				VariableDeclarationContext varDecCtx = decCtx.variableDeclaration();
 				
-				if(varDecCtx.typeSpecifier(0).Int() != null){
-					
+				if(varDecCtx.typeSpecifier().Int() != null){
+					cstmValue = new CstmValue(null, CstmKeywords.IS_INT);
+				} else if(varDecCtx.typeSpecifier().Boolean() != null){
+					cstmValue = new CstmValue(null, CstmKeywords.IS_BOOLEAN);
+				} else if(varDecCtx.typeSpecifier().String() != null){
+					cstmValue = new CstmValue(null, CstmKeywords.IS_STRING);
+				} else if(varDecCtx.typeSpecifier().Float() != null){
+					cstmValue = new CstmValue(null, CstmKeywords.IS_FLOAT);
 				}
+				// if may assignment of value, check if declared or compatible types
+				if(varDecCtx.variableDeclarationInitialize().Assign() != null){
+					CstmUnDecChecker undeclaredChecker = new CstmUnDecChecker(varDecCtx.variableDeclarationInitialize().simpleExpression());
+					CstmTypeChecker typeChecker = new CstmTypeChecker(cstmValue, varDecCtx.variableDeclarationInitialize().simpleExpression());
+					undeclaredChecker.verify();
+					typeChecker.verify();
+				}
+
+				CstmLocalScope currentScope = GlobalScopeManager.getInstance().getCurrentScope();
+				String varIdentifier = varDecCtx.variableDeclarationInitialize().IDENTIFIER().getText();
+				currentScope.addVariable(varIdentifier, cstmValue);
+				System.out.println("Found variable declaration");
 			}
 			// check if array declaration
 			else if(decCtx.arrayDeclaration() != null){
-
+				
 			}
 		}
 		

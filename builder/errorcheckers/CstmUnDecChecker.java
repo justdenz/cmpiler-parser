@@ -12,6 +12,7 @@ import builder.CstmErrorRepo;
 import model.CUSTOMParser.CallContext;
 import model.CUSTOMParser.ExpressionContext;
 import model.CUSTOMParser.MutableContext;
+import model.CUSTOMParser.SimpleExpressionContext;
 import console.Console;
 import semantics.representations.CstmValue;
 import semantics.representations.CstmFunction;
@@ -19,12 +20,11 @@ import semantics.symboltable.GlobalScopeManager;
 import semantics.symboltable.scopes.CstmLocalScope;
 
 public class CstmUnDecChecker implements CstmErrCheckerInterface, ParseTreeListener{
-    private ExpressionContext exprCtx;
+    private SimpleExpressionContext exprCtx;
 	private int lineNumber;
 	
-	public CstmUnDecChecker(ExpressionContext exprCtx) {
+	public CstmUnDecChecker(SimpleExpressionContext exprCtx) {
 		this.exprCtx = exprCtx;
-		
 		Token firstToken = this.exprCtx.getStart();
 		this.lineNumber = firstToken.getLine();
 	}
