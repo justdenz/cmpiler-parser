@@ -29,8 +29,12 @@ public class CompoundStatementAnalyzer {
             }
         }
         
-        CstmLocalScope parentScope = GlobalScopeManager.getInstance().getCurrentScope().getParent();
-        GlobalScopeManager.getInstance().setCurrentScope(parentScope);
+        if(GlobalScopeManager.getInstance().getCurrentScope() != null){
+            CstmLocalScope parentScope = GlobalScopeManager.getInstance().getCurrentScope().getParent();
+            GlobalScopeManager.getInstance().setCurrentScope(parentScope);
+        } else {
+            GlobalScopeManager.getInstance().setCurrentScope(null);
+        }
     }
 
 }

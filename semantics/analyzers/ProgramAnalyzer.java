@@ -15,11 +15,10 @@ import semantics.symboltable.GlobalScopeManager;
 
 public class ProgramAnalyzer implements ParseTreeListener{
     
-    public ProgramAnalyzer() {
-		GlobalScopeManager.getInstance();
-	}
+    public ProgramAnalyzer() {}
 
     public void analyze(ProgramContext ctx) {
+		GlobalScopeManager.getInstance();
         ParseTreeWalker treeWalker = new ParseTreeWalker();
         treeWalker.walk(this, ctx);
 	}

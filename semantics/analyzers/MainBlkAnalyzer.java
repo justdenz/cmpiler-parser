@@ -29,10 +29,8 @@ public class MainBlkAnalyzer implements ParseTreeListener{
 
     if(ctx instanceof CompoundStatementContext){
       CompoundStatementContext compoundCtx = (CompoundStatementContext) ctx;
-			if(compoundCtx.compoundStatementList() != null){
-				CompoundStatementAnalyzer compoundStmtAnalyzer = new CompoundStatementAnalyzer();
-				compoundStmtAnalyzer.analyze(compoundCtx);
-			}
+      CompoundStatementAnalyzer compoundStmtAnalyzer = new CompoundStatementAnalyzer();
+      compoundStmtAnalyzer.analyze(compoundCtx);
     }
     
   }
