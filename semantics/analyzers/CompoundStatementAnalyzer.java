@@ -31,7 +31,6 @@ public class CompoundStatementAnalyzer {
         
         CstmLocalScope parentScope = GlobalScopeManager.getInstance().getCurrentScope().getParent();
         GlobalScopeManager.getInstance().setCurrentScope(parentScope);
-        System.out.println("Closed scope");
     }
 
 }

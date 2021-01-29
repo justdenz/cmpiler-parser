@@ -238,6 +238,16 @@ public interface CUSTOMListener extends ParseTreeListener {
 	 */
 	void exitSelectionStatement(CUSTOMParser.SelectionStatementContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link CUSTOMParser#selectionDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterSelectionDeclaration(CUSTOMParser.SelectionDeclarationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CUSTOMParser#selectionDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitSelectionDeclaration(CUSTOMParser.SelectionDeclarationContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link CUSTOMParser#elseStatement}.
 	 * @param ctx the parse tree
 	 */

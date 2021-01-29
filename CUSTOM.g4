@@ -108,9 +108,13 @@ compoundStatementList
     ;
 
 selectionStatement
-    : If LeftParen simpleExpression RightParen Then compoundStatement elseStatement
+    : If selectionDeclaration Then compoundStatement elseStatement
     ;
 
+selectionDeclaration
+    : LeftParen simpleExpression RightParen
+    ;
+    
 elseStatement
     : Else selectionStatement
     | Else Then compoundStatement

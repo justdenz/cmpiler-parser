@@ -292,6 +292,18 @@ public class CUSTOMBaseListener implements CUSTOMListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterSelectionDeclaration(CUSTOMParser.SelectionDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSelectionDeclaration(CUSTOMParser.SelectionDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterElseStatement(CUSTOMParser.ElseStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}

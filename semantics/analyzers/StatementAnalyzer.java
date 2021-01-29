@@ -33,7 +33,14 @@ public class StatementAnalyzer{
             } else if(stmtCtx.selectionStatement() != null){
                 // SelectionAnalyzer (if-elseif-else conditions)
                 SelectionStatementContext selectionStatementContext = ctx.selectionStatement();
-                System.out.println("Found selection statement");
+                
+                if(selectionStatementContext.selectionDeclaration() != null){
+
+                    CompoundStatementContext cmpndStmt = selectionStatementContext.compoundStatement();
+                    CompoundStatementAnalyzer analyzer = new CompoundStatementAnalyzer();
+                    analyzer.analyze(cmpndStmt);
+                }
+                 
             } else if(stmtCtx.iterationStatement() != null){
                 // IterationAnalyzer (for and while loop)
             } else if(stmtCtx.returnStatement() != null){
