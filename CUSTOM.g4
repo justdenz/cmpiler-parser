@@ -116,8 +116,8 @@ selectionDeclaration
     ;
     
 elseStatement
-    : Else selectionStatement
-    | Else Then compoundStatement
+    : Else Then compoundStatement
+    | Else selectionStatement 
     ;
 
 iterationStatement
@@ -289,7 +289,6 @@ DoubleQuotation: '"';
 Down : 'down';
 Ellipsis : '...';
 Else : 'else';
-ElseIf: 'else if';
 Equal : '==';
 False: 'F';
 Float : 'float';

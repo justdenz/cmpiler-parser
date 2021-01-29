@@ -81,7 +81,7 @@ public class CstmUnDecChecker implements CstmErrCheckerInterface, ParseTreeListe
 		CstmValue value = GlobalScopeManager.getInstance().getCurrentScope().getVariable(mutableCtx.IDENTIFIER().getText());
 		
 		if(value == null) {
-			CstmBuildChecker.reportCustomError(CstmErrorRepo.UNDECLARED_VARIABLE, "Variable not found", this.lineNumber);
+			// CstmBuildChecker.reportCustomError(CstmErrorRepo.UNDECLARED_VARIABLE, "Variable not found", this.lineNumber);
         } else {
 			Console.log("Variable found: " +value.getValue().toString());
 		}
