@@ -24,7 +24,7 @@ declaration
     ;
 
 arrayDeclaration
-    : arrayTypeSpecifier arrayDeclarationInitialize Semi
+    : ConstantKey? arrayTypeSpecifier arrayDeclarationInitialize Semi
     ;
 
 arrayDeclarationInitialize
@@ -248,11 +248,11 @@ factor
 
 mutable
     : IDENTIFIER
-    | IDENTIFIER LeftBracket expression RightBracket
+    | IDENTIFIER LeftBracket simpleExpression RightBracket
     ;
 
 immutable
-    : LeftParen expression RightParen
+    : LeftParen simpleExpression RightParen
     | call
     | constant
     ;
@@ -262,12 +262,7 @@ call
     ;
 
 args
-    : argList
-    | 
-    ;
-
-argList
-    : expression (Comma expression)*
+    : simpleExpression (Comma simpleExpression)*
     | 
     ;
 

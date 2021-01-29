@@ -10,7 +10,10 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import console.Console;
 import builder.CstmBuildChecker;
 import builder.CstmErrorRepo;
+import model.CUSTOMParser.CallContext;
+import model.CUSTOMParser.ConstantContext;
 import model.CUSTOMParser.ExpressionContext;
+import model.CUSTOMParser.MutableContext;
 import model.CUSTOMParser.SimpleExpressionContext;
 import model.CUSTOMParser.TypeSpecifierContext;
 import semantics.representations.CstmValue;
@@ -36,10 +39,6 @@ public class CstmTypeChecker implements CstmErrCheckerInterface, ParseTreeListen
 		ParseTreeWalker treeWalker = new ParseTreeWalker();
 		treeWalker.walk(this, this.expressionContext);
 	}
-	
-	public static boolean isNumeric(String str) {
-	  return str.matches("-?\\d+(\\.\\d+)?");  //match a number with optional '-' and decimal.
-	}
 
 	@Override
 	public void visitTerminal(TerminalNode node) {
@@ -54,40 +53,42 @@ public class CstmTypeChecker implements CstmErrCheckerInterface, ParseTreeListen
 
 	@Override
 	public void enterEveryRule(ParserRuleContext ctx) {
-		if(ctx instanceof TypeSpecifierContext) {
-			if(this.cstmValue == null) {
+		// TypeChecker for assignment with ConstantKey (constant)
+		if(ctx instanceof ConstantContext){
+			if(this.cstmValue == null)
 				return;
-			}
-			TypeSpecifierContext typeSpecifierContext = (TypeSpecifierContext) ctx;
-			String expressionString = typeSpecifierContext.getText();
-			
-			if(this.cstmValue.getPrimitiveType().toString() == CstmKeywords.IS_ARRAY) {
+			ConstantContext constCtx = (ConstantContext) ctx;
+			if(this.cstmValue.getPrimitiveType() == PrimitiveType.ARRAY) {
 				
 			}
-			else if(this.cstmValue.getPrimitiveType().toString() == CstmKeywords.IS_BOOLEAN) {
-				if(typeSpecifierContext.Boolean() == null) {
-					Console.log("In line "+this.lineNumber+": Expected bool.");
+			else if(this.cstmValue.getPrimitiveType() == PrimitiveType.BOOLEAN) {
+				if(constCtx.BOOLCONSTANT() == null) {
+					Console.log("In line " + this.lineNumber + " : Expected boolean type");
 				}
 			}
-			else if(this.cstmValue.getPrimitiveType().toString() == CstmKeywords.IS_INT) {
-				if(typeSpecifierContext.Int() == null) {
-					Console.log("In line "+this.lineNumber+": Expected int.");
+			else if(this.cstmValue.getPrimitiveType() == PrimitiveType.INT) {
+				if(constCtx.INTEGERCONSTANT() == null) {
+					Console.log("In line " + this.lineNumber + " : Expected int type");
 				}
 			}
-			else if(this.cstmValue.getPrimitiveType().toString() == CstmKeywords.IS_FLOAT) {
-				if(typeSpecifierContext.Float() == null) {
-					Console.log("In line "+this.lineNumber+": Expected float.");
+			else if(this.cstmValue.getPrimitiveType() == PrimitiveType.FLOAT) {
+				if(constCtx.FLOATCONSTANT() == null) {
+					Console.log("In line " + this.lineNumber + " : Expected float type");
 				}
 			}
-			else if(this.cstmValue.getPrimitiveType().toString() == CstmKeywords.IS_STRING) {
-				if(expressionString.charAt(0) != '\"' && expressionString.charAt(expressionString.length() - 1) != '\"') {
-					Console.log("In line "+this.lineNumber+": Expected string.");
-				}
-				
-				else if(typeSpecifierContext.String() == null) {
-					Console.log("In line "+this.lineNumber+": Expected string.");
+			else if(this.cstmValue.getPrimitiveType() == PrimitiveType.STRING) {
+				if(constCtx.STRINGCONSTANT() == null) {
+					Console.log("In line " + this.lineNumber + " : Expected string type");
 				}
 			}
+		} 
+		// TypeChecker for regular assignment 
+		else if(ctx instanceof MutableContext){
+
+		} 
+		// TypeChecker for function call assignment
+		else if(ctx instanceof CallContext){
+
 		}
 	}
 

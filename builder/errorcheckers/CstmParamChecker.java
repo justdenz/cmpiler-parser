@@ -6,22 +6,23 @@ import builder.CstmBuildChecker;
 import builder.CstmErrorRepo;
 import model.CUSTOMParser.ArgsContext;
 import model.CUSTOMParser.ExpressionContext;
+import model.CUSTOMParser.SimpleExpressionContext;
 import console.Console;
 import semantics.representations.CstmFunction;
 
 public class CstmParamChecker implements CstmErrCheckerInterface{
 	private CstmFunction function;
-	private List<ExpressionContext> expressionCtxList;
+	private List<SimpleExpressionContext> expressionCtxList;
 	private int lineNumber;
 	
-	public CstmParamChecker(CstmFunction func, ArgsContext expressionCtxList) {
+	public CstmParamChecker(CstmFunction func, ArgsContext argsCtxList) {
 		this.function = func;
 
-		if(expressionCtxList != null) {
-			this.expressionCtxList = expressionCtxList.argList().expression();
+		if(argsCtxList.simpleExpression() != null) {
+			this.expressionCtxList = expressionCtxList;
 		}
 		
-		this.lineNumber = expressionCtxList.getStart().getLine();
+		//this.lineNumber = expressionCtxList.getStart().getLine();
 	}
 	
 	@Override

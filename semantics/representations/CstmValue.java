@@ -16,10 +16,9 @@ public class CstmValue {
 		ARRAY
     }
     
-    private Object defaultValue; //this value will no longer change.
 	private Object objValue;
 	private PrimitiveType primitiveType = PrimitiveType.NOT_YET_IDENTIFIED;
-    private boolean finalFlag = false;
+    private boolean isConstant = false;
     
     public CstmValue(Object value, String primitiveType) {
 
@@ -37,20 +36,16 @@ public class CstmValue {
 	public void setPrimitiveType(PrimitiveType primitiveType) {
 		this.primitiveType = primitiveType;
 	}
-	
-	public void reset() {
-		this.objValue = this.defaultValue;
-    }
 
     /*
 	 * Marks this value as final if there is a final keyword
 	 */
-	public void markFinal() {
-		this.finalFlag = true;
+	public void markConstant() {
+		this.isConstant = true;
 	}
 	
-	public boolean isFinal() {
-		return this.finalFlag;
+	public boolean isConstant() {
+		return this.isConstant;
     }
     
     public void setValue(String value) {

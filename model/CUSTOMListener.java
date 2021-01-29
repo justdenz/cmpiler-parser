@@ -538,16 +538,6 @@ public interface CUSTOMListener extends ParseTreeListener {
 	 */
 	void exitArgs(CUSTOMParser.ArgsContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link CUSTOMParser#argList}.
-	 * @param ctx the parse tree
-	 */
-	void enterArgList(CUSTOMParser.ArgListContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link CUSTOMParser#argList}.
-	 * @param ctx the parse tree
-	 */
-	void exitArgList(CUSTOMParser.ArgListContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link CUSTOMParser#constant}.
 	 * @param ctx the parse tree
 	 */

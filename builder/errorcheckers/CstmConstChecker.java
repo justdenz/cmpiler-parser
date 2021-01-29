@@ -9,7 +9,8 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 
 import builder.CstmBuildChecker;
 import builder.CstmErrorRepo;
-import model.CUSTOMParser.ExpressionContext;
+import model.CUSTOMParser.MutableContext;
+import model.CUSTOMParser.MutableContext;
 import semantics.representations.CstmValue;
 import semantics.representations.CstmFunction;
 import semantics.representations.CstmValueSearcher;
@@ -20,20 +21,19 @@ import semantics.symboltable.GlobalScopeManager;
 
 public class CstmConstChecker implements CstmErrCheckerInterface, ParseTreeListener{
 	
-	private ExpressionContext exprCtx;
+	private MutableContext mutableCtx;
 	private int lineNumber;
 	
-	public CstmConstChecker(ExpressionContext exprCtx) {
-		this.exprCtx = exprCtx;
-		
-		Token firstToken = this.exprCtx.getStart();
+	public CstmConstChecker(MutableContext mutableCtx) {
+		this.mutableCtx = mutableCtx;
+		Token firstToken = this.mutableCtx.getStart();
 		this.lineNumber = firstToken.getLine();
 	}
 	
 	@Override
 	public void verify() {
 		ParseTreeWalker treeWalker = new ParseTreeWalker();
-		treeWalker.walk(this, this.exprCtx);
+		treeWalker.walk(this, this.mutableCtx);
 	}
 
 	@Override
@@ -50,12 +50,9 @@ public class CstmConstChecker implements CstmErrCheckerInterface, ParseTreeListe
 
 	@Override
 	public void enterEveryRule(ParserRuleContext ctx) {
-		if(ctx instanceof ExpressionContext) {
-			ExpressionContext exprCtx = (ExpressionContext) ctx;
-			this.verifyVariableOrConst(exprCtx);
-			// if(EvaluationCommand.isVariableOrConst(exprCtx)) {
-			// 	this.verifyVariableOrConst(exprCtx);
-			// }
+		if(ctx instanceof MutableContext) {
+			MutableContext mutableCtx = (MutableContext) ctx;
+			this.verifyVariableOrConst(mutableCtx);
 		}
 	}
 
@@ -65,22 +62,7 @@ public class CstmConstChecker implements CstmErrCheckerInterface, ParseTreeListe
 		
 	}
 	
-	private void verifyVariableOrConst(ExpressionContext varExprCtx) {
-		CstmValue value = null;
+	private void verifyVariableOrConst(MutableContext mutableCtx) {
 		
-		// if(ExecutionManager.getInstance().isInFunctionExecution()) {
-		// 	Function function = ExecutionManager.getInstance().getCurrentFunction();
-		// 	value = VariableSearcher.searchVariableInFunction(function, varExprCtx.mutable().IDENTIFIER().getText());
-		// }
-		
-		// //if after function finding, mobi value is still null, search class
-		// if(value == null) {
-		// 	ClassScope classScope = SymbolTable.getInstance().getClassScope();
-		// 	value = VariableSearcher.searchVariableInClassIncludingLocal(classScope, varExprCtx.mutable().IDENTIFIER().getText());
-		// }
-		
-		if(value != null && value.isFinal()) {
-			CstmBuildChecker.reportCustomError(CstmErrorRepo.CONST_REASSIGNMENT, "", varExprCtx.getText(), this.lineNumber);
-		}
 	}
 }
