@@ -55,6 +55,12 @@ public class DeclarationListAnalyzer implements ParseTreeListener{
 				} else if(varDecCtx.typeSpecifier().Float() != null){
 					cstmValue = new CstmValue(null, CstmKeywords.IS_FLOAT);
 				}
+
+				// check if may constant declaration
+				if(cstmValue != null && varDecCtx.ConstantKey() != null){
+					cstmValue.markConstant();
+				}
+
 				// if may assignment of value, check if declared or compatible types
 				if(varDecCtx.variableDeclarationInitialize().Assign() != null){
 					CstmUnDecChecker undeclaredChecker = new CstmUnDecChecker(varDecCtx.variableDeclarationInitialize().simpleExpression());
@@ -85,14 +91,19 @@ public class DeclarationListAnalyzer implements ParseTreeListener{
 	
 				cstmValue = new CstmValue(cstmArray, CstmKeywords.IS_ARRAY);
 
+				if(cstmValue != null && arrDecCtx.ConstantKey() != null){
+					cstmValue.markConstant();
+				}
+
 				// if may assignment of array value, check if declared or compatible types
-				if(arrDecCtx.arrayDeclarationInitialize().Assign() != null && arrDecCtx.arrayDeclarationInitialize().arrayExpression() != null){
+				if(arrDecCtx.arrayDeclarationInitialize().simpleExpression() != null){
 					CstmUnDecChecker undeclaredChecker = new CstmUnDecChecker(arrDecCtx.arrayDeclarationInitialize().arrayExpression().simpleExpression());
 					CstmTypeChecker typeChecker = new CstmTypeChecker(cstmValue, arrDecCtx.arrayDeclarationInitialize().arrayExpression().simpleExpression());
 					undeclaredChecker.verify();
 					typeChecker.verify();
 				} else if(arrDecCtx.arrayDeclarationInitialize().arrayExpression() != null){
 					// (arrVarType = create arrValueType) i-check if same type ba yung variable and value assigned
+					System.out.println("it went here");
 					TypeSpecifierContext arrVarType = arrDecCtx.arrayTypeSpecifier().typeSpecifier();
 					TypeSpecifierContext arrValueType = arrDecCtx.arrayDeclarationInitialize().arrayExpression().typeSpecifier();
 

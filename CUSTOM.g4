@@ -29,6 +29,7 @@ arrayDeclaration
 
 arrayDeclarationInitialize
     : IDENTIFIER (Assign arrayExpression)
+    | IDENTIFIER (Assign simpleExpression)
     ;
 
 variableDeclaration
