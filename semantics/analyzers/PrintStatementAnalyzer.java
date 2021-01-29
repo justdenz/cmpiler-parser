@@ -7,16 +7,12 @@ public class PrintStatementAnalyzer {
   public void analyze(PrintStatementListContext ctx){
     if(ctx instanceof PrintStatementListContext){
 
-      if(ctx.simpleExpression() != null){
+      if(ctx.printParameters() != null){
         System.out.println("simpleExpression");
-        CstmUnDecChecker unDecChecker = new CstmUnDecChecker(ctx.simpleExpression());
+        CstmUnDecChecker unDecChecker = new CstmUnDecChecker(ctx.printParameters().simpleExpression());
         unDecChecker.verify();
       
-      } else if(ctx.printStatementList().simpleExpression() != null){
-        System.out.println("printlist + simpleExpression");
-        CstmUnDecChecker unDecChecker = new CstmUnDecChecker(ctx.printStatementList().simpleExpression());
-        unDecChecker.verify();
-      } 
+      }
     }
   }
 }

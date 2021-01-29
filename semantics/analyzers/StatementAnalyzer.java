@@ -6,7 +6,7 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
-import builder.errorcheckers.CstmUnDecChecker;
+import console.Console;
 import builder.errorcheckers.CstmUnDecChecker;
 import model.CUSTOMParser.CompoundStatementContext;
 import model.CUSTOMParser.PrintStatementContext;
@@ -27,7 +27,11 @@ public class StatementAnalyzer{
             if (stmtCtx.scanStatement() != null){
                 ScanStatementContext scanStatementCtx = stmtCtx.scanStatement();
                 if(scanStatementCtx.scanStatementList() != null){
-                    
+                    String scanStmtIdentifier =  scanStatementCtx.scanStatementList().IDENTIFIER().toString();
+                    if(GlobalScopeManager.getInstance().searchScopedVariable(scanStmtIdentifier) == null){
+                        Console.log("Variable not yet initialized.");
+                        System.out.println("variable not found");
+                    }
                 }
 
             } else if(stmtCtx.printStatement() != null){

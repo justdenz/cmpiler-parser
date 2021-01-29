@@ -86,9 +86,13 @@ printStatement
 
 printStatementList
     : (IDENTIFIER | INTEGERCONSTANT | illegalSymbols) (IDENTIFIER | INTEGERCONSTANT | illegalSymbols)+ {notifyErrorListeners("Missing double quotes in print statement. Consider wrapping it with double quotes.");}
-    | (simpleExpression | STRINGCONSTANT)
-    | printStatementList Plus (simpleExpression | STRINGCONSTANT)
+    | printParameters
+    | printStatementList Plus printParameters
     | printStatementList Plus {notifyErrorListeners("Excess '+' found in print statement. Consider removing it or concatenate with a variable.");}
+    ;
+
+printParameters
+    : simpleExpression | STRINGCONSTANT
     ;
 
 illegalSymbols

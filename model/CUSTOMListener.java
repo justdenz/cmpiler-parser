@@ -188,6 +188,16 @@ public interface CUSTOMListener extends ParseTreeListener {
 	 */
 	void exitPrintStatementList(CUSTOMParser.PrintStatementListContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link CUSTOMParser#printParameters}.
+	 * @param ctx the parse tree
+	 */
+	void enterPrintParameters(CUSTOMParser.PrintParametersContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CUSTOMParser#printParameters}.
+	 * @param ctx the parse tree
+	 */
+	void exitPrintParameters(CUSTOMParser.PrintParametersContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link CUSTOMParser#illegalSymbols}.
 	 * @param ctx the parse tree
 	 */

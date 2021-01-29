@@ -232,6 +232,18 @@ public class CUSTOMBaseListener implements CUSTOMListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterPrintParameters(CUSTOMParser.PrintParametersContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitPrintParameters(CUSTOMParser.PrintParametersContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterIllegalSymbols(CUSTOMParser.IllegalSymbolsContext ctx) { }
 	/**
 	 * {@inheritDoc}
