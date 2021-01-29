@@ -113,11 +113,7 @@ compoundStatementList
     ;
 
 selectionStatement
-    : If selectionDeclaration Then compoundStatement elseStatement?
-    ;
-
-selectionDeclaration
-    : LeftParen simpleExpression RightParen
+    : If LeftParen simpleExpression RightParen Then compoundStatement elseStatement?
     ;
     
 elseStatement

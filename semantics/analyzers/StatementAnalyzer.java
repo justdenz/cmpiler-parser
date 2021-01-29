@@ -51,7 +51,7 @@ public class StatementAnalyzer{
             } else if(stmtCtx.selectionStatement() != null){
                 SelectionStatementContext selectStmtCtx = stmtCtx.selectionStatement();
                 // verify the declared variables in condition
-                CstmUnDecChecker undecChecker = new CstmUnDecChecker(selectStmtCtx.selectionDeclaration().simpleExpression());
+                CstmUnDecChecker undecChecker = new CstmUnDecChecker(selectStmtCtx.simpleExpression());
                 undecChecker.verify();
                 
                 CstmLocalScope ifScope = new CstmLocalScope(GlobalScopeManager.getInstance().getCurrentScope());
@@ -62,7 +62,7 @@ public class StatementAnalyzer{
                 compoundStatementAnalyzer.analyze(selectStmtCtx.compoundStatement());
 
                 if(selectStmtCtx.elseStatement() != null){
-                    if(selectStmtCtx.compoundStatement() != null){
+                    if(selectStmtCtx.elseStatement().compoundStatement() != null){
                         CstmLocalScope elseScope = new CstmLocalScope(GlobalScopeManager.getInstance().getCurrentScope());
                         GlobalScopeManager.getInstance().setCurrentScope(elseScope);
                         System.out.println("Opened else scope");

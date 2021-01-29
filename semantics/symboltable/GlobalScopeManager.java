@@ -49,6 +49,11 @@ public class GlobalScopeManager {
 		return this.currentScope;
 	}
 
+	public void goToParentScope(){
+		if(currentScope != null)
+			currentScope = currentScope.getParent();
+	}
+
 	public void setCurrentScope(CstmLocalScope newCurrentScope){
 		this.currentScope = newCurrentScope;
 	}

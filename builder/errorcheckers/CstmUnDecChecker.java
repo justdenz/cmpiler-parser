@@ -65,10 +65,10 @@ public class CstmUnDecChecker implements CstmErrCheckerInterface, ParseTreeListe
 	private void verifyVariable(ParserRuleContext ctx) {
 
 		MutableContext mutableCtx = (MutableContext) ctx;
-		CstmValue value = GlobalScopeManager.getInstance().getCurrentScope().getVariable(mutableCtx.IDENTIFIER().getText());
+		CstmValue value = GlobalScopeManager.getInstance().searchScopedVariable(mutableCtx.IDENTIFIER().getText());
 		
 		if(value == null) {
-			Console.log("In line "+this.lineNumber+" : Variable not found: ");
+			Console.log("In line "+this.lineNumber+" : Variable not found.\n");
         } else {
 			System.out.println("Variable exists!");
 		}
@@ -80,7 +80,7 @@ public class CstmUnDecChecker implements CstmErrCheckerInterface, ParseTreeListe
 		CstmFunction function = GlobalScopeManager.getInstance().getFunction(callCtx.IDENTIFIER().getText());
 		
 		if(function == null) {
-			Console.log("In line "+this.lineNumber+" : Function not found: ");
+			Console.log("In line "+this.lineNumber+" : Function not found\n");
 		}
 		else {
 			System.out.println("Function exists!");
