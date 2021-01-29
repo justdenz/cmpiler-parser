@@ -122,7 +122,7 @@ selectionDeclaration
     
 elseStatement
     : Else Then compoundStatement
-    | Else selectionStatement 
+    | Else selectionStatement
     ;
 
 iterationStatement

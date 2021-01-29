@@ -26,7 +26,7 @@ public class CompoundStatementAnalyzer {
                 System.out.println("In line "+compoundStatementContext.declaration().getStart().getLine()+": Found local declaration");
             }
         }
-        
+
         CstmLocalScope parentScope = GlobalScopeManager.getInstance().getCurrentScope().getParent();
         GlobalScopeManager.getInstance().setCurrentScope(parentScope);
         System.out.println("Closed Scope");

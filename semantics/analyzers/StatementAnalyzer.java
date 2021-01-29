@@ -20,7 +20,7 @@ public class StatementAnalyzer{
     public StatementAnalyzer() {}
     
 
-	public void analyze(StatementContext ctx) {
+	public void analyze(ParserRuleContext ctx) {
         if(ctx instanceof StatementContext){
             StatementContext stmtCtx = (StatementContext) ctx;
 
@@ -35,7 +35,6 @@ public class StatementAnalyzer{
                 }
 
             } else if(stmtCtx.printStatement() != null){
-                // PrintAnalyzer
                 PrintStatementContext printStatementCtx = stmtCtx.printStatement();
                 if(printStatementCtx.printStatementList() != null){
                     PrintStatementAnalyzer printStatementAnalyzer = new PrintStatementAnalyzer();
@@ -44,56 +43,37 @@ public class StatementAnalyzer{
             } else if(stmtCtx.expressionStatement() != null){
                 // ExpressionAnalyzer
             } else if(stmtCtx.compoundStatement() != null){
-                CompoundStatementContext compoundCtx = ctx.compoundStatement();
+                CompoundStatementContext compoundCtx = stmtCtx.compoundStatement();
                 if(compoundCtx.compoundStatementList() != null){
                     CompoundStatementAnalyzer compoundStmtAnalyzer = new CompoundStatementAnalyzer();
                     compoundStmtAnalyzer.analyze(compoundCtx);
                 }
             } else if(stmtCtx.selectionStatement() != null){
-                // SelectionAnalyzer (if-elseif-else conditions)
-                SelectionStatementContext selectionStatementContext = ctx.selectionStatement();
+                SelectionStatementContext selectStmtCtx = stmtCtx.selectionStatement();
+                // verify the declared variables in condition
+                CstmUnDecChecker undecChecker = new CstmUnDecChecker(selectStmtCtx.selectionDeclaration().simpleExpression());
+                undecChecker.verify();
                 
-                if(selectionStatementContext.selectionDeclaration() != null){
-                    System.out.println("Found If Statement");
-                    CstmUnDecChecker undecChecker = new CstmUnDecChecker(selectionStatementContext.selectionDeclaration().simpleExpression());
-                    undecChecker.verify();
+                CstmLocalScope ifScope = new CstmLocalScope(GlobalScopeManager.getInstance().getCurrentScope());
+                GlobalScopeManager.getInstance().setCurrentScope(ifScope);
+                System.out.println("Opened if/else if scope");
 
-                    CstmLocalScope selectionScope = new CstmLocalScope();
-                    selectionScope.setParent(GlobalScopeManager.getInstance().getCurrentScope());
-                    GlobalScopeManager.getInstance().setCurrentScope(selectionScope);
+                CompoundStatementAnalyzer compoundStatementAnalyzer = new CompoundStatementAnalyzer();
+                compoundStatementAnalyzer.analyze(selectStmtCtx.compoundStatement());
 
-                    CompoundStatementAnalyzer compoundStatementAnalyzer = new CompoundStatementAnalyzer();
-                    compoundStatementAnalyzer.analyze(selectionStatementContext.compoundStatement());
-                }
-
-                //else if statement
-                if(selectionStatementContext.elseStatement() != null){
-                    System.out.println("Found else/elseif");
-                    if(selectionStatementContext.elseStatement().selectionStatement() != null){
-                        // System.out.println("Found else if!");
-                        CstmUnDecChecker undecChecker = new CstmUnDecChecker(selectionStatementContext.elseStatement().selectionStatement().selectionDeclaration().simpleExpression());
-                        undecChecker.verify();
-
-                        CstmLocalScope selectionScope = new CstmLocalScope();
-                        selectionScope.setParent(GlobalScopeManager.getInstance().getCurrentScope());
-                        GlobalScopeManager.getInstance().setCurrentScope(selectionScope);
-
-                        CompoundStatementAnalyzer compoundStatementAnalyzer = new CompoundStatementAnalyzer();
-                        compoundStatementAnalyzer.analyze(selectionStatementContext.compoundStatement());
-                    }else if(selectionStatementContext.elseStatement().compoundStatement() != null){//else then
-                        // System.out.println("Found else");
-                        
-                        
-                        CstmLocalScope selectionScope = new CstmLocalScope();
-                        selectionScope.setParent(GlobalScopeManager.getInstance().getCurrentScope());
-                        GlobalScopeManager.getInstance().setCurrentScope(selectionScope);
-
-                        CompoundStatementAnalyzer compoundStatementAnalyzer = new CompoundStatementAnalyzer();
-                        compoundStatementAnalyzer.analyze(selectionStatementContext.compoundStatement());
-    
+                if(selectStmtCtx.elseStatement() != null){
+                    if(selectStmtCtx.compoundStatement() != null){
+                        CstmLocalScope elseScope = new CstmLocalScope(GlobalScopeManager.getInstance().getCurrentScope());
+                        GlobalScopeManager.getInstance().setCurrentScope(elseScope);
+                        System.out.println("Opened else scope");
+                        CompoundStatementAnalyzer elseStatementAnalyzer = new CompoundStatementAnalyzer();
+                        elseStatementAnalyzer.analyze(selectStmtCtx.elseStatement().compoundStatement());
+                    } else {
+                        StatementAnalyzer stmtAnalyzer = new StatementAnalyzer();
+                        stmtAnalyzer.analyze(selectStmtCtx.elseStatement().selectionStatement());
                     }
+                    
                 } 
-                 
             } else if(stmtCtx.iterationStatement() != null){
                 // IterationAnalyzer (for and while loop)
                 IterationAnalyzer iterationAnalyzer = new IterationAnalyzer();
