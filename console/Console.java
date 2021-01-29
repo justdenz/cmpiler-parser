@@ -4,14 +4,13 @@ import java.util.ArrayList;
 public class Console {
 
   private static Console consoleInstance = null;
+  private ArrayList<String> logList;
 
   public static void createConsole() {
-    if (consoleInstance == null){
+    if (consoleInstance == null) {
       consoleInstance = new Console();
     }
   }
-
-  private ArrayList<String> logList;
 
   private Console() {
     this.logList = new ArrayList<String>();

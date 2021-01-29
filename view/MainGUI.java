@@ -45,13 +45,13 @@ public class MainGUI extends Application {
   // Event Handlers
 
   EventHandler<ActionEvent> compile = new EventHandler<ActionEvent>() {
-
+  
     @Override
     public void handle(ActionEvent event) {
       String input = editorArea.getInput();
       ArrayList<String> logList = new ArrayList<>();
       String output = "";
-
+      Console.initialize();
       try {
         controller.run(input);
         logList = Console.getLogList();

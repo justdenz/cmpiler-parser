@@ -19,6 +19,7 @@ public class MainBlkAnalyzer implements ParseTreeListener{
 
   public void analyze(MainBlockContext ctx){
 
+    System.out.println("Found main block!");
     ParseTreeWalker treeWalker = new ParseTreeWalker();
     treeWalker.walk(this, ctx);
   
@@ -26,7 +27,6 @@ public class MainBlkAnalyzer implements ParseTreeListener{
 
   @Override
   public void enterEveryRule(ParserRuleContext ctx) {
-
     if(ctx instanceof CompoundStatementContext){
       CompoundStatementContext compoundCtx = (CompoundStatementContext) ctx;
       CompoundStatementAnalyzer compoundStmtAnalyzer = new CompoundStatementAnalyzer();
