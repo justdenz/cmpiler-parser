@@ -2,6 +2,7 @@ package semantics.symboltable;
 
 import java.util.HashMap;
 
+import semantics.representations.CstmValue;
 import semantics.representations.CstmFunction;
 import semantics.symboltable.scopes.CstmLocalScope;
 
@@ -48,5 +49,22 @@ public class GlobalScopeManager {
 
 	public void setCurrentScope(CstmLocalScope newCurrentScope){
 		this.currentScope = newCurrentScope;
+	}
+
+	public CstmValue searchScopedVariable(String identifier){
+		CstmLocalScope localScope = this.currentScope;
+		CstmValue cstmValue = null;
+
+		while (localScope != null) {
+            cstmValue = localScope.getVariable(identifier);
+
+            if (cstmValue != null) {
+                return cstmValue;
+            } 
+
+            localScope = localScope.getParent();
+        }
+
+        return cstmValue;
 	}
 }

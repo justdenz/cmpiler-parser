@@ -13,6 +13,7 @@ import semantics.utils.CstmIdentifiedTokens;
 import model.CUSTOMParser.DeclarationContext;
 import model.CUSTOMParser.ExpressionContext;
 import model.CUSTOMParser.VariableDeclarationContext;
+import model.CUSTOMParser.VariableDeclarationInitializeContext;
 import model.CUSTOMParser.ArrayDeclarationContext;
 import model.CUSTOMParser.ConstantContext;
 import semantics.utils.CstmKeywords;
@@ -33,17 +34,23 @@ public class DeclarationListAnalyzer implements ParseTreeListener{
 	public void enterEveryRule(ParserRuleContext ctx) {
 		if(ctx instanceof DeclarationContext){
 			DeclarationContext decCtx = (DeclarationContext) ctx;
+			CstmValue value = null;
+			// check muna if may multiple declaration ng var or array sa GlobalScopeManager within the current scope
+			CstmMulVarDecChecker checker = new CstmMulVarDecChecker(decCtx);
+			checker.verify();
 
-			// check muna if may multiple declaration ng var or array
-
-			if(ctx instanceof ArrayDeclarationContext){
-				ArrayDeclarationContext arrDecCtx = (ArrayDeclarationContext) ctx;
-				//ArrayAnalyzer arrayAnalyzer = new ArrayAnalyzer(this.identifiedTokens, GlobalScopeManager.getInstance().getCurrentScope());
-				//arrayAnalyzer.analyze(ctx.getParent());
+			// check if variable declaration
+			if(decCtx.variableDeclaration() != null){
+				VariableDeclarationContext varDecCtx = decCtx.variableDeclaration();
+				
+				if(varDecCtx.typeSpecifier(0).Int() != null){
+					
+				}
 			}
-        else if(ctx instanceof VariableDeclarationContext){
+			// check if array declaration
+			else if(decCtx.arrayDeclaration() != null){
 
-        }
+			}
 		}
 		
 	}

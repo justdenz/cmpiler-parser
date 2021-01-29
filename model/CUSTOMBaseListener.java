@@ -88,18 +88,6 @@ public class CUSTOMBaseListener implements CUSTOMListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterArrayDeclarationList(CUSTOMParser.ArrayDeclarationListContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitArrayDeclarationList(CUSTOMParser.ArrayDeclarationListContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterArrayDeclarationInitialize(CUSTOMParser.ArrayDeclarationInitializeContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -107,18 +95,6 @@ public class CUSTOMBaseListener implements CUSTOMListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitArrayDeclarationInitialize(CUSTOMParser.ArrayDeclarationInitializeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterArrayDeclarationIdentifier(CUSTOMParser.ArrayDeclarationIdentifierContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitArrayDeclarationIdentifier(CUSTOMParser.ArrayDeclarationIdentifierContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -136,18 +112,6 @@ public class CUSTOMBaseListener implements CUSTOMListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterVariableDeclarationList(CUSTOMParser.VariableDeclarationListContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitVariableDeclarationList(CUSTOMParser.VariableDeclarationListContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterVariableDeclarationInitialize(CUSTOMParser.VariableDeclarationInitializeContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -155,18 +119,6 @@ public class CUSTOMBaseListener implements CUSTOMListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitVariableDeclarationInitialize(CUSTOMParser.VariableDeclarationInitializeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterVariableDeclarationIdentifier(CUSTOMParser.VariableDeclarationIdentifierContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitVariableDeclarationIdentifier(CUSTOMParser.VariableDeclarationIdentifierContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

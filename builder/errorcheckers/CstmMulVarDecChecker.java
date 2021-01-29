@@ -7,29 +7,47 @@ import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import console.Console;
 import builder.CstmBuildChecker;
 import builder.CstmErrorRepo;
-import model.CUSTOMParser.VariableDeclarationContext;
+import model.CUSTOMParser.ArrayDeclarationInitializeContext;
+import model.CUSTOMParser.DeclarationContext;
+import model.CUSTOMParser.VariableDeclarationInitializeContext;
 import semantics.representations.CstmValue;
 import semantics.representations.CstmFunction;
 import semantics.symboltable.GlobalScopeManager;
 
 public class CstmMulVarDecChecker implements CstmErrCheckerInterface, ParseTreeListener{
     
-    private VariableDeclarationContext varDecCtx;
+    private DeclarationContext decCtx;
     private int lineNumber;
     
-    public CstmMulVarDecChecker(VariableDeclarationContext varDecCtx){
-        this.varDecCtx = varDecCtx;
-		
-		Token firstToken = this.varDecCtx.getStart();
+    public CstmMulVarDecChecker(DeclarationContext decCtx){
+        this.decCtx = decCtx;
+		Token firstToken = this.decCtx.getStart();
 		this.lineNumber = firstToken.getLine();
     }
 
     @Override
 	public void verify() {
 		ParseTreeWalker treeWalker = new ParseTreeWalker();
-		treeWalker.walk(this, this.varDecCtx);
+		treeWalker.walk(this, this.decCtx);
+	}
+
+	@Override
+	public void enterEveryRule(ParserRuleContext ctx) {
+		if(ctx instanceof VariableDeclarationInitializeContext) {
+			VariableDeclarationInitializeContext varDecCtx = (VariableDeclarationInitializeContext) ctx;
+			if(GlobalScopeManager.getInstance().searchScopedVariable(varDecCtx.IDENTIFIER().getText()) != null){
+				Console.log("In line "+this.lineNumber+"Found multiple variable declaration");
+			}
+
+		} else if(ctx instanceof ArrayDeclarationInitializeContext) {
+			ArrayDeclarationInitializeContext arrDecCtx = (ArrayDeclarationInitializeContext) ctx;
+			if(GlobalScopeManager.getInstance().searchScopedVariable(arrDecCtx.IDENTIFIER().getText()) != null){
+				Console.log("In line "+this.lineNumber+"Found multiple array declaration");
+			}
+		}
 	}
 
 	@Override
@@ -45,40 +63,8 @@ public class CstmMulVarDecChecker implements CstmErrCheckerInterface, ParseTreeL
 	}
 
 	@Override
-	public void enterEveryRule(ParserRuleContext ctx) {
-		if(ctx instanceof VariableDeclarationContext) {
-			VariableDeclarationContext varDecCtx = (VariableDeclarationContext) ctx;
-			this.verifyVariableOrConst(varDecCtx.getText());
-		}
-	}
-
-	@Override
 	public void exitEveryRule(ParserRuleContext ctx) {
 		// TODO Auto-generated method stub
 		
-	}
-	
-	private void verifyVariableOrConst(String identifierString) {
-		CstmValue cstmValue = null;
-		
-		// if(ExecutionManager.getInstance().isInFunctionExecution()) {
-		// 	Function function = ExecutionManager.getInstance().getCurrentFunction();
-		// 	cstmValue = VariableSearcher.searchVariableInFunction(function, identifierString);
-		// }
-		
-		//if after function finding, mobi value is still null, search local scope
-		if(cstmValue == null) {
-			cstmValue = GlobalScopeManager.getInstance().getCurrentScope().getVariable(identifierString);
-		}
-		
-		//if mobi value is still null, search class
-		// if(cstmValue == null) {
-		// 	ClassScope classScope = SymbolTable.getInstance().getClassScope();
-		// 	cstmValue = VariableSearcher.searchVariableInClass(classScope, identifierString);
-		// }
-		
-		if(cstmValue != null) {
-			CstmBuildChecker.reportCustomError(CstmErrorRepo.MULTIPLE_VARIABLE, "", identifierString, this.lineNumber);
-		}
 	}
 }

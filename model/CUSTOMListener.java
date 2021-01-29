@@ -68,16 +68,6 @@ public interface CUSTOMListener extends ParseTreeListener {
 	 */
 	void exitArrayDeclaration(CUSTOMParser.ArrayDeclarationContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link CUSTOMParser#arrayDeclarationList}.
-	 * @param ctx the parse tree
-	 */
-	void enterArrayDeclarationList(CUSTOMParser.ArrayDeclarationListContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link CUSTOMParser#arrayDeclarationList}.
-	 * @param ctx the parse tree
-	 */
-	void exitArrayDeclarationList(CUSTOMParser.ArrayDeclarationListContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link CUSTOMParser#arrayDeclarationInitialize}.
 	 * @param ctx the parse tree
 	 */
@@ -87,16 +77,6 @@ public interface CUSTOMListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitArrayDeclarationInitialize(CUSTOMParser.ArrayDeclarationInitializeContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link CUSTOMParser#arrayDeclarationIdentifier}.
-	 * @param ctx the parse tree
-	 */
-	void enterArrayDeclarationIdentifier(CUSTOMParser.ArrayDeclarationIdentifierContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link CUSTOMParser#arrayDeclarationIdentifier}.
-	 * @param ctx the parse tree
-	 */
-	void exitArrayDeclarationIdentifier(CUSTOMParser.ArrayDeclarationIdentifierContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link CUSTOMParser#variableDeclaration}.
 	 * @param ctx the parse tree
@@ -108,16 +88,6 @@ public interface CUSTOMListener extends ParseTreeListener {
 	 */
 	void exitVariableDeclaration(CUSTOMParser.VariableDeclarationContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link CUSTOMParser#variableDeclarationList}.
-	 * @param ctx the parse tree
-	 */
-	void enterVariableDeclarationList(CUSTOMParser.VariableDeclarationListContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link CUSTOMParser#variableDeclarationList}.
-	 * @param ctx the parse tree
-	 */
-	void exitVariableDeclarationList(CUSTOMParser.VariableDeclarationListContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link CUSTOMParser#variableDeclarationInitialize}.
 	 * @param ctx the parse tree
 	 */
@@ -127,16 +97,6 @@ public interface CUSTOMListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitVariableDeclarationInitialize(CUSTOMParser.VariableDeclarationInitializeContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link CUSTOMParser#variableDeclarationIdentifier}.
-	 * @param ctx the parse tree
-	 */
-	void enterVariableDeclarationIdentifier(CUSTOMParser.VariableDeclarationIdentifierContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link CUSTOMParser#variableDeclarationIdentifier}.
-	 * @param ctx the parse tree
-	 */
-	void exitVariableDeclarationIdentifier(CUSTOMParser.VariableDeclarationIdentifierContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link CUSTOMParser#typeSpecifier}.
 	 * @param ctx the parse tree
