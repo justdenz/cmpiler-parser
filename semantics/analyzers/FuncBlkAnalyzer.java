@@ -20,14 +20,17 @@ public class FuncBlkAnalyzer implements ParseTreeListener{
 
 	private CstmFunction function = new CstmFunction();
 
-    public FuncBlkAnalyzer() {}
+    public FuncBlkAnalyzer() {
+
+	}
 	
 	public void analyze(FuncBlockContext ctx) {
 		
+		function.setFunctionName(ctx.IDENTIFIER().getText());
+		GlobalScopeManager.getInstance().addFunction(function.getFunctionName(), function);
+		
 		CstmMulFuncDecChecker mulFuncChecker = new CstmMulFuncDecChecker(ctx);
 		mulFuncChecker.verify();
-
-		function.setFunctionName(ctx.IDENTIFIER().getText());
 		
 		if(ctx.funcTypeSpecifier().typeSpecifier() != null){
 			TypeSpecifierContext typeSpecifier = ctx.funcTypeSpecifier().typeSpecifier();
@@ -52,6 +55,8 @@ public class FuncBlkAnalyzer implements ParseTreeListener{
             } else if (arrayTypeSpecifier.Float() != null){
                 function.setReturnType(FunctionType.FLOAT_TYPE, isArray);
             }
+		} else if(ctx.funcTypeSpecifier().getText() == "void"){
+			function.setReturnType(FunctionType.VOID_TYPE);
 		}
 		
         ParseTreeWalker walker = new ParseTreeWalker();

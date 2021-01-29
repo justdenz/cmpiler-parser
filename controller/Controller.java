@@ -9,6 +9,7 @@ import java.util.Arrays;
 import model.CUSTOMLexer;
 import model.CUSTOMParser;
 import model.CustomErrorListener;
+import model.ProgramCustomListener;
 import model.CustomError;
 
 import org.antlr.v4.gui.TreeViewer;
@@ -35,6 +36,10 @@ public class Controller {
       tree = parser.program();
 
       output = errorListener.getErrors();
+
+      ParseTreeWalker walker = new ParseTreeWalker();
+      ProgramCustomListener programCustomListener = new ProgramCustomListener();
+      walker.walk(programCustomListener, tree);
     } catch (IOException e) {
       e.printStackTrace();
     }

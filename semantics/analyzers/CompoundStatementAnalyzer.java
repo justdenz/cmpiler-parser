@@ -21,6 +21,7 @@ public class CompoundStatementAnalyzer {
                 StatementAnalyzer stmtAnalyzer = new StatementAnalyzer();
                 stmtAnalyzer.analyze(compoundStatementContext.statement());
                 Console.log("In line "+compoundStatementContext.statement().getStart().getLine()+": Found statement");
+                System.out.println("Found compound statement");
             }else if(compoundStatementContext.declaration() != null){
                 DeclarationListAnalyzer decAnalyzer = new DeclarationListAnalyzer();
                 decAnalyzer.analyze(compoundStatementContext.declaration());
@@ -30,6 +31,7 @@ public class CompoundStatementAnalyzer {
         
         CstmLocalScope parentScope = GlobalScopeManager.getInstance().getCurrentScope().getParent();
         GlobalScopeManager.getInstance().setCurrentScope(parentScope);
+        System.out.println("Closed scope");
     }
 
 }

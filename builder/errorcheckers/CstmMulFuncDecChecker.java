@@ -25,11 +25,9 @@ public class CstmMulFuncDecChecker implements CstmErrCheckerInterface {
 	}
 	
 	private void verifyFunctionCall(String identifierString) {
-
 		CstmFunction cstmFunction = GlobalScopeManager.getInstance().getFunction(identifierString);
-		
 		if(cstmFunction != null) {
-			CstmBuildChecker.reportCustomError(CstmErrorRepo.MULTIPLE_FUNCTION, "", identifierString, this.lineNumber);
+			//CstmBuildChecker.reportCustomError(CstmErrorRepo.MULTIPLE_FUNCTION, "", identifierString, this.lineNumber);
 		}
 	}
 }

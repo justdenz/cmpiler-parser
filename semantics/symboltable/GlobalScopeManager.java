@@ -11,9 +11,12 @@ public class GlobalScopeManager {
 	private static GlobalScopeManager sharedInstance = null;
 	
 	public static GlobalScopeManager getInstance() {
+		if(sharedInstance == null){
+			System.out.println("Global Scope Manger initialzed 1st time!");
+			sharedInstance = new GlobalScopeManager();
+		}
 		return sharedInstance;
 	}
-	
 	private CstmLocalScope currentScope;
 	private HashMap<String, CstmFunction> functionMap;
 	
@@ -22,9 +25,7 @@ public class GlobalScopeManager {
 		this.functionMap = new HashMap<String, CstmFunction>();
 	}
 	
-	public static void initialize() {
-		sharedInstance = new GlobalScopeManager();
-	}
+	
 	
 	public static void reset() {
 		sharedInstance.currentScope = null;
@@ -40,6 +41,7 @@ public class GlobalScopeManager {
 	}
 
 	public void addFunction(String identifier, CstmFunction function){
+		System.out.println("Created function: " + identifier);
 		this.functionMap.put(identifier, function);
 	}
 

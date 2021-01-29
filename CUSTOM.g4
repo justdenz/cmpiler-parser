@@ -10,12 +10,12 @@ mainBlock
 
 funcBlock
     : Func funcTypeSpecifier IDENTIFIER LeftParen params RightParen compoundStatement
-    | Func Void IDENTIFIER LeftParen params RightParen compoundStatement
     ; 
 
 funcTypeSpecifier
     : typeSpecifier
     | arrayTypeSpecifier
+    | Void
     ;
 
 declaration
@@ -110,12 +110,12 @@ compoundStatementList
     ;
 
 selectionStatement
-    : If LeftParen simpleExpression RightParen Then LeftBrace statement* RightBrace selectionStatementList
+    : If LeftParen simpleExpression RightParen Then compoundStatement elseStatement
     ;
 
-selectionStatementList
-    : ElseIf LeftParen simpleExpression RightParen Then LeftBrace statement* RightBrace selectionStatementList
-    | Else Then LeftBrace statement* RightBrace
+elseStatement
+    : Else selectionStatement
+    | Else Then compoundStatement
     ;
 
 iterationStatement

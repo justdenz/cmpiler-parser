@@ -18,6 +18,9 @@ public class CstmBuildChecker implements ANTLRErrorListener{
 	private boolean successful = true;
 	
 	public static CstmBuildChecker getInstance() {
+		if(sharedInstance == null){
+			sharedInstance = new CstmBuildChecker();
+		}
 		return sharedInstance;
 	}
 	
@@ -25,10 +28,6 @@ public class CstmBuildChecker implements ANTLRErrorListener{
 		
 	}
 	
-	public static void initialize() {
-		sharedInstance = new CstmBuildChecker();
-		CstmErrorRepo.initialize();
-	}
 	
 	public static void reset() {
 		sharedInstance.successful  = true;

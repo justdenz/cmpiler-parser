@@ -7,18 +7,14 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import model.CUSTOMParser.CompoundStatementContext;
+import model.CUSTOMParser.SelectionStatementContext;
 import model.CUSTOMParser.StatementContext;
 
-public class StatementAnalyzer implements ParseTreeListener{
+public class StatementAnalyzer{
     public StatementAnalyzer() {}
     
-    public void analyze(StatementContext ctx){
-        ParseTreeWalker walker = new ParseTreeWalker();
-        walker.walk(this, ctx);
-    }
 
-    @Override
-	public void enterEveryRule(ParserRuleContext ctx) {
+	public void analyze(StatementContext ctx) {
         if(ctx instanceof StatementContext){
             StatementContext stmtCtx = (StatementContext) ctx;
 
@@ -29,13 +25,15 @@ public class StatementAnalyzer implements ParseTreeListener{
             } else if(stmtCtx.expressionStatement() != null){
                 // ExpressionAnalyzer
             } else if(stmtCtx.compoundStatement() != null){
-                CompoundStatementContext compoundCtx = (CompoundStatementContext) ctx;
+                CompoundStatementContext compoundCtx = ctx.compoundStatement();
                 if(compoundCtx.compoundStatementList() != null){
                     CompoundStatementAnalyzer compoundStmtAnalyzer = new CompoundStatementAnalyzer();
                     compoundStmtAnalyzer.analyze(compoundCtx);
                 }
             } else if(stmtCtx.selectionStatement() != null){
                 // SelectionAnalyzer (if-elseif-else conditions)
+                SelectionStatementContext selectionStatementContext = ctx.selectionStatement();
+                System.out.println("Found selection statement");
             } else if(stmtCtx.iterationStatement() != null){
                 // IterationAnalyzer (for and while loop)
             } else if(stmtCtx.returnStatement() != null){
@@ -44,22 +42,4 @@ public class StatementAnalyzer implements ParseTreeListener{
         }
 	}
 
-    @Override
-	public void exitEveryRule(ParserRuleContext ctx) {
-		// TODO Auto-generated method stub
-		
-	}
-
-    @Override
-	public void visitTerminal(TerminalNode node) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visitErrorNode(ErrorNode node) {
-		// TODO Auto-generated method stub
-		
-	}
-    
 }

@@ -7,6 +7,8 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import model.CUSTOMParser.MainBlockContext;
+import semantics.symboltable.GlobalScopeManager;
+import semantics.symboltable.scopes.CstmLocalScope;
 import model.CUSTOMParser.CompoundStatementContext;;
 
 
@@ -24,6 +26,7 @@ public class MainBlkAnalyzer implements ParseTreeListener{
 
   @Override
   public void enterEveryRule(ParserRuleContext ctx) {
+
     if(ctx instanceof CompoundStatementContext){
       CompoundStatementContext compoundCtx = (CompoundStatementContext) ctx;
 			if(compoundCtx.compoundStatementList() != null){
