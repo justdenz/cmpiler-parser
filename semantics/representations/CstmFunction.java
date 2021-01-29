@@ -9,6 +9,7 @@ import builder.errorcheckers.CstmTypeChecker;
 import console.Console;
 import model.CUSTOMParser.ExpressionContext;
 import semantics.representations.CstmValue.PrimitiveType;
+import semantics.representations.CstmArray;
 import semantics.symboltable.scopes.CstmLocalScope;
 import semantics.utils.CstmKeywords;
 
@@ -58,6 +59,22 @@ public class CstmFunction {
 			case FLOAT_TYPE: this.returnValue = new CstmValue(0, CstmKeywords.IS_FLOAT); break;
 			case STRING_TYPE: this.returnValue = new CstmValue("", CstmKeywords.IS_STRING); break;
 			default:break;	
+		}
+	}
+	
+	public void setReturnType(FunctionType functionType, boolean isArray) {
+		this.returnType = functionType;
+
+		if(isArray){
+			CstmArray cstmArray = null;
+			switch(this.returnType) {
+				case BOOLEAN_TYPE: cstmArray = CstmArray.createArray(CstmKeywords.IS_BOOLEAN, null); break;
+				case INT_TYPE: cstmArray = CstmArray.createArray(CstmKeywords.IS_INT, null); break;
+				case FLOAT_TYPE: cstmArray = CstmArray.createArray(CstmKeywords.IS_FLOAT, null); break;
+				case STRING_TYPE: cstmArray = CstmArray.createArray(CstmKeywords.IS_STRING, null); break;
+				default:break;	
+			}
+			this.returnValue = new CstmValue(cstmArray, CstmKeywords.IS_ARRAY);
 		}
     }
     

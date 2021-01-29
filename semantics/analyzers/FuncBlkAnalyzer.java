@@ -31,25 +31,26 @@ public class FuncBlkAnalyzer implements ParseTreeListener{
 		
 		if(ctx.funcTypeSpecifier().typeSpecifier() != null){
 			TypeSpecifierContext typeSpecifier = ctx.funcTypeSpecifier().typeSpecifier();
-			if (typeSpecifier.Int()!= null){
+			if (typeSpecifier.Int() != null){
                 function.setReturnType(FunctionType.INT_TYPE);
-            } else if (typeSpecifier.Boolean()!= null){
+            } else if (typeSpecifier.Boolean() != null){
                 function.setReturnType(FunctionType.BOOLEAN_TYPE);
-            } else if (typeSpecifier.String()!= null){
+            } else if (typeSpecifier.String() != null){
                 function.setReturnType(FunctionType.STRING_TYPE);
-            } else if (typeSpecifier.Float()!= null){
+            } else if (typeSpecifier.Float() != null){
                 function.setReturnType(FunctionType.FLOAT_TYPE);
             }
 		} else if(ctx.funcTypeSpecifier().arrayTypeSpecifier() != null){
 			TypeSpecifierContext arrayTypeSpecifier = ctx.funcTypeSpecifier().arrayTypeSpecifier().typeSpecifier();
-			if (arrayTypeSpecifier.Int()!= null){
-                function.setReturnType(FunctionType.INT_TYPE);
-            } else if (arrayTypeSpecifier.Boolean()!= null){
-                function.setReturnType(FunctionType.BOOLEAN_TYPE);
-            } else if (arrayTypeSpecifier.String()!= null){
-                function.setReturnType(FunctionType.STRING_TYPE);
-            } else if (arrayTypeSpecifier.Float()!= null){
-                function.setReturnType(FunctionType.FLOAT_TYPE);
+			boolean isArray = true;
+			if (arrayTypeSpecifier.Int() != null){
+                function.setReturnType(FunctionType.INT_TYPE, isArray);
+            } else if (arrayTypeSpecifier.Boolean() != null){
+                function.setReturnType(FunctionType.BOOLEAN_TYPE, isArray);
+            } else if (arrayTypeSpecifier.String() != null){
+                function.setReturnType(FunctionType.STRING_TYPE, isArray);
+            } else if (arrayTypeSpecifier.Float() != null){
+                function.setReturnType(FunctionType.FLOAT_TYPE, isArray);
             }
 		}
 		
