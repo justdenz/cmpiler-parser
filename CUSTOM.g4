@@ -28,8 +28,8 @@ arrayDeclaration
     ;
 
 arrayDeclarationInitialize
-    : IDENTIFIER (Assign arrayExpression)
-    | IDENTIFIER (Assign simpleExpression)
+    : IDENTIFIER (Assign arrayExpression)?
+    | IDENTIFIER (Assign simpleExpression)?
     ;
 
 variableDeclaration
@@ -38,7 +38,7 @@ variableDeclaration
     ;
 
 variableDeclarationInitialize
-    : IDENTIFIER (Assign simpleExpression)
+    : IDENTIFIER (Assign simpleExpression)?
     ;
 
 typeSpecifier

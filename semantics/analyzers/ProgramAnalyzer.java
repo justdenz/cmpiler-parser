@@ -43,7 +43,6 @@ public class ProgramAnalyzer implements ParseTreeListener{
 			CstmLocalScope functionScope = new CstmLocalScope();
 			functionScope.setParent(GlobalScopeManager.getInstance().getCurrentScope());
 			GlobalScopeManager.getInstance().setCurrentScope(functionScope);
-
 			FuncBlockContext funcCtx = (FuncBlockContext) ctx;
 			FuncBlkAnalyzer funcAnalyzer = new FuncBlkAnalyzer();
 			funcAnalyzer.analyze(funcCtx);
