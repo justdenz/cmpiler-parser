@@ -22,6 +22,7 @@ public class Console {
 	}
 
   public static void log(final String logMessage){
+    createConsole();
     consoleInstance.logList.add(logMessage);
   }
 

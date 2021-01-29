@@ -11,10 +11,13 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import model.CUSTOMParser.FuncBlockContext;
 import model.CUSTOMParser.MainBlockContext;
 import model.CUSTOMParser.ProgramContext;
+import semantics.symboltable.GlobalScopeManager;
 
 public class ProgramAnalyzer implements ParseTreeListener{
     
-    public ProgramAnalyzer() {}
+    public ProgramAnalyzer() {
+		GlobalScopeManager.getInstance();
+	}
 
     public void analyze(ProgramContext ctx) {
         ParseTreeWalker treeWalker = new ParseTreeWalker();
