@@ -12,6 +12,7 @@ import model.CUSTOMParser.FuncBlockContext;
 import model.CUSTOMParser.MainBlockContext;
 import model.CUSTOMParser.ProgramContext;
 import semantics.symboltable.GlobalScopeManager;
+import semantics.symboltable.scopes.CstmLocalScope;
 
 public class ProgramAnalyzer implements ParseTreeListener{
     
@@ -38,10 +39,15 @@ public class ProgramAnalyzer implements ParseTreeListener{
 	@Override
 	public void enterEveryRule(ParserRuleContext ctx) {
 		if(ctx instanceof FuncBlockContext) {
+			System.out.println("Found function block");
 			FuncBlockContext funcCtx = (FuncBlockContext) ctx;
 			FuncBlkAnalyzer funcAnalyzer = new FuncBlkAnalyzer();
 			funcAnalyzer.analyze(funcCtx);
         } else if(ctx instanceof MainBlockContext) {
+			System.out.println("Found main block");
+			CstmLocalScope mainScope = new CstmLocalScope();
+			mainScope.setParent(GlobalScopeManager.getInstance().getCurrentScope());
+			GlobalScopeManager.getInstance().setCurrentScope(mainScope);
 			MainBlockContext mainCtx = (MainBlockContext) ctx;
 			MainBlkAnalyzer mainAnalyzer = new MainBlkAnalyzer();
 			mainAnalyzer.analyze(mainCtx);

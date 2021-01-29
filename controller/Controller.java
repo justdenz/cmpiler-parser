@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 
+import console.Console;
 import model.CUSTOMLexer;
 import model.CUSTOMParser;
 import model.CustomErrorListener;
@@ -22,6 +23,7 @@ public class Controller {
   ParseTree tree;
 
   public void run(String input) throws Exception {
+    Console.initialize();
     CustomErrorListener errorListener = new CustomErrorListener();
     InputStream inputStream = new ByteArrayInputStream(input.getBytes());
     try {

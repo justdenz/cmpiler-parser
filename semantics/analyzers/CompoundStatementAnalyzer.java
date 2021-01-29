@@ -20,21 +20,17 @@ public class CompoundStatementAnalyzer {
             if(compoundStatementContext.statement() != null){
                 StatementAnalyzer stmtAnalyzer = new StatementAnalyzer();
                 stmtAnalyzer.analyze(compoundStatementContext.statement());
-                Console.log("In line "+compoundStatementContext.statement().getStart().getLine()+": Found statement");
-                System.out.println("Found compound statement");
+                System.out.println("In line "+compoundStatementContext.statement().getStart().getLine()+": Found statement");
             }else if(compoundStatementContext.declaration() != null){
                 DeclarationListAnalyzer decAnalyzer = new DeclarationListAnalyzer();
                 decAnalyzer.analyze(compoundStatementContext.declaration());
-                Console.log("In line "+compoundStatementContext.declaration().getStart().getLine()+": Found local declaration");
+                System.out.println("In line "+compoundStatementContext.declaration().getStart().getLine()+": Found local declaration");
             }
         }
         
-        if(GlobalScopeManager.getInstance().getCurrentScope() != null){
-            CstmLocalScope parentScope = GlobalScopeManager.getInstance().getCurrentScope().getParent();
-            GlobalScopeManager.getInstance().setCurrentScope(parentScope);
-        } else {
-            GlobalScopeManager.getInstance().setCurrentScope(null);
-        }
+        CstmLocalScope parentScope = GlobalScopeManager.getInstance().getCurrentScope().getParent();
+        GlobalScopeManager.getInstance().setCurrentScope(parentScope);
+        System.out.println("Closed Scope");
     }
 
 }

@@ -13,26 +13,21 @@ import model.CUSTOMParser.CompoundStatementContext;;
 
 
 public class MainBlkAnalyzer implements ParseTreeListener{
-  public MainBlkAnalyzer(){
-
-  }
+  public MainBlkAnalyzer(){}
 
   public void analyze(MainBlockContext ctx){
-
-    System.out.println("Found main block!");
     ParseTreeWalker treeWalker = new ParseTreeWalker();
     treeWalker.walk(this, ctx);
-  
   }
 
   @Override
   public void enterEveryRule(ParserRuleContext ctx) {
     if(ctx instanceof CompoundStatementContext){
+      System.out.println("Opened Scope");
       CompoundStatementContext compoundCtx = (CompoundStatementContext) ctx;
       CompoundStatementAnalyzer compoundStmtAnalyzer = new CompoundStatementAnalyzer();
       compoundStmtAnalyzer.analyze(compoundCtx);
     }
-    
   }
 
   @Override

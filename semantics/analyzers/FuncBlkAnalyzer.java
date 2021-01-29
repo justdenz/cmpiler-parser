@@ -72,6 +72,7 @@ public class FuncBlkAnalyzer implements ParseTreeListener{
 				paramsAnalyzer.analyze(paramCtx.paramList());
 			}
 		} else if (ctx instanceof CompoundStatementContext){
+			System.out.println("Opened Scope");
 			CompoundStatementContext compoundCtx = (CompoundStatementContext) ctx;
 
 			//Before entering the local scope of the function, update current scope in ScopeManager

@@ -19,6 +19,7 @@ public class CstmLocalScope {
 	
 	public CstmLocalScope() {
 		this.parentScope = null;
+		this.initializeLocalVariableMap();
 	}
 	
 	public CstmLocalScope(CstmLocalScope parentScope) {

@@ -51,7 +51,6 @@ public class MainGUI extends Application {
       String input = editorArea.getInput();
       ArrayList<String> logList = new ArrayList<>();
       String output = "";
-      Console.initialize();
       try {
         controller.run(input);
         logList = Console.getLogList();
@@ -62,6 +61,7 @@ public class MainGUI extends Application {
             output += output + log;
           }
           terminalPane.getConsole().setText(output);
+          Console.clearLogList();
         }
       } catch (Exception e) {
         e.printStackTrace();

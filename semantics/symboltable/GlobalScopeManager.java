@@ -46,12 +46,10 @@ public class GlobalScopeManager {
 	}
 
 	public CstmLocalScope getCurrentScope(){
-		System.out.println("Open Scope");
 		return this.currentScope;
 	}
 
 	public void setCurrentScope(CstmLocalScope newCurrentScope){
-		System.out.println("Closed Scope");
 		this.currentScope = newCurrentScope;
 	}
 
@@ -60,7 +58,8 @@ public class GlobalScopeManager {
 		CstmValue cstmValue = null;
 
 		while (localScope != null) {
-            cstmValue = localScope.getVariable(identifier);
+			if(localScope.getVariable(identifier) != null)
+            	cstmValue = localScope.getVariable(identifier);
 
             if (cstmValue != null) {
                 return cstmValue;
