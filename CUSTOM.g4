@@ -108,7 +108,7 @@ compoundStatementList
     ;
 
 selectionStatement
-    : If LeftParen simpleExpression RightParen Then compoundStatement elseStatement
+    : If LeftParen simpleExpression RightParen Then compoundStatement elseStatement?
     ;
 
 elseStatement
