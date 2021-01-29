@@ -30,10 +30,10 @@ public class CstmParamChecker implements CstmErrCheckerInterface{
 			return;
 		}
 		
-		if(this.expressionCtxList == null && this.function.getParameterValueSize() != 0) {
+		if(this.expressionCtxList == null && this.function.getParameterCount() != 0) {
 			CstmBuildChecker.reportCustomError(CstmErrorRepo.PARAMETER_COUNT_MISMATCH, "", this.function.getFunctionName(), this.lineNumber);
 		}
-		else if(this.expressionCtxList != null && this.expressionCtxList.size() != this.function.getParameterValueSize()) {
+		else if(this.expressionCtxList != null && this.expressionCtxList.size() != this.function.getParameterCount()) {
 			CstmBuildChecker.reportCustomError(CstmErrorRepo.PARAMETER_COUNT_MISMATCH, "", this.function.getFunctionName(), this.lineNumber);
 		}
 	}

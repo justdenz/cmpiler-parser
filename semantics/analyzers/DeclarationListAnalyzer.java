@@ -15,7 +15,7 @@ import model.CUSTOMParser.ExpressionContext;
 import model.CUSTOMParser.VariableDeclarationContext;
 import model.CUSTOMParser.ArrayDeclarationContext;
 import model.CUSTOMParser.ConstantContext;
-import semantics.utils.CstmRecognizedKeywords;
+import semantics.utils.CstmKeywords;
 import semantics.symboltable.GlobalScopeManager;
 import semantics.symboltable.scopes.CstmLocalScope;
 import semantics.representations.CstmValue;
@@ -84,14 +84,13 @@ public class DeclarationListAnalyzer implements ParseTreeListener{
 			}
 			
 			this.identifiedTokens.addToken(IDENTIFIER_KEY, varCtx.typeSpecifier().toString());
-			this.createCstmValue();
 			
 			if(varCtx.variableDeclarationList().variableDeclarationInitialize() != null) {
 				
 				//we do not evaluate strings.
 				if(this.identifiedTokens.containsTokens(PRIMITIVE_TYPE_KEY)) {
 					String primitiveTypeString = this.identifiedTokens.getToken(PRIMITIVE_TYPE_KEY);
-					if(primitiveTypeString.contains(CstmRecognizedKeywords.PRIMITIVE_TYPE_STRING)) {
+					if(primitiveTypeString.contains(CstmKeywords.IS_STRING)) {
 						this.identifiedTokens.addToken(IDENTIFIER_VALUE_KEY, varCtx.variableDeclarationList().variableDeclarationInitialize().variableDeclarationIdentifier().getText()); 
 					}
 				}
@@ -126,38 +125,5 @@ public class DeclarationListAnalyzer implements ParseTreeListener{
 	
 	public void markImmediateExecution() {
 		this.executeMappingImmediate = true;
-	}
-	
-	/*
-	 * Attempts to create an intermediate representation of the variable once a sufficient amount of info has been retrieved.
-	 */
-	private void createCstmValue() {
-		
-		if(this.identifiedTokens.containsTokens(PRIMITIVE_TYPE_KEY, IDENTIFIER_KEY)) {
-			
-			String primitiveTypeString = this.identifiedTokens.getToken(PRIMITIVE_TYPE_KEY);
-			String identifierString = this.identifiedTokens.getToken(IDENTIFIER_KEY);
-			String identifierValueString = null;
-			
-			CstmLocalScope localScope = GlobalScopeManager.getInstance().getCurrentScope();
-			
-			if(this.identifiedTokens.containsTokens(IDENTIFIER_VALUE_KEY)) {
-				identifierValueString = this.identifiedTokens.getToken(IDENTIFIER_VALUE_KEY);
-
-				CstmValue cstmValue = CstmValue.createEmptyVariableFromKeywords(primitiveTypeString);
-				cstmValue.setValue(identifierValueString);
-				localScope.addVariable(identifierString, cstmValue);
-				
-			}
-			else {
-				CstmValue cstmValue = CstmValue.createEmptyVariableFromKeywords(primitiveTypeString);
-				localScope.addVariable(identifierString, cstmValue);
-			}
-			
-			//remove the following tokens
-			this.identifiedTokens.removeToken(IDENTIFIER_KEY);
-            this.identifiedTokens.removeToken(IDENTIFIER_VALUE_KEY);
-            
-		}
 	}
 }

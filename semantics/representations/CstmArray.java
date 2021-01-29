@@ -2,7 +2,7 @@ package semantics.representations;
 
 import console.Console;
 import semantics.representations.CstmValue.PrimitiveType;
-import semantics.utils.CstmRecognizedKeywords;
+import semantics.utils.CstmKeywords;
 
 public class CstmArray {
 
@@ -68,16 +68,16 @@ public class CstmArray {
 		//identify primitive type
 		PrimitiveType primitiveType = PrimitiveType.NOT_YET_IDENTIFIED;
 		
-		if(CstmRecognizedKeywords.matchesKeyword(CstmRecognizedKeywords.PRIMITIVE_TYPE_BOOLEAN, primitiveTypeString)) {
+		if(CstmKeywords.matchesKeyword(CstmKeywords.IS_BOOLEAN, primitiveTypeString)) {
 			primitiveType = PrimitiveType.BOOLEAN;
 		}
-		else if(CstmRecognizedKeywords.matchesKeyword(CstmRecognizedKeywords.PRIMITIVE_TYPE_FLOAT, primitiveTypeString)) {
+		else if(CstmKeywords.matchesKeyword(CstmKeywords.IS_FLOAT, primitiveTypeString)) {
 			primitiveType = PrimitiveType.FLOAT;
 		}
-		else if(CstmRecognizedKeywords.matchesKeyword(CstmRecognizedKeywords.PRIMITIVE_TYPE_INT, primitiveTypeString)) {
+		else if(CstmKeywords.matchesKeyword(CstmKeywords.IS_INT, primitiveTypeString)) {
 			primitiveType = PrimitiveType.INT;
 		}
-		else if(CstmRecognizedKeywords.matchesKeyword(CstmRecognizedKeywords.PRIMITIVE_TYPE_STRING, primitiveTypeString)) {
+		else if(CstmKeywords.matchesKeyword(CstmKeywords.IS_STRING, primitiveTypeString)) {
 			primitiveType = PrimitiveType.STRING;
 		}
 		

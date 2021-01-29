@@ -25,10 +25,11 @@ public class MainBlkAnalyzer implements ParseTreeListener{
   @Override
   public void enterEveryRule(ParserRuleContext ctx) {
     if(ctx instanceof CompoundStatementContext){
-      // prepare compound analyzer
-      // CompoundStatementContext compoundCtx = (CompoundStatementContext) ctx;
-      // CompoundStatementAnalyzer compoundStmtAnalyzer = new CompoundStatementAnalyzer();
-      // compoundStmtAnalyzer.analyze(compoundCtx);
+      CompoundStatementContext compoundCtx = (CompoundStatementContext) ctx;
+			if(compoundCtx.compoundStatementList() != null){
+				CompoundStatementAnalyzer compoundStmtAnalyzer = new CompoundStatementAnalyzer();
+				compoundStmtAnalyzer.analyze(compoundCtx);
+			}
     }
     
   }

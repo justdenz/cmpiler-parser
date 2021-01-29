@@ -13,6 +13,8 @@ import model.CUSTOMParser.ParamsContext;
 import model.CUSTOMParser.TypeSpecifierContext;
 import semantics.representations.CstmFunction;
 import semantics.representations.CstmFunction.FunctionType;
+import semantics.symboltable.GlobalScopeManager;
+import semantics.symboltable.scopes.CstmLocalScope;
 
 public class FuncBlkAnalyzer implements ParseTreeListener{
 
@@ -63,10 +65,18 @@ public class FuncBlkAnalyzer implements ParseTreeListener{
 				ParamsAnalyzer paramsAnalyzer = new ParamsAnalyzer(this.function);
 				paramsAnalyzer.analyze(paramCtx.paramList());
 			}
-			
-		}
-		else if (ctx instanceof CompoundStatementContext){
-			// compound statement analyzer
+		} else if (ctx instanceof CompoundStatementContext){
+			CompoundStatementContext compoundCtx = (CompoundStatementContext) ctx;
+
+			//Before entering the local scope of the function, update current scope in ScopeManager
+			CstmLocalScope parentScope = GlobalScopeManager.getInstance().getCurrentScope();
+			function.getFunctionLocalScope().setParent(parentScope);
+			GlobalScopeManager.getInstance().setCurrentScope(function.getFunctionLocalScope());
+
+			if(compoundCtx.compoundStatementList() != null){
+				CompoundStatementAnalyzer compoundStmtAnalyzer = new CompoundStatementAnalyzer();
+				compoundStmtAnalyzer.analyze(compoundCtx);
+			}
 		}
 	}
 

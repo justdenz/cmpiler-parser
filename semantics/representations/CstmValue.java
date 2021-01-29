@@ -2,7 +2,7 @@ package semantics.representations;
 
 import javax.swing.text.StringContent;
 
-import semantics.utils.CstmRecognizedKeywords;
+import semantics.utils.CstmKeywords;
 
 public class CstmValue {
     
@@ -21,10 +21,13 @@ public class CstmValue {
 	private PrimitiveType primitiveType = PrimitiveType.NOT_YET_IDENTIFIED;
     private boolean finalFlag = false;
     
-    public CstmValue(Object value, PrimitiveType primitiveType) {
-		if(value == null || checkValueType(value, primitiveType)) {
+    public CstmValue(Object value, String primitiveType) {
+
+		PrimitiveType verifiedPrimType = verifyPrimType(primitiveType);
+
+		if(value == null || checkValueType(value, verifiedPrimType)) {
 			this.objValue = value;
-			this.primitiveType = primitiveType;
+			this.primitiveType = verifiedPrimType;
 		}
 		else {
 			System.out.println("Value is not appropriate for  " + primitiveType + "!");
@@ -90,27 +93,27 @@ public class CstmValue {
 		}
     }
     
-    public static CstmValue createEmptyVariableFromKeywords(String primitiveTypeString) {
+    public static PrimitiveType verifyPrimType(String primitiveTypeString) {
 		
 		//identify primitive type
 		PrimitiveType primitiveType = PrimitiveType.NOT_YET_IDENTIFIED;
 		
-		if(CstmRecognizedKeywords.matchesKeyword(CstmRecognizedKeywords.PRIMITIVE_TYPE_BOOLEAN, primitiveTypeString)) {
+		if(CstmKeywords.matchesKeyword(CstmKeywords.IS_BOOLEAN, primitiveTypeString)) {
 			primitiveType = PrimitiveType.BOOLEAN;
 		}
-		else if(CstmRecognizedKeywords.matchesKeyword(CstmRecognizedKeywords.PRIMITIVE_TYPE_FLOAT, primitiveTypeString)) {
+		else if(CstmKeywords.matchesKeyword(CstmKeywords.IS_FLOAT, primitiveTypeString)) {
 			primitiveType = PrimitiveType.FLOAT;
 		}
-		else if(CstmRecognizedKeywords.matchesKeyword(CstmRecognizedKeywords.PRIMITIVE_TYPE_INT, primitiveTypeString)) {
+		else if(CstmKeywords.matchesKeyword(CstmKeywords.IS_INT, primitiveTypeString)) {
 			primitiveType = PrimitiveType.INT;
 		}
-		else if(CstmRecognizedKeywords.matchesKeyword(CstmRecognizedKeywords.PRIMITIVE_TYPE_STRING, primitiveTypeString)) {
+		else if(CstmKeywords.matchesKeyword(CstmKeywords.IS_STRING, primitiveTypeString)) {
 			primitiveType = PrimitiveType.STRING;
 		}
-		
-		//create empty cstmValue
-		CstmValue cstmValue = new CstmValue(null, primitiveType);
+		else if(CstmKeywords.matchesKeyword(CstmKeywords.IS_ARRAY, primitiveTypeString)) {
+			primitiveType = PrimitiveType.ARRAY;
+		}
 	
-		return cstmValue;
+		return primitiveType;
 	}
 }

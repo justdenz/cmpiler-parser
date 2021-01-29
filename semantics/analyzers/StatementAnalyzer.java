@@ -29,10 +29,11 @@ public class StatementAnalyzer implements ParseTreeListener{
             } else if(stmtCtx.expressionStatement() != null){
                 // ExpressionAnalyzer
             } else if(stmtCtx.compoundStatement() != null){
-                // not yet sure if ganito
-                CompoundStatementContext compoundStmtCtx = stmtCtx.compoundStatement();
-                CompoundStatementAnalyzer compoundAnalyzer = new CompoundStatementAnalyzer();
-                compoundAnalyzer.analyze(compoundStmtCtx);
+                CompoundStatementContext compoundCtx = (CompoundStatementContext) ctx;
+                if(compoundCtx.compoundStatementList() != null){
+                    CompoundStatementAnalyzer compoundStmtAnalyzer = new CompoundStatementAnalyzer();
+                    compoundStmtAnalyzer.analyze(compoundCtx);
+                }
             } else if(stmtCtx.selectionStatement() != null){
                 // SelectionAnalyzer (if-elseif-else conditions)
             } else if(stmtCtx.iterationStatement() != null){

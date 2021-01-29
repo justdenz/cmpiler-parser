@@ -11,6 +11,8 @@ import java.util.List;
 import console.Console;
 import model.CUSTOMParser.ParamListContext;
 import semantics.representations.CstmValue;
+import semantics.representations.CstmValue.PrimitiveType;
+import semantics.utils.CstmKeywords;
 import semantics.representations.CstmFunction;
 import semantics.representations.CstmArray;
 
@@ -36,22 +38,22 @@ public class ParamsAnalyzer implements ParseTreeListener{
             ParamListContext paramCtx = (ParamListContext) ctx;
             // check if duplicate parameter
             String paramName = paramCtx.IDENTIFIER().getText();
-            if(function.hasParameter(paramName)){
+            if(function.getParameter(paramName) != null){
                 Console.log("In line "+paramCtx.getStart().getLine()+" :Found duplicate parameter");
             } 
             // check if variable type specifier
             if(paramCtx.typeSpecifier() != null){
                 if(paramCtx.typeSpecifier().Int() != null){
-                    CstmValue cstmValue = new CstmValue(null, CstmValue.PrimitiveType.INT);
+                    CstmValue cstmValue = new CstmValue(null, CstmKeywords.IS_INT);
                     this.function.addParameter(paramName, cstmValue);
                 } else if(paramCtx.typeSpecifier().Float() != null){
-                    CstmValue cstmValue = new CstmValue(null, CstmValue.PrimitiveType.FLOAT);
+                    CstmValue cstmValue = new CstmValue(null, CstmKeywords.IS_FLOAT);
                     this.function.addParameter(paramName, cstmValue);
                 } else if(paramCtx.typeSpecifier().Boolean() != null){
-                    CstmValue cstmValue = new CstmValue(null, CstmValue.PrimitiveType.BOOLEAN);
+                    CstmValue cstmValue = new CstmValue(null, CstmKeywords.IS_BOOLEAN);
                     this.function.addParameter(paramName, cstmValue);
                 } else if(paramCtx.typeSpecifier().String() != null){
-                    CstmValue cstmValue = new CstmValue(null, CstmValue.PrimitiveType.STRING);
+                    CstmValue cstmValue = new CstmValue(null, CstmKeywords.IS_STRING);
                     this.function.addParameter(paramName, cstmValue);
                 }
             }
@@ -59,15 +61,15 @@ public class ParamsAnalyzer implements ParseTreeListener{
             else if(paramCtx.arrayTypeSpecifier().typeSpecifier() != null){
                 CstmArray cstmArray = null;
                 if(paramCtx.arrayTypeSpecifier().typeSpecifier().Int() != null){
-                    cstmArray = new CstmArray(CstmValue.PrimitiveType.INT, paramName);
+                    cstmArray = new CstmArray(PrimitiveType.INT, paramName);
                 } else if(paramCtx.arrayTypeSpecifier().typeSpecifier().Float() != null){
-                    cstmArray = new CstmArray(CstmValue.PrimitiveType.FLOAT, paramName);
+                    cstmArray = new CstmArray(PrimitiveType.FLOAT, paramName);
                 } else if(paramCtx.arrayTypeSpecifier().typeSpecifier().Boolean() != null){
-                    cstmArray = new CstmArray(CstmValue.PrimitiveType.BOOLEAN, paramName);
+                    cstmArray = new CstmArray(PrimitiveType.BOOLEAN, paramName);
                 } else if(paramCtx.arrayTypeSpecifier().typeSpecifier().String() != null){
-                    cstmArray = new CstmArray(CstmValue.PrimitiveType.STRING, paramName);
+                    cstmArray = new CstmArray(PrimitiveType.STRING, paramName);
                 }
-                CstmValue cstmValue = new CstmValue(cstmArray, CstmValue.PrimitiveType.ARRAY);
+                CstmValue cstmValue = new CstmValue(cstmArray, CstmKeywords.IS_ARRAY);
                 this.function.addParameter(paramCtx.IDENTIFIER().getText(), cstmValue);
             }
 		}

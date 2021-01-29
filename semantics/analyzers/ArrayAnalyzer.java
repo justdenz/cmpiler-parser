@@ -15,6 +15,7 @@ import semantics.representations.CstmValue;
 import semantics.representations.CstmValue.PrimitiveType;
 import semantics.symboltable.scopes.CstmLocalScope;
 import semantics.utils.CstmIdentifiedTokens;
+import semantics.utils.CstmKeywords;
 
 public class ArrayAnalyzer implements ParseTreeListener {
     private final static String ARRAY_PRIMITIVE_KEY = "ARRAY_PRIMITIVE_KEY";
@@ -84,7 +85,7 @@ public class ArrayAnalyzer implements ParseTreeListener {
 				
 				//initialize an array mobivalue
 				this.declaredArray = CstmArray.createArray(arrayTypeString, arrayIdentifierString);
-				CstmValue mobiValue = new CstmValue(this.declaredArray, PrimitiveType.ARRAY);
+				CstmValue mobiValue = new CstmValue(this.declaredArray, CstmKeywords.IS_ARRAY);
 				
 				this.localScope.addVariable(arrayIdentifierString, mobiValue);
 				Console.log("Creating array with type " +arrayTypeString+ " variable " +arrayIdentifierString);

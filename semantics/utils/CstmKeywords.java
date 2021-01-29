@@ -5,12 +5,14 @@ package semantics.utils;
  * creating intermediate representations
  */
 
-public class CstmRecognizedKeywords {
+public class CstmKeywords {
 	
-	public static String PRIMITIVE_TYPE_BOOLEAN = "bool";
-	public static String PRIMITIVE_TYPE_INT = "int";
-	public static String PRIMITIVE_TYPE_FLOAT = "float";
-	public static String PRIMITIVE_TYPE_STRING = "String";
+	public static String IS_BOOLEAN = "bool";
+	public static String IS_INT = "int";
+	public static String IS_FLOAT = "float";
+	public static String IS_STRING = "String";
+
+	public static String IS_ARRAY = "array";
 	
 	public static String BOOLEAN_TRUE = "T";
 	public static String BOOLEAN_FALSE = "F";
