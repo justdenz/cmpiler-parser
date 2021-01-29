@@ -10,6 +10,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import builder.CstmBuildChecker;
 import builder.CstmErrorRepo;
 import model.CUSTOMParser.ExpressionContext;
+import model.CUSTOMParser.SimpleExpressionContext;
 import model.CUSTOMParser.TypeSpecifierContext;
 import semantics.representations.CstmValue;
 import semantics.representations.CstmValue.PrimitiveType;
@@ -17,10 +18,10 @@ import semantics.representations.CstmValue.PrimitiveType;
 public class CstmTypeChecker implements CstmErrCheckerInterface, ParseTreeListener{
 
 	private CstmValue cstmValue;
-	private ExpressionContext expressionContext;
+	private SimpleExpressionContext expressionContext;
 	private int lineNumber;
 
-    public CstmTypeChecker(CstmValue assignmentValue, ExpressionContext expressionContext) {
+    public CstmTypeChecker(CstmValue assignmentValue, SimpleExpressionContext expressionContext) {
 		this.cstmValue = assignmentValue;
 		this.expressionContext = expressionContext;
 		
