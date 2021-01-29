@@ -10,7 +10,7 @@ import console.Console;
 import builder.errorcheckers.CstmMulVarDecChecker;
 import builder.errorcheckers.CstmTypeChecker;
 import semantics.utils.CstmIdentifiedTokens;
-import model.CUSTOMParser.DeclarationListContext;
+import model.CUSTOMParser.DeclarationContext;
 import model.CUSTOMParser.ExpressionContext;
 import model.CUSTOMParser.VariableDeclarationContext;
 import model.CUSTOMParser.ArrayDeclarationContext;
@@ -21,39 +21,31 @@ import semantics.symboltable.scopes.CstmLocalScope;
 import semantics.representations.CstmValue;
 
 public class DeclarationListAnalyzer implements ParseTreeListener{
-    
-    private final static String PRIMITIVE_TYPE_KEY = "PRIMITIVE_TYPE_KEY";
-	private final static String IDENTIFIER_KEY = "IDENTIFIER_KEY";
-	private final static String IDENTIFIER_VALUE_KEY = "IDENTIFIER_VALUE_KEY";
 	
-	private CstmIdentifiedTokens identifiedTokens;
-	private boolean executeMappingImmediate = false;
-	private boolean hasPassedArrayDeclaration = false;
+	public DeclarationListAnalyzer() {}
 	
-	public DeclarationListAnalyzer() {
-		
-	}
-	
-	public void analyze(DeclarationListContext decListCtx) {
-		this.identifiedTokens = new CstmIdentifiedTokens();
+	public void analyze(DeclarationContext decListCtx) {
 		ParseTreeWalker treeWalker = new ParseTreeWalker();
 		treeWalker.walk(this, decListCtx);
 	}
 
 	@Override
-	public void visitTerminal(TerminalNode node) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void visitErrorNode(ErrorNode node) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void enterEveryRule(ParserRuleContext ctx) {
-		this.analyzeVariables(ctx);
+		if(ctx instanceof DeclarationContext){
+			DeclarationContext decCtx = (DeclarationContext) ctx;
+
+			// check muna if may multiple declaration ng var or array
+
+			if(ctx instanceof ArrayDeclarationContext){
+				ArrayDeclarationContext arrDecCtx = (ArrayDeclarationContext) ctx;
+				//ArrayAnalyzer arrayAnalyzer = new ArrayAnalyzer(this.identifiedTokens, GlobalScopeManager.getInstance().getCurrentScope());
+				//arrayAnalyzer.analyze(ctx.getParent());
+			}
+        else if(ctx instanceof VariableDeclarationContext){
+
+        }
+		}
+		
 	}
 
 	@Override
@@ -62,68 +54,15 @@ public class DeclarationListAnalyzer implements ParseTreeListener{
 		
     }
 	
-	private void analyzeVariables(ParserRuleContext ctx) {
+	@Override
+	public void visitTerminal(TerminalNode node) {
+		// TODO Auto-generated method stub
+		
+	}
 
-        if(ctx instanceof ArrayDeclarationContext){
-            ArrayAnalyzer arrayAnalyzer = new ArrayAnalyzer(this.identifiedTokens, GlobalScopeManager.getInstance().getCurrentScope());
-            arrayAnalyzer.analyze(ctx.getParent());
-            this.hasPassedArrayDeclaration = true;
-        }
-        else if(ctx instanceof VariableDeclarationContext){
-            VariableDeclarationContext varCtx = (VariableDeclarationContext) ctx;
-            ExpressionContext varExprCtx = (ExpressionContext) ctx;
-			
-			if(this.hasPassedArrayDeclaration) {
-				return;
-			}
-			
-			//check for duplicate declarations
-			if(this.executeMappingImmediate == false) {
-				CstmMulVarDecChecker multipleDeclaredChecker = new CstmMulVarDecChecker(varCtx);
-				multipleDeclaredChecker.verify();
-			}
-			
-			this.identifiedTokens.addToken(IDENTIFIER_KEY, varCtx.typeSpecifier().toString());
-			
-			if(varCtx.variableDeclarationList().variableDeclarationInitialize() != null) {
-				
-				//we do not evaluate strings.
-				if(this.identifiedTokens.containsTokens(PRIMITIVE_TYPE_KEY)) {
-					String primitiveTypeString = this.identifiedTokens.getToken(PRIMITIVE_TYPE_KEY);
-					if(primitiveTypeString.contains(CstmKeywords.IS_STRING)) {
-						this.identifiedTokens.addToken(IDENTIFIER_VALUE_KEY, varCtx.variableDeclarationList().variableDeclarationInitialize().variableDeclarationIdentifier().getText()); 
-					}
-				}
-				
-				this.processMapping(varCtx);
-				
-				CstmLocalScope localScope = GlobalScopeManager.getInstance().getCurrentScope();
-				CstmValue declaredCstmValue = localScope.getVariable(varCtx.variableDeclarationList().variableDeclarationInitialize().variableDeclarationIdentifier().getText());
-				
-				//type check the cstmvalue
-				CstmTypeChecker typeChecker = new CstmTypeChecker(declaredCstmValue, varExprCtx);
-				typeChecker.verify();
-			}
-        }
-	}
-	
-	/*
-	 * Local variable analyzer is also used for loops. Whenever there is a loop,
-	 * mapping command should be executed immediately to update the value in the symbol table.
-	 * Otherwise, it proceeds normally.
-	 */
-	private void processMapping(VariableDeclarationContext varCtx) {
-		// if(this.executeMappingImmediate) {
-		// 	MappingCommand mappingCommand = new MappingCommand(varCtx.variableDeclaratorId().getText(), varCtx.variableInitializer().expression());
-		// 	mappingCommand.execute();
-		// }
-		// else {
-		// 	MappingCommand mappingCommand = new MappingCommand(varCtx.variableDeclaratorId().getText(), varCtx.variableInitializer().expression());
-		// 	ExecutionManager.getInstance().addCommand(mappingCommand);
-		// }
-	}
-	
-	public void markImmediateExecution() {
-		this.executeMappingImmediate = true;
+	@Override
+	public void visitErrorNode(ErrorNode node) {
+		// TODO Auto-generated method stub
+		
 	}
 }

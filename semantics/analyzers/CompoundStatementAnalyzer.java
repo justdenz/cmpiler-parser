@@ -21,10 +21,10 @@ public class CompoundStatementAnalyzer {
                 StatementAnalyzer stmtAnalyzer = new StatementAnalyzer();
                 stmtAnalyzer.analyze(compoundStatementContext.statement());
                 Console.log("In line "+compoundStatementContext.statement().getStart().getLine()+": Found statement");
-            }else if(compoundStatementContext.declarationList() != null){
+            }else if(compoundStatementContext.declaration() != null){
                 DeclarationListAnalyzer decAnalyzer = new DeclarationListAnalyzer();
-                decAnalyzer.analyze(compoundStatementContext.declarationList());
-                Console.log("In line "+compoundStatementContext.declarationList().getStart().getLine()+": Found local declaration");
+                decAnalyzer.analyze(compoundStatementContext.declaration());
+                Console.log("In line "+compoundStatementContext.declaration().getStart().getLine()+": Found local declaration");
             }
         }
         

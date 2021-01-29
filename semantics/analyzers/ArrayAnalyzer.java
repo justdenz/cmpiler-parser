@@ -26,8 +26,7 @@ public class ArrayAnalyzer implements ParseTreeListener {
 	private CstmLocalScope localScope;
     private CstmArray declaredArray;
     
-    public ArrayAnalyzer( CstmIdentifiedTokens identifiedTokens, CstmLocalScope declaredLocalScope) {
-		this.identifiedTokens = identifiedTokens;
+    public ArrayAnalyzer(CstmLocalScope declaredLocalScope) {
 		this.declaredLocalScope = declaredLocalScope;
 	}
 	

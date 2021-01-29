@@ -18,11 +18,6 @@ funcTypeSpecifier
     | arrayTypeSpecifier
     ;
 
-declarationList
-    : declarationList declaration
-    | declaration
-    ;
-
 declaration
     : arrayDeclaration
     | variableDeclaration
@@ -128,7 +123,7 @@ compoundStatement
     ;
 
 compoundStatementList
-    : declarationList
+    : declaration
     | statement
     ;
 

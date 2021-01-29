@@ -48,16 +48,6 @@ public interface CUSTOMListener extends ParseTreeListener {
 	 */
 	void exitFuncTypeSpecifier(CUSTOMParser.FuncTypeSpecifierContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link CUSTOMParser#declarationList}.
-	 * @param ctx the parse tree
-	 */
-	void enterDeclarationList(CUSTOMParser.DeclarationListContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link CUSTOMParser#declarationList}.
-	 * @param ctx the parse tree
-	 */
-	void exitDeclarationList(CUSTOMParser.DeclarationListContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link CUSTOMParser#declaration}.
 	 * @param ctx the parse tree
 	 */
