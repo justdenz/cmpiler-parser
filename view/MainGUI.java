@@ -8,7 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
-import model.CustomError;
+import console.Console;
 
 import java.util.ArrayList;
 
@@ -49,23 +49,19 @@ public class MainGUI extends Application {
     @Override
     public void handle(ActionEvent event) {
       String input = editorArea.getInput();
-      ArrayList<CustomError> parsedResult = new ArrayList<>();
+      ArrayList<String> logList = new ArrayList<>();
+      String output = "";
 
       try {
-        
-        parsedResult = controller.run(input);
-
-        if(parsedResult.size() == 0){
-          terminalPane.getConsole().setText("No syntax errors found!");
+        controller.run(input);
+        logList = Console.getLogList();
+        if(logList.size() == 0){
+          terminalPane.getConsole().setText("No syntax errors found");
         } else {
-            String output = "";
-            for(CustomError err : parsedResult){
-              String lineNum = String.valueOf(err.getLineNumber());
-              String charNum = String.valueOf(err.getCharNumber());
-              String errMsg = err.getErrorMessage();
-              output += "In line "+lineNum +":"+charNum+" - "+errMsg+"\n";
-            }
-            terminalPane.getConsole().setText(output);
+          for(String log : logList){
+            output += output + log;
+          }
+          terminalPane.getConsole().setText(output);
         }
       } catch (Exception e) {
         e.printStackTrace();

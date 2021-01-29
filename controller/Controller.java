@@ -3,14 +3,12 @@ package controller;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import model.CUSTOMLexer;
 import model.CUSTOMParser;
 import model.CustomErrorListener;
 import model.ProgramCustomListener;
-import model.CustomError;
 
 import org.antlr.v4.gui.TreeViewer;
 import org.antlr.v4.runtime.CharStreams;
@@ -23,8 +21,7 @@ public class Controller {
   CUSTOMParser parser;
   ParseTree tree;
 
-  public ArrayList<CustomError> run(String input) throws Exception {
-    ArrayList<CustomError> output = new ArrayList<>();
+  public void run(String input) throws Exception {
     CustomErrorListener errorListener = new CustomErrorListener();
     InputStream inputStream = new ByteArrayInputStream(input.getBytes());
     try {
@@ -32,18 +29,15 @@ public class Controller {
       TokenStream tokenStream = new CommonTokenStream(lexer);
       parser = new CUSTOMParser(tokenStream);
       parser.removeErrorListeners();
-      parser.addErrorListener(errorListener);
+      parser.addErrorListener(errorListener); //syntax part
       tree = parser.program();
 
-      output = errorListener.getErrors();
-
       ParseTreeWalker walker = new ParseTreeWalker();
-      ProgramCustomListener programCustomListener = new ProgramCustomListener();
+      ProgramCustomListener programCustomListener = new ProgramCustomListener(); //semantic part
       walker.walk(programCustomListener, tree);
     } catch (IOException e) {
       e.printStackTrace();
     }
-    return output;
   }
 
   public void viewParseTree() {
@@ -51,7 +45,6 @@ public class Controller {
       Arrays.asList(parser.getRuleNames()),
       tree
     );
-
     viewer.open();
   }
 }

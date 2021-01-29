@@ -2,10 +2,10 @@ package model;
 
 import org.antlr.v4.runtime.*;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import console.Console;
 public class CustomErrorListener extends BaseErrorListener{
 
     private String NO_VIABLE = "no viable alternative at input";
@@ -13,8 +13,6 @@ public class CustomErrorListener extends BaseErrorListener{
     private String MISMATCHED = "mismatched input";
     private String EXTRANEOUS = "extraneous input";
     private String TOK_RECOG = "token recognition error";
-
-    private ArrayList<CustomError> errors = new ArrayList<>();
 
     @Override
     public void syntaxError(Recognizer<?, ?> recognizer, Object o, int lineNum, int charNum, String message, RecognitionException e) {
@@ -107,10 +105,10 @@ public class CustomErrorListener extends BaseErrorListener{
             //error.setErrorType(CustomError.ErrorType.TOKEN_RECOGNITION);
             error.setErrorMessage(message);
         }
-        errors.add(error);
-    }
 
-    public ArrayList<CustomError> getErrors() {
-        return this.errors;
+        String errLineNum = String.valueOf(error.getLineNumber());
+        String errCharNum = String.valueOf(error.getCharNumber());
+        String errMsg = error.getErrorMessage();
+        Console.log("In line "+errLineNum +":"+errCharNum+" - "+errMsg+"\n");
     }
 }
