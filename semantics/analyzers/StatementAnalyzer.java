@@ -1,33 +1,64 @@
 package semantics.analyzers;
 
+import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.tree.ErrorNode;
+import org.antlr.v4.runtime.tree.ParseTreeListener;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import org.antlr.v4.runtime.tree.TerminalNode;
+
 import model.CUSTOMParser.CompoundStatementContext;
 import model.CUSTOMParser.StatementContext;
 
-public class StatementAnalyzer {
-    public StatementAnalyzer() {
-		
-    }
+public class StatementAnalyzer implements ParseTreeListener{
+    public StatementAnalyzer() {}
     
     public void analyze(StatementContext ctx){
-        if(ctx.printStatement() != null){
-            // handle print statement
-        }else if (ctx.scanStatement() != null){
-            // handle scan statement   
-        }else if(ctx.expressionStatement() != null){
-
-        }else if(ctx.compoundStatement() != null){
-            CompoundStatementContext compoundStatementContext = ctx.compoundStatement();
-
-            
-        }else if(ctx.selectionStatement() != null){
-
-        }else if(ctx.compoundStatement() != null){
-
-        }else if(ctx.iterationStatement() != null){
-
-        }else if(ctx.returnStatement() != null){
-
-        }
+        ParseTreeWalker walker = new ParseTreeWalker();
+        walker.walk(this, ctx);
     }
+
+    @Override
+	public void enterEveryRule(ParserRuleContext ctx) {
+        if(ctx instanceof StatementContext){
+            StatementContext stmtCtx = (StatementContext) ctx;
+
+            if (stmtCtx.scanStatement() != null){
+                // ScanAnalyzer
+            } else if(stmtCtx.printStatement() != null){
+                // PrintAnalyzer
+            } else if(stmtCtx.expressionStatement() != null){
+                // ExpressionAnalyzer
+            } else if(stmtCtx.compoundStatement() != null){
+                // not yet sure if ganito
+                CompoundStatementContext compoundStmtCtx = stmtCtx.compoundStatement();
+                CompoundStatementAnalyzer compoundAnalyzer = new CompoundStatementAnalyzer();
+                compoundAnalyzer.analyze(compoundStmtCtx);
+            } else if(stmtCtx.selectionStatement() != null){
+                // SelectionAnalyzer (if-elseif-else conditions)
+            } else if(stmtCtx.iterationStatement() != null){
+                // IterationAnalyzer (for and while loop)
+            } else if(stmtCtx.returnStatement() != null){
+                // ReturnAnalyzer
+            }
+        }
+	}
+
+    @Override
+	public void exitEveryRule(ParserRuleContext ctx) {
+		// TODO Auto-generated method stub
+		
+	}
+
+    @Override
+	public void visitTerminal(TerminalNode node) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visitErrorNode(ErrorNode node) {
+		// TODO Auto-generated method stub
+		
+	}
     
 }

@@ -129,7 +129,7 @@ compoundStatement
 
 compoundStatementList
     : declarationList
-    | statementList
+    | statement
     ;
 
 selectionStatement
@@ -139,11 +139,6 @@ selectionStatement
 selectionStatementList
     : ElseIf LeftParen simpleExpression RightParen Then LeftBrace statement* RightBrace selectionStatementList
     | Else Then LeftBrace statement* RightBrace
-    ;
-
-statementList
-    : statement
-    | statementList statement
     ;
 
 iterationStatement

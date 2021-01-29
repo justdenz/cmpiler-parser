@@ -20,7 +20,7 @@ import semantics.symboltable.GlobalScopeManager;
 import semantics.symboltable.scopes.CstmLocalScope;
 import semantics.representations.CstmValue;
 
-public class DeclarationAnalyzer implements ParseTreeListener{
+public class DeclarationListAnalyzer implements ParseTreeListener{
     
     private final static String PRIMITIVE_TYPE_KEY = "PRIMITIVE_TYPE_KEY";
 	private final static String IDENTIFIER_KEY = "IDENTIFIER_KEY";
@@ -30,7 +30,7 @@ public class DeclarationAnalyzer implements ParseTreeListener{
 	private boolean executeMappingImmediate = false;
 	private boolean hasPassedArrayDeclaration = false;
 	
-	public DeclarationAnalyzer() {
+	public DeclarationListAnalyzer() {
 		
 	}
 	

@@ -2,6 +2,7 @@ package semantics.analyzers;
 
 import java.util.List;
 
+import console.Console;
 import model.CUSTOMParser.CompoundStatementContext;
 import model.CUSTOMParser.CompoundStatementListContext;
 import semantics.symboltable.GlobalScopeManager;
@@ -16,13 +17,16 @@ public class CompoundStatementAnalyzer {
         List<CompoundStatementListContext> compoundStatementListContext = ctx.compoundStatementList();
 
         for(CompoundStatementListContext compoundStatementContext: compoundStatementListContext){
-            if(compoundStatementContext.statementList() != null){
-
+            if(compoundStatementContext.statement() != null){
+                StatementAnalyzer stmtAnalyzer = new StatementAnalyzer();
+                stmtAnalyzer.analyze(compoundStatementContext.statement());
+                Console.log("In line "+compoundStatementContext.statement().getStart().getLine()+": Found statement");
             }else if(compoundStatementContext.declarationList() != null){
-
+                DeclarationListAnalyzer decAnalyzer = new DeclarationListAnalyzer();
+                decAnalyzer.analyze(compoundStatementContext.declarationList());
+                Console.log("In line "+compoundStatementContext.declarationList().getStart().getLine()+": Found local declaration");
             }
         }
-
         
         CstmLocalScope parentScope = GlobalScopeManager.getInstance().getCurrentScope().getParent();
         GlobalScopeManager.getInstance().setCurrentScope(parentScope);
