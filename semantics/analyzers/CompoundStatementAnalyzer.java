@@ -10,7 +10,6 @@ import semantics.symboltable.scopes.CstmLocalScope;
 
 public class CompoundStatementAnalyzer {
     public CompoundStatementAnalyzer(){
-        GlobalScopeManager.getInstance().getCurrentScope();
     }
 
     public void analyze(CompoundStatementContext ctx){

@@ -7,16 +7,15 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import console.Console;
 import builder.CstmBuildChecker;
 import builder.CstmErrorRepo;
-import model.CUSTOMParser.MutableContext;
 import model.CUSTOMParser.MutableContext;
 import semantics.representations.CstmValue;
 import semantics.representations.CstmFunction;
 import semantics.representations.CstmValueSearcher;
 import semantics.representations.CstmValue.PrimitiveType;
-import builder.CstmBuildChecker;
-import builder.CstmErrorRepo;
+
 import semantics.symboltable.GlobalScopeManager;
 
 public class CstmConstChecker implements CstmErrCheckerInterface, ParseTreeListener{
@@ -63,6 +62,11 @@ public class CstmConstChecker implements CstmErrCheckerInterface, ParseTreeListe
 	}
 	
 	private void verifyVariableOrConst(MutableContext mutableCtx) {
-		
+		if(mutableCtx.LeftBracket() == null){
+			CstmValue cstmValue = GlobalScopeManager.getInstance().searchScopedVariable(mutableCtx.IDENTIFIER().getText());
+			if(cstmValue != null && cstmValue.isConstant()){
+				Console.log("In line "+this.lineNumber+" : Found constant new assignment.");
+			}
+		}
 	}
 }

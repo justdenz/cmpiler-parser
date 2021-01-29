@@ -74,12 +74,7 @@ public class FuncBlkAnalyzer implements ParseTreeListener{
 		} else if (ctx instanceof CompoundStatementContext){
 			System.out.println("Opened Scope");
 			CompoundStatementContext compoundCtx = (CompoundStatementContext) ctx;
-
-			//Before entering the local scope of the function, update current scope in ScopeManager
-			CstmLocalScope parentScope = GlobalScopeManager.getInstance().getCurrentScope();
-			function.getFunctionLocalScope().setParent(parentScope);
-			GlobalScopeManager.getInstance().setCurrentScope(function.getFunctionLocalScope());
-
+			
 			if(compoundCtx.compoundStatementList() != null){
 				CompoundStatementAnalyzer compoundStmtAnalyzer = new CompoundStatementAnalyzer();
 				compoundStmtAnalyzer.analyze(compoundCtx);
