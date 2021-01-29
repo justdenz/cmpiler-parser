@@ -7,6 +7,8 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import model.CUSTOMParser.CompoundStatementContext;
+import model.CUSTOMParser.PrintStatementContext;
+import model.CUSTOMParser.ScanStatementContext;
 import model.CUSTOMParser.SelectionStatementContext;
 import model.CUSTOMParser.StatementContext;
 
@@ -19,9 +21,18 @@ public class StatementAnalyzer{
             StatementContext stmtCtx = (StatementContext) ctx;
 
             if (stmtCtx.scanStatement() != null){
-                // ScanAnalyzer
+                ScanStatementContext scanStatementCtx = stmtCtx.scanStatement();
+                if(scanStatementCtx.scanStatementList() != null){
+                    
+                }
+
             } else if(stmtCtx.printStatement() != null){
                 // PrintAnalyzer
+                PrintStatementContext printStatementCtx = stmtCtx.printStatement();
+                if(printStatementCtx.printStatementList() != null){
+                    PrintStatementAnalyzer printStatementAnalyzer = new PrintStatementAnalyzer();
+                    printStatementAnalyzer.analyze(printStatementCtx.printStatementList());
+                }
             } else if(stmtCtx.expressionStatement() != null){
                 // ExpressionAnalyzer
             } else if(stmtCtx.compoundStatement() != null){
