@@ -10,7 +10,6 @@ import semantics.symboltable.scopes.CstmLocalScope;
 
 public class CompoundStatementAnalyzer {
     public CompoundStatementAnalyzer(){
-        GlobalScopeManager.getInstance().getCurrentScope();
     }
 
     public void analyze(CompoundStatementContext ctx){
@@ -28,12 +27,8 @@ public class CompoundStatementAnalyzer {
             }
         }
         
-        if(GlobalScopeManager.getInstance().getCurrentScope() != null){
-            CstmLocalScope parentScope = GlobalScopeManager.getInstance().getCurrentScope().getParent();
-            GlobalScopeManager.getInstance().setCurrentScope(parentScope);
-        } else{
-            GlobalScopeManager.getInstance().setCurrentScope(null);
-        }
+        CstmLocalScope parentScope = GlobalScopeManager.getInstance().getCurrentScope().getParent();
+        GlobalScopeManager.getInstance().setCurrentScope(parentScope);
         System.out.println("Closed Scope");
     }
 

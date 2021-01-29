@@ -40,9 +40,12 @@ public class StatementAnalyzer{
                 
                 if(selectionStatementContext.selectionDeclaration() != null){
                     System.out.println("Found If Statement");
-                    GlobalScopeManager.getInstance().setCurrentScope(GlobalScopeManager.getInstance().getCurrentScope());
                     CstmUnDecChecker undecChecker = new CstmUnDecChecker(selectionStatementContext.selectionDeclaration().simpleExpression());
                     undecChecker.verify();
+
+                    CstmLocalScope selectionScope = new CstmLocalScope();
+                    selectionScope.setParent(GlobalScopeManager.getInstance().getCurrentScope());
+                    GlobalScopeManager.getInstance().setCurrentScope(selectionScope);
 
                     CompoundStatementAnalyzer compoundStatementAnalyzer = new CompoundStatementAnalyzer();
                     compoundStatementAnalyzer.analyze(selectionStatementContext.compoundStatement());
@@ -50,17 +53,26 @@ public class StatementAnalyzer{
 
                 //else if statement
                 if(selectionStatementContext.elseStatement() != null){
+                    System.out.println("Found else/elseif");
                     if(selectionStatementContext.elseStatement().selectionStatement() != null){
-                        System.out.println("Found else if!");
-                        GlobalScopeManager.getInstance().setCurrentScope(GlobalScopeManager.getInstance().getCurrentScope());
+                        // System.out.println("Found else if!");
                         CstmUnDecChecker undecChecker = new CstmUnDecChecker(selectionStatementContext.elseStatement().selectionStatement().selectionDeclaration().simpleExpression());
                         undecChecker.verify();
+
+                        CstmLocalScope selectionScope = new CstmLocalScope();
+                        selectionScope.setParent(GlobalScopeManager.getInstance().getCurrentScope());
+                        GlobalScopeManager.getInstance().setCurrentScope(selectionScope);
 
                         CompoundStatementAnalyzer compoundStatementAnalyzer = new CompoundStatementAnalyzer();
                         compoundStatementAnalyzer.analyze(selectionStatementContext.compoundStatement());
                     }else if(selectionStatementContext.elseStatement().compoundStatement() != null){//else then
-                        System.out.println("Found else");
-                        GlobalScopeManager.getInstance().setCurrentScope(GlobalScopeManager.getInstance().getCurrentScope());
+                        // System.out.println("Found else");
+                        
+                        
+                        CstmLocalScope selectionScope = new CstmLocalScope();
+                        selectionScope.setParent(GlobalScopeManager.getInstance().getCurrentScope());
+                        GlobalScopeManager.getInstance().setCurrentScope(selectionScope);
+
                         CompoundStatementAnalyzer compoundStatementAnalyzer = new CompoundStatementAnalyzer();
                         compoundStatementAnalyzer.analyze(selectionStatementContext.compoundStatement());
     

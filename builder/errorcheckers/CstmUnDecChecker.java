@@ -62,28 +62,28 @@ public class CstmUnDecChecker implements CstmErrCheckerInterface, ParseTreeListe
 		
 	}
 	
-	private void verifyFunction(ParserRuleContext ctx) {
-
-        CallContext callCtx = (CallContext) ctx;
-		CstmFunction function = GlobalScopeManager.getInstance().getFunction(callCtx.IDENTIFIER().getText());
-		
-		if(function == null) {
-			CstmBuildChecker.reportCustomError(CstmErrorRepo.UNDECLARED_FUNCTION, "Function not found", this.lineNumber);
-		}
-		else {
-			Console.log("Function found: " +function.getFunctionName());
-		}
-	}
-	
 	private void verifyVariable(ParserRuleContext ctx) {
 
 		MutableContext mutableCtx = (MutableContext) ctx;
 		CstmValue value = GlobalScopeManager.getInstance().getCurrentScope().getVariable(mutableCtx.IDENTIFIER().getText());
 		
 		if(value == null) {
-			// CstmBuildChecker.reportCustomError(CstmErrorRepo.UNDECLARED_VARIABLE, "Variable not found", this.lineNumber);
+			Console.log("In line "+this.lineNumber+" : Variable not found: ");
         } else {
-			Console.log("Variable found: " +value.getValue().toString());
+			System.out.println("Variable exists!");
+		}
+	}
+
+	private void verifyFunction(ParserRuleContext ctx) {
+
+        CallContext callCtx = (CallContext) ctx;
+		CstmFunction function = GlobalScopeManager.getInstance().getFunction(callCtx.IDENTIFIER().getText());
+		
+		if(function == null) {
+			Console.log("In line "+this.lineNumber+" : Function not found: ");
+		}
+		else {
+			System.out.println("Function exists!");
 		}
 	}
 }
