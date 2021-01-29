@@ -2639,8 +2639,8 @@ public class CUSTOMParser extends Parser {
 			return getRuleContext(TypeSpecifierContext.class,0);
 		}
 		public TerminalNode LeftBracket() { return getToken(CUSTOMParser.LeftBracket, 0); }
-		public SumExpressionContext sumExpression() {
-			return getRuleContext(SumExpressionContext.class,0);
+		public SimpleExpressionContext simpleExpression() {
+			return getRuleContext(SimpleExpressionContext.class,0);
 		}
 		public TerminalNode RightBracket() { return getToken(CUSTOMParser.RightBracket, 0); }
 		public ArrayExpressionContext(ParserRuleContext parent, int invokingState) {
@@ -2670,7 +2670,7 @@ public class CUSTOMParser extends Parser {
 			setState(409);
 			match(LeftBracket);
 			setState(410);
-			sumExpression(0);
+			simpleExpression(0);
 			setState(411);
 			match(RightBracket);
 			}
@@ -4017,7 +4017,7 @@ public class CUSTOMParser extends Parser {
 		"\3\2\2\2\u0194\u0189\3\2\2\2\u0194\u018c\3\2\2\2\u0195\u0198\3\2\2\2\u0196"+
 		"\u0194\3\2\2\2\u0196\u0197\3\2\2\2\u0197I\3\2\2\2\u0198\u0196\3\2\2\2"+
 		"\u0199\u019a\7\20\2\2\u019a\u019b\5\24\13\2\u019b\u019c\7#\2\2\u019c\u019d"+
-		"\5T+\2\u019d\u019e\7\61\2\2\u019eK\3\2\2\2\u019f\u01a0\b\'\1\2\u01a0\u01a1"+
+		"\5H%\2\u019d\u019e\7\61\2\2\u019eK\3\2\2\2\u019f\u01a0\b\'\1\2\u01a0\u01a1"+
 		"\5N(\2\u01a1\u01a7\3\2\2\2\u01a2\u01a3\f\3\2\2\u01a3\u01a4\7\t\2\2\u01a4"+
 		"\u01a6\5N(\2\u01a5\u01a2\3\2\2\2\u01a6\u01a9\3\2\2\2\u01a7\u01a5\3\2\2"+
 		"\2\u01a7\u01a8\3\2\2\2\u01a8M\3\2\2\2\u01a9\u01a7\3\2\2\2\u01aa\u01ab"+

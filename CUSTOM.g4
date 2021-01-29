@@ -178,7 +178,7 @@ simpleExpression
     ;
 
 arrayExpression
-    : Create typeSpecifier LeftBracket sumExpression RightBracket
+    : Create typeSpecifier LeftBracket simpleExpression RightBracket
     ;
 
 andExpression
