@@ -108,7 +108,7 @@ compoundStatementList
     ;
 
 selectionStatement
-    : If selectionDeclaration Then compoundStatement elseStatement
+    : If selectionDeclaration Then compoundStatement elseStatement?
     ;
 
 selectionDeclaration

@@ -43,6 +43,9 @@ public class StatementAnalyzer{
                  
             } else if(stmtCtx.iterationStatement() != null){
                 // IterationAnalyzer (for and while loop)
+                IterationAnalyzer iterationAnalyzer = new IterationAnalyzer();
+                // iterationAnalyzer.analyze(stmtCtx.iterationStatement());
+                System.out.println("Found iteration statement");
             } else if(stmtCtx.returnStatement() != null){
                 // ReturnAnalyzer
             }
