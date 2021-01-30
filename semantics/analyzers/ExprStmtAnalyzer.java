@@ -12,7 +12,7 @@ import model.CUSTOMParser.ExpressionStatementContext;
 import semantics.representations.CstmFunction;
 import semantics.symboltable.GlobalScopeManager;
 
-public class ExpressionStatementAnalyzer {
+public class ExprStmtAnalyzer {
     public void analyze(ExpressionStatementContext ctx){
         if(ctx.experssionStandAlone() != null){
             

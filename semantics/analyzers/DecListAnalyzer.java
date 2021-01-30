@@ -23,9 +23,9 @@ import semantics.symboltable.scopes.CstmLocalScope;
 import semantics.representations.CstmArray;
 import semantics.representations.CstmValue;
 
-public class DeclarationListAnalyzer implements ParseTreeListener{
+public class DecListAnalyzer implements ParseTreeListener{
 	
-	public DeclarationListAnalyzer() {}
+	public DecListAnalyzer() {}
 	
 	public void analyze(DeclarationContext decListCtx) {
 		ParseTreeWalker treeWalker = new ParseTreeWalker();

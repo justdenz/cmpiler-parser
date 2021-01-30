@@ -25,7 +25,7 @@ public class MainBlkAnalyzer implements ParseTreeListener{
     if(ctx instanceof CompoundStatementContext){
       System.out.println("Opened Scope");
       CompoundStatementContext compoundCtx = (CompoundStatementContext) ctx;
-      CompoundStatementAnalyzer compoundStmtAnalyzer = new CompoundStatementAnalyzer();
+      CompStmtAnalyzer compoundStmtAnalyzer = new CompStmtAnalyzer();
       compoundStmtAnalyzer.analyze(compoundCtx);
     }
   }

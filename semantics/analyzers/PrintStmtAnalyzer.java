@@ -3,7 +3,7 @@ package semantics.analyzers;
 import model.CUSTOMParser.PrintStatementListContext;
 import builder.errorcheckers.CstmUnDecChecker;
 
-public class PrintStatementAnalyzer {
+public class PrintStmtAnalyzer {
   public void analyze(PrintStatementListContext ctx){
     if(ctx instanceof PrintStatementListContext){
 
