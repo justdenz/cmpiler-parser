@@ -152,11 +152,7 @@ forExpression
     ;
 
 returnStatement
-    : Return returnStatementList Semi
-    ;
-
-returnStatementList
-    : simpleExpression
+    : Return simpleExpression Semi
     ;
 
 /*expressions */

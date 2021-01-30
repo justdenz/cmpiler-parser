@@ -78,9 +78,11 @@ public class StatementAnalyzer{
                 // IterationAnalyzer (for and while loop)
                 IterationAnalyzer iterationAnalyzer = new IterationAnalyzer();
                 // iterationAnalyzer.analyze(stmtCtx.iterationStatement());
-                System.out.println("Found iteration statement");
             } else if(stmtCtx.returnStatement() != null){
-                // ReturnAnalyzer
+                if(stmtCtx.returnStatement().simpleExpression() != null){
+                    CstmUnDecChecker unDecChecker = new CstmUnDecChecker(stmtCtx.returnStatement().simpleExpression());
+                    unDecChecker.verify();
+                }
             }
         }
 	}
