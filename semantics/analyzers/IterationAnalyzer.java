@@ -6,6 +6,7 @@ import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import console.Console;
 import model.CUSTOMParser.ForDeclarationContext;
 import model.CUSTOMParser.ForExpressionContext;
 import model.CUSTOMParser.ForStatementContext;
@@ -27,21 +28,17 @@ public class IterationAnalyzer {
 		if (stmtCtx.iterationStatement().forStatement() != null){
 			ForStatementContext forStmtCtx = stmtCtx.iterationStatement().forStatement();
 			ForDeclarationContext forDeclaration = forStmtCtx.forCondition().forDeclaration();
-            ForExpressionContext forExpression = forStmtCtx.forCondition().forExpression();
-			// if(forStmtCtx.forCondition().forDeclaration() == null){
-				// Console.log("Empty Declaration");
-				// System.out.println("Empty Declaration");
-			// }else if (forStmtCtx.forCondition())
+      ForExpressionContext forExpression = forStmtCtx.forCondition().forExpression();
+			
 
 			if(forExpression != null && forDeclaration != null){
-				System.out.println("Opened For Loop Scope");
-				
+				System.out.println("Opened For Loop Scope");			
 				CstmLocalScope forScope = new CstmLocalScope(GlobalScopeManager.getInstance().getCurrentScope());
 				GlobalScopeManager.getInstance().setCurrentScope(forScope);
 				CompStmtAnalyzer forStatementAnalyzer = new CompStmtAnalyzer();
 				forStatementAnalyzer.analyze(forStmtCtx.compoundStatement());
 			} else {
-				System.out.println("For loop declaration is empty.");
+				Console.log(String.valueOf(forStmtCtx.getStart().getLine()), "Missing for loop declarations.");
 			}
 			
 		}else if (stmtCtx.iterationStatement().whileStatement() != null){
@@ -55,7 +52,7 @@ public class IterationAnalyzer {
 				CompStmtAnalyzer whileStatementAnalyzer = new CompStmtAnalyzer();
 				whileStatementAnalyzer.analyze(whileStmtContext.compoundStatement());
 			} else {
-				System.out.println("While Declaration is empty.");
+				Console.log(String.valueOf(whileStmtContext.getStart().getLine()), "Missing while loop declarations.");
 			}
 
 		}

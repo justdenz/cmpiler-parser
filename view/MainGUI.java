@@ -56,6 +56,7 @@ public class MainGUI extends Application {
       // if(input.contains("scan")){
       //   scannerWindow.showScannerWindow();
       // }
+
       try {
         controller.run(input);
         logList = Console.getLogList();

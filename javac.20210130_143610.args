@@ -1,0 +1,16 @@
+--module-path
+lib\\javafx-sdk-11.0.2\\lib
+--add-modules
+javafx.controls
+-cp
+;lib/antlr-4.9-complete.jar
+semantics\\analyzers\\CompStmtAnalyzer.java
+semantics\\analyzers\\DecListAnalyzer.java
+semantics\\analyzers\\ExprStmtAnalyzer.java
+semantics\\analyzers\\FuncBlkAnalyzer.java
+semantics\\analyzers\\IterationAnalyzer.java
+semantics\\analyzers\\MainBlkAnalyzer.java
+semantics\\analyzers\\ParamsAnalyzer.java
+semantics\\analyzers\\PrintStmtAnalyzer.java
+semantics\\analyzers\\ProgramAnalyzer.java
+semantics\\analyzers\\StmtAnalyzer.java
