@@ -8,6 +8,7 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import model.CUSTOMParser.CompoundStatementContext;
 import model.CUSTOMParser.FuncBlockContext;
 import model.CUSTOMParser.MainBlockContext;
 import model.CUSTOMParser.ProgramContext;
@@ -40,20 +41,14 @@ public class ProgramAnalyzer implements ParseTreeListener{
 	public void enterEveryRule(ParserRuleContext ctx) {
 		if(ctx instanceof FuncBlockContext) {
 			System.out.println("Found function block");
-			CstmLocalScope functionScope = new CstmLocalScope();
-			functionScope.setParent(GlobalScopeManager.getInstance().getCurrentScope());
-			GlobalScopeManager.getInstance().setCurrentScope(functionScope);
 			FuncBlockContext funcCtx = (FuncBlockContext) ctx;
 			FuncBlkAnalyzer funcAnalyzer = new FuncBlkAnalyzer();
 			funcAnalyzer.analyze(funcCtx);
         } else if(ctx instanceof MainBlockContext) {
 			System.out.println("Found main block");
-			CstmLocalScope mainScope = new CstmLocalScope();
-			mainScope.setParent(GlobalScopeManager.getInstance().getCurrentScope());
-			GlobalScopeManager.getInstance().setCurrentScope(mainScope);
 			MainBlockContext mainCtx = (MainBlockContext) ctx;
 			MainBlkAnalyzer mainAnalyzer = new MainBlkAnalyzer();
-			mainAnalyzer.analyze(mainCtx);
+			mainAnalyzer.analyze(mainCtx);		
 		}
 	}
 

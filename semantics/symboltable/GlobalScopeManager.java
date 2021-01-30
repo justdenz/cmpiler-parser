@@ -9,7 +9,10 @@ import semantics.symboltable.scopes.CstmLocalScope;
 public class GlobalScopeManager {
 	
 	private static GlobalScopeManager sharedInstance = null;
-	
+
+	private CstmLocalScope currentScope;
+	private HashMap<String, CstmFunction> functionMap;
+
 	public static GlobalScopeManager getInstance() {
 		if(sharedInstance == null){
 			System.out.println("Global Scope Manger initialzed 1st time!");
@@ -17,32 +20,14 @@ public class GlobalScopeManager {
 		}
 		return sharedInstance;
 	}
-	private CstmLocalScope currentScope;
-	private HashMap<String, CstmFunction> functionMap;
 	
 	private GlobalScopeManager() {
 		this.currentScope = null;
 		this.functionMap = new HashMap<String, CstmFunction>();
 	}
 	
-	
-	
-	public static void reset() {
-		sharedInstance.currentScope = null;
-		sharedInstance.functionMap = new HashMap<String, CstmFunction>();
-	}
-
-	public CstmFunction getFunction(String identifier){
-		return this.functionMap.get(identifier);
-	}
-
-	public HashMap<String, CstmFunction> getFunctions() {
-		return this.functionMap;
-	}
-
-	public void addFunction(String identifier, CstmFunction function){
-		System.out.println("Created function: " + identifier);
-		this.functionMap.put(identifier, function);
+	public void setCurrentScope(CstmLocalScope newCurrentScope){
+		this.currentScope = newCurrentScope;
 	}
 
 	public CstmLocalScope getCurrentScope(){
@@ -53,9 +38,17 @@ public class GlobalScopeManager {
 		if(currentScope != null)
 			currentScope = currentScope.getParent();
 	}
+	
+	public void addFunction(String identifier, CstmFunction function){
+		this.functionMap.put(identifier, function);
+	}
 
-	public void setCurrentScope(CstmLocalScope newCurrentScope){
-		this.currentScope = newCurrentScope;
+	public CstmFunction getFunction(String identifier){
+		return this.functionMap.get(identifier);
+	}
+
+	public HashMap<String, CstmFunction> getFunctions() {
+		return this.functionMap;
 	}
 
 	public CstmValue searchScopedVariable(String identifier){

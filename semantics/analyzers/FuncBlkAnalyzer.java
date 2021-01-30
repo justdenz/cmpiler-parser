@@ -19,18 +19,18 @@ import semantics.symboltable.scopes.CstmLocalScope;
 public class FuncBlkAnalyzer implements ParseTreeListener{
 
 	private CstmFunction function = new CstmFunction();
+	private boolean opened = false;
 
     public FuncBlkAnalyzer() {
 
 	}
 	
 	public void analyze(FuncBlockContext ctx) {
-		
-		function.setFunctionName(ctx.IDENTIFIER().getText());
-		GlobalScopeManager.getInstance().addFunction(function.getFunctionName(), function);
-		
+
 		CstmMulFuncDecChecker mulFuncChecker = new CstmMulFuncDecChecker(ctx);
 		mulFuncChecker.verify();
+
+		function.setFunctionName(ctx.IDENTIFIER().getText());
 		
 		if(ctx.funcTypeSpecifier().typeSpecifier() != null){
 			TypeSpecifierContext typeSpecifier = ctx.funcTypeSpecifier().typeSpecifier();
@@ -58,6 +58,8 @@ public class FuncBlkAnalyzer implements ParseTreeListener{
 		} else if(ctx.funcTypeSpecifier().getText() == "void"){
 			function.setReturnType(FunctionType.VOID_TYPE);
 		}
+
+		GlobalScopeManager.getInstance().addFunction(function.getFunctionName(), function);
 		
         ParseTreeWalker walker = new ParseTreeWalker();
         walker.walk(this, ctx);
@@ -71,7 +73,8 @@ public class FuncBlkAnalyzer implements ParseTreeListener{
 				ParamsAnalyzer paramsAnalyzer = new ParamsAnalyzer(this.function);
 				paramsAnalyzer.analyze(paramCtx.paramList());
 			}
-		} else if (ctx instanceof CompoundStatementContext){
+		} else if (ctx instanceof CompoundStatementContext && !opened){
+			opened = true;
 			System.out.println("Opened Scope");
 			CompoundStatementContext compoundCtx = (CompoundStatementContext) ctx;
 			
