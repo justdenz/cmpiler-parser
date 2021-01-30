@@ -23,7 +23,7 @@ public class MainBlkAnalyzer implements ParseTreeListener{
   @Override
   public void enterEveryRule(ParserRuleContext ctx) {
     if(ctx instanceof CompoundStatementContext){
-      System.out.println("Opened Scope");
+      System.out.println("Opened Main Scope");
       CompoundStatementContext compoundCtx = (CompoundStatementContext) ctx;
       CompStmtAnalyzer compoundStmtAnalyzer = new CompStmtAnalyzer();
       compoundStmtAnalyzer.analyze(compoundCtx);
