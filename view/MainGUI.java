@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import console.Console;
+import console.Printer;
 
 import java.util.ArrayList;
 
@@ -16,10 +17,10 @@ import org.fxmisc.flowless.VirtualizedScrollPane;
 import controller.Controller;
 
 public class MainGUI extends Application {
-  EditorArea editorArea = new EditorArea();
-  TerminalPane terminalPane = new TerminalPane();
-  ScannerWindow scannerWindow = new ScannerWindow();
-  Controller controller = new Controller();
+  private EditorArea editorArea = new EditorArea();
+  public static TerminalPane terminalPane = new TerminalPane();
+  private ScannerWindow scannerWindow = new ScannerWindow();
+  private Controller controller = new Controller();
 
   @Override
   public void start(Stage primaryStage) {
@@ -61,12 +62,12 @@ public class MainGUI extends Application {
         controller.run(input);
         logList = Console.getLogList();
         if(logList.size() == 0){
-          terminalPane.getConsole().setText("No syntax errors found");
+          Printer.getInstance().display("No syntax errors found");
         } else {
           for(String log : logList){
             output += output + log;
           }
-          terminalPane.getConsole().setText(output);
+          Printer.getInstance().display(output);
           Console.clearLogList();
         }
       } catch (Exception e) {

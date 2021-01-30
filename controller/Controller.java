@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.util.Arrays;
 
 import console.Console;
+import console.Printer;
 import model.CUSTOMLexer;
 import model.CUSTOMParser;
 import model.CustomErrorListener;

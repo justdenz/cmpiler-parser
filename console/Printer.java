@@ -1,26 +1,25 @@
 package console;
 
-import components.TerminalPane;
+import view.MainGUI;
 
 public class Printer {
-  private static TerminalPane terminalPane = new TerminalPane();
   private static Printer printerInstance = null;
 
-  public static void createPrinterInstance(){
+  public Printer() {
+  }
+
+  public static Printer getInstance(){
     if(printerInstance == null){
       printerInstance = new Printer();
     }
+    return printerInstance;
   }
 
-  public static void initialize() {
-    createPrinterInstance();
-  }
-
-  public static void display(String output) {
-    terminalPane.getConsole().setText(output);
+  public void display(String output) {
+    MainGUI.terminalPane.getTerminalArea().setText(output);
   }
 
   public static void clearTerminal(){
-    terminalPane.getConsole().clear();
+    MainGUI.terminalPane.getTerminalArea().clear();
   }
 }
