@@ -8,7 +8,6 @@ public class PrintStmtAnalyzer {
     if(ctx instanceof PrintStatementListContext){
 
       if(ctx.printParameters() != null){
-        System.out.println("simpleExpression");
         CstmUnDecChecker unDecChecker = new CstmUnDecChecker(ctx.printParameters().simpleExpression());
         unDecChecker.verify();
       
