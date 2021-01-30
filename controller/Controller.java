@@ -25,6 +25,8 @@ public class Controller {
   ParseTree tree;
 
   public void run(String input) throws Exception {
+    Printer.getInstance();
+    ExecutionManager.getInstance();
     Console.initialize();
     CustomErrorListener errorListener = new CustomErrorListener();
     InputStream inputStream = new ByteArrayInputStream(input.getBytes());
