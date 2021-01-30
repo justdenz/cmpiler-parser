@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import org.fxmisc.flowless.VirtualizedScrollPane;
 
 import controller.Controller;
+import execution.ExecutionManager;
 
 public class MainGUI extends Application {
   private EditorArea editorArea = new EditorArea();
@@ -63,6 +64,8 @@ public class MainGUI extends Application {
         logList = Console.getLogList();
         if(logList.size() == 0){
           Printer.getInstance().display("No syntax errors found");
+          ExecutionManager.getInstance().runAllCommands();
+          ExecutionManager.getInstance().resetCommands();
         } else {
           for(String log : logList){
             output += output + log;

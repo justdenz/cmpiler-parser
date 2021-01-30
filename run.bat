@@ -10,5 +10,8 @@ javac --module-path lib\javafx-sdk-11.0.2\lib --add-modules javafx.controls -cp 
 javac --module-path lib\javafx-sdk-11.0.2\lib --add-modules javafx.controls -cp ";lib/antlr-4.9-complete.jar"  semantics/symboltable/scopes/*.java
 javac --module-path lib\javafx-sdk-11.0.2\lib --add-modules javafx.controls -cp ";lib/antlr-4.9-complete.jar"  semantics/symboltable/*.java
 javac --module-path lib\javafx-sdk-11.0.2\lib --add-modules javafx.controls -cp ";lib/antlr-4.9-complete.jar"  semantics/utils/*.java
+javac --module-path lib\javafx-sdk-11.0.2\lib --add-modules javafx.controls -cp ";lib/antlr-4.9-complete.jar"  execution/commands/*.java
+javac --module-path lib\javafx-sdk-11.0.2\lib --add-modules javafx.controls -cp ";lib/antlr-4.9-complete.jar"  execution/*.java
+
 javac --module-path lib\javafx-sdk-11.0.2\lib --add-modules javafx.controls -cp ";lib/richtextfx-fat-0.10.5.jar;lib"  app.java
 java --module-path lib\javafx-sdk-11.0.2\lib --add-modules javafx.controls -cp ";lib/richtextfx-fat-0.10.5.jar;lib/antlr-4.9-complete.jar" app
