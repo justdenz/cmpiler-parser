@@ -26,7 +26,6 @@ public class FuncBlkAnalyzer implements ParseTreeListener{
 	}
 	
 	public void analyze(FuncBlockContext ctx) {
-
 		CstmMulFuncDecChecker mulFuncChecker = new CstmMulFuncDecChecker(ctx);
 		mulFuncChecker.verify();
 
@@ -59,6 +58,8 @@ public class FuncBlkAnalyzer implements ParseTreeListener{
 			function.setReturnType(FunctionType.VOID_TYPE);
 		}
 
+		CstmLocalScope funcScope = new CstmLocalScope(GlobalScopeManager.getInstance().getCurrentScope());
+		GlobalScopeManager.getInstance().setCurrentScope(funcScope);
 		GlobalScopeManager.getInstance().addFunction(function.getFunctionName(), function);
 		
         ParseTreeWalker walker = new ParseTreeWalker();
@@ -75,7 +76,7 @@ public class FuncBlkAnalyzer implements ParseTreeListener{
 			}
 		} else if (ctx instanceof CompoundStatementContext && !opened){
 			opened = true;
-			System.out.println("Opened Scope");
+			System.out.println("Opened Function Scope");
 			CompoundStatementContext compoundCtx = (CompoundStatementContext) ctx;
 			
 			if(compoundCtx.compoundStatementList() != null){
