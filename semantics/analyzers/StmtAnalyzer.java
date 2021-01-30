@@ -87,25 +87,9 @@ public class StmtAnalyzer{
             // ITERATION STATEMENT
             else if(stmtCtx.iterationStatement() != null){
                 // IterationAnalyzer (for and while loop)
+                System.out.println("Enter iteration statement");
                 IterationAnalyzer iterationAnalyzer = new IterationAnalyzer();
-                ForDeclarationContext forDeclaration = stmtCtx.iterationStatement().forStatement().forCondition().forDeclaration();
-                ForExpressionContext forExpression = stmtCtx.iterationStatement().forStatement().forCondition().forExpression();
-                
-                if(stmtCtx.iterationStatement().forStatement() != null){
-                    if(forExpression != null && forDeclaration != null){
-                        
-                        CstmLocalScope forScope = new CstmLocalScope(GlobalScopeManager.getInstance().getCurrentScope());
-                        GlobalScopeManager.getInstance().setCurrentScope(forScope);
-                        System.out.println("Opened For Loop Scope");
-                        CompStmtAnalyzer forStatementAnalyzer = new CompStmtAnalyzer();
-                        forStatementAnalyzer.analyze(stmtCtx.iterationStatement().forStatement().compoundStatement());
-                    } else {
-                        System.out.println("For loop declaration is empty");
-                    }
-                } else {
-                    
-                }
-                // iterationAnalyzer.analyze(stmtCtx.iterationStatement());
+                iterationAnalyzer.analyze(stmtCtx);
             } 
             // RETURN STATEMENT
             else if(stmtCtx.returnStatement() != null){

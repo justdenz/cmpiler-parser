@@ -6,74 +6,60 @@ import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import model.CUSTOMParser.ForDeclarationContext;
+import model.CUSTOMParser.ForExpressionContext;
 import model.CUSTOMParser.ForStatementContext;
 import model.CUSTOMParser.WhileStatementContext;
 import semantics.symboltable.GlobalScopeManager;
 import semantics.symboltable.scopes.CstmLocalScope;
 import model.CUSTOMParser.IterationStatementContext;
+import model.CUSTOMParser.StatementContext;
 
 
-public class IterationAnalyzer implements ParseTreeListener{
+public class IterationAnalyzer {
 
 	public IterationAnalyzer(){
-		GlobalScopeManager.getInstance().getCurrentScope();
 	}
 
-	public void analyze(IterationStatementContext ctx){
-		ParseTreeWalker walker = new ParseTreeWalker();
-    walker.walk(this, ctx);
-	}
-
-	@Override
-	public void enterEveryRule(ParserRuleContext ctx) {
-		if (ctx instanceof ForStatementContext){
-			ForStatementContext forStmtCtx = (ForStatementContext) ctx;
-			
+	public void analyze (ParserRuleContext ctx) {
+		
+		StatementContext stmtCtx = (StatementContext) ctx;
+		if (stmtCtx.iterationStatement().forStatement() != null){
+			ForStatementContext forStmtCtx = stmtCtx.iterationStatement().forStatement();
+			ForDeclarationContext forDeclaration = forStmtCtx.forCondition().forDeclaration();
+            ForExpressionContext forExpression = forStmtCtx.forCondition().forExpression();
 			// if(forStmtCtx.forCondition().forDeclaration() == null){
 				// Console.log("Empty Declaration");
 				// System.out.println("Empty Declaration");
 			// }else if (forStmtCtx.forCondition())
 
-			if(forStmtCtx.compoundStatement() != null){
-				CompStmtAnalyzer compoundStatementAnalyzer = new CompStmtAnalyzer();
-				compoundStatementAnalyzer.analyze(forStmtCtx.compoundStatement());
+			if(forExpression != null && forDeclaration != null){
+				System.out.println("Opened For Loop Scope");
+				
+				CstmLocalScope forScope = new CstmLocalScope(GlobalScopeManager.getInstance().getCurrentScope());
+				GlobalScopeManager.getInstance().setCurrentScope(forScope);
+				CompStmtAnalyzer forStatementAnalyzer = new CompStmtAnalyzer();
+				forStatementAnalyzer.analyze(forStmtCtx.compoundStatement());
+			} else {
+				System.out.println("For loop declaration is empty.");
 			}
-
-			CstmLocalScope parentScope = GlobalScopeManager.getInstance().getCurrentScope().getParent();
-			GlobalScopeManager.getInstance().setCurrentScope(parentScope);
 			
-		}else if (ctx instanceof WhileStatementContext){
-			WhileStatementContext whileStmtContext = (WhileStatementContext) ctx;
-			// if(whileStmtContext.relExpression() == null){
-			// }
-
-			if(whileStmtContext.compoundStatement() != null){
-				CompStmtAnalyzer compoundStatementAnalyzer = new CompStmtAnalyzer();
-				compoundStatementAnalyzer.analyze(whileStmtContext.compoundStatement());
+		}else if (stmtCtx.iterationStatement().whileStatement() != null){
+			System.out.println("Enterd while loop analyzer");
+			WhileStatementContext whileStmtContext = stmtCtx.iterationStatement().whileStatement();
+			
+			if(whileStmtContext.IDENTIFIER() != null && whileStmtContext.relExpression() != null){
+				CstmLocalScope forScope = new CstmLocalScope(GlobalScopeManager.getInstance().getCurrentScope());
+				GlobalScopeManager.getInstance().setCurrentScope(forScope);
+				System.out.println("Opened While Loop Scope");
+				CompStmtAnalyzer whileStatementAnalyzer = new CompStmtAnalyzer();
+				whileStatementAnalyzer.analyze(whileStmtContext.compoundStatement());
+			} else {
+				System.out.println("While Declaration is empty.");
 			}
-
-			CstmLocalScope parentScope = GlobalScopeManager.getInstance().getCurrentScope().getParent();
-			GlobalScopeManager.getInstance().setCurrentScope(parentScope);
 
 		}
 	}
 
-	@Override
-	public void exitEveryRule(ParserRuleContext arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visitErrorNode(ErrorNode arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visitTerminal(TerminalNode arg0) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }
