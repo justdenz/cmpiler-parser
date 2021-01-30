@@ -27,7 +27,8 @@ public class PrintCommand implements CommandInterface, ParseTreeListener {
     public void execute() {
         ParseTreeWalker tree = new ParseTreeWalker();
         tree.walk(this, this.printStatementList);
-        Printer.getInstance().display(this.statementToPrint);
+        String msgInTerminal = Printer.getInstance().getTerminalContent();
+        Printer.getInstance().display(msgInTerminal + this.statementToPrint + "\n");
         this.statementToPrint = "";
     }
 

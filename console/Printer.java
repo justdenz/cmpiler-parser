@@ -22,4 +22,8 @@ public class Printer {
   public static void clearTerminal(){
     MainGUI.terminalPane.getTerminalArea().clear();
   }
+
+  public String getTerminalContent(){
+    return MainGUI.terminalPane.getTerminalArea().getText();
+  }
 }

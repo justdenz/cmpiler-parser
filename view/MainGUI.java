@@ -18,10 +18,10 @@ import controller.Controller;
 import execution.ExecutionManager;
 
 public class MainGUI extends Application {
-  private EditorArea editorArea = new EditorArea();
+  public EditorArea editorArea = new EditorArea();
   public static TerminalPane terminalPane = new TerminalPane();
-  private ScannerWindow scannerWindow = new ScannerWindow();
-  private Controller controller = new Controller();
+  public ScannerWindow scannerWindow = new ScannerWindow();
+  public Controller controller = new Controller();
 
   @Override
   public void start(Stage primaryStage) {
@@ -63,7 +63,7 @@ public class MainGUI extends Application {
         controller.run(input);
         logList = Console.getLogList();
         if(logList.size() == 0){
-          Printer.getInstance().display("No syntax errors found");
+          Printer.getInstance().display("No syntax errors found \n\n");
           ExecutionManager.getInstance().runAllCommands();
           ExecutionManager.getInstance().resetCommands();
         } else {

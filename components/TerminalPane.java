@@ -30,4 +30,8 @@ public class TerminalPane {
   public TextArea getTerminalArea() {
     return this.terminalArea;
   }
+
+  public String getTerminalAreaText() {
+    return this.terminalArea.getText();
+  }
 }
