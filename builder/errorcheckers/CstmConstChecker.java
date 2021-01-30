@@ -10,9 +10,6 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import console.Console;
 import model.CUSTOMParser.MutableContext;
 import semantics.representations.CstmValue;
-import semantics.representations.CstmFunction;
-import semantics.representations.CstmValueSearcher;
-import semantics.representations.CstmValue.PrimitiveType;
 
 import semantics.symboltable.GlobalScopeManager;
 

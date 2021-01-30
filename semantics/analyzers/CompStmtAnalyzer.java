@@ -8,8 +8,8 @@ import model.CUSTOMParser.CompoundStatementListContext;
 import semantics.symboltable.GlobalScopeManager;
 import semantics.symboltable.scopes.CstmLocalScope;
 
-public class CompoundStatementAnalyzer {
-    public CompoundStatementAnalyzer(){
+public class CompStmtAnalyzer {
+    public CompStmtAnalyzer(){
     }
 
     public void analyze(CompoundStatementContext ctx){
@@ -17,11 +17,11 @@ public class CompoundStatementAnalyzer {
 
         for(CompoundStatementListContext compoundStatementContext: compoundStatementListContext){
             if(compoundStatementContext.statement() != null){
-                StatementAnalyzer stmtAnalyzer = new StatementAnalyzer();
+                StmtAnalyzer stmtAnalyzer = new StmtAnalyzer();
                 stmtAnalyzer.analyze(compoundStatementContext.statement());
                 System.out.println("In line "+compoundStatementContext.statement().getStart().getLine()+": Found statement");
             }else if(compoundStatementContext.declaration() != null){
-                DeclarationListAnalyzer decAnalyzer = new DeclarationListAnalyzer();
+                DecListAnalyzer decAnalyzer = new DecListAnalyzer();
                 decAnalyzer.analyze(compoundStatementContext.declaration());
                 System.out.println("In line "+compoundStatementContext.declaration().getStart().getLine()+": Found local declaration");
             }
