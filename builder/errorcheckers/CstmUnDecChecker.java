@@ -7,8 +7,6 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
-import builder.CstmBuildChecker;
-import builder.CstmErrorRepo;
 import model.CUSTOMParser.CallContext;
 import model.CUSTOMParser.ExpressionContext;
 import model.CUSTOMParser.MutableContext;
@@ -68,7 +66,7 @@ public class CstmUnDecChecker implements CstmErrCheckerInterface, ParseTreeListe
 		CstmValue value = GlobalScopeManager.getInstance().searchScopedVariable(mutableCtx.IDENTIFIER().getText());
 		
 		if(value == null) {
-			Console.log("In line "+this.lineNumber+" : Variable not found.\n");
+			Console.log(String.valueOf(this.lineNumber) , "Variable not found.");
         } else {
 			System.out.println("Variable exists!");
 		}
@@ -80,7 +78,7 @@ public class CstmUnDecChecker implements CstmErrCheckerInterface, ParseTreeListe
 		CstmFunction function = GlobalScopeManager.getInstance().getFunction(callCtx.IDENTIFIER().getText());
 		
 		if(function == null) {
-			Console.log("In line "+this.lineNumber+" : Function not found\n");
+			Console.log(String.valueOf(this.lineNumber) , "Function not found.");
 		}
 		else {
 			System.out.println("Function exists!");

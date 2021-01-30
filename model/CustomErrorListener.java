@@ -108,7 +108,8 @@ public class CustomErrorListener extends BaseErrorListener{
 
         String errLineNum = String.valueOf(error.getLineNumber());
         String errCharNum = String.valueOf(error.getCharNumber());
+        String errLoc = errLineNum + errCharNum;
         String errMsg = error.getErrorMessage();
-        Console.log("In line "+errLineNum +":"+errCharNum+" - "+errMsg+"\n");
+        Console.log(errLoc, errMsg);
     }
 }

@@ -96,7 +96,6 @@ public class CstmFunction {
 	
 	public void addParameter(String identifierString, CstmValue cstmValue) {
 		this.parameterValues.put(identifierString, cstmValue);
-		Console.log(this.functionName + " added an empty parameter " + identifierString + " type " + cstmValue.getPrimitiveType());
 	}
 	
     public CstmValue getParameter(String identifierString) {
@@ -109,7 +108,6 @@ public class CstmFunction {
     
 	public CstmValue getReturnValue() {
 		if(this.returnType == FunctionType.VOID_TYPE) {
-			Console.log(this.functionName + " is a void function. Null value is returned");
 			return null;
 		}
 		else {

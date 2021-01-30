@@ -30,7 +30,7 @@ public class CstmIdentifiedTokens {
 			return this.tokenMapping.get(key);
 		}
 		else {
-			Console.log(key +" not found in list of tokens.");
+			System.out.println(key +" not found in list of tokens.");
 			return null;
 		}
 	}

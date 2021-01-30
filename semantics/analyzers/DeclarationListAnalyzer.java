@@ -108,13 +108,13 @@ public class DeclarationListAnalyzer implements ParseTreeListener{
 					TypeSpecifierContext arrValueType = arrDecCtx.arrayDeclarationInitialize().arrayExpression().typeSpecifier();
 
 					if(arrVarType.Int() != null && arrValueType.Int() == null){
-						Console.log("In line "+ arrDecCtx.getStart().getLine() + " : Found mismatch type for Integer Array");
+						Console.log(String.valueOf(arrDecCtx.getStart().getLine()) , "Found mismatch type for Integer Array");
 					} else if(arrVarType.Boolean() != null && arrValueType.Boolean() == null){
-						Console.log("In line "+ arrDecCtx.getStart().getLine() + " : Found mismatch type for Boolean Array");
+						Console.log(String.valueOf(arrDecCtx.getStart().getLine()), "Found mismatch type for Boolean Array");
 					} else if(arrVarType.String() != null && arrValueType.String() == null){
-						Console.log("In line "+ arrDecCtx.getStart().getLine() + " : Found mismatch type for String Array");
+						Console.log(String.valueOf(arrDecCtx.getStart().getLine()), "Found mismatch type for String Array");
 					} else if(arrVarType.Float() != null && arrValueType.Float() == null){
-						Console.log("In line "+ arrDecCtx.getStart().getLine() + " : Found mismatch type for Float Array");
+						Console.log(String.valueOf(arrDecCtx.getStart().getLine()), "Found mismatch type for Float Array");
 					}
 
 					CstmLocalScope currentScope = GlobalScopeManager.getInstance().getCurrentScope();

@@ -8,8 +8,6 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import console.Console;
-import builder.CstmBuildChecker;
-import builder.CstmErrorRepo;
 import model.CUSTOMParser.ArrayDeclarationInitializeContext;
 import model.CUSTOMParser.DeclarationContext;
 import model.CUSTOMParser.VariableDeclarationInitializeContext;
@@ -39,13 +37,13 @@ public class CstmMulVarDecChecker implements CstmErrCheckerInterface, ParseTreeL
 		if(ctx instanceof VariableDeclarationInitializeContext) {
 			VariableDeclarationInitializeContext varDecCtx = (VariableDeclarationInitializeContext) ctx;
 			if(GlobalScopeManager.getInstance().searchScopedVariable(varDecCtx.IDENTIFIER().getText()) != null){
-				Console.log("In line "+this.lineNumber+"Found multiple variable declaration");
+				Console.log(String.valueOf(this.lineNumber) , "Found multiple variable declaration");
 			}
 
 		} else if(ctx instanceof ArrayDeclarationInitializeContext) {
 			ArrayDeclarationInitializeContext arrDecCtx = (ArrayDeclarationInitializeContext) ctx;
 			if(GlobalScopeManager.getInstance().searchScopedVariable(arrDecCtx.IDENTIFIER().getText()) != null){
-				Console.log("In line "+this.lineNumber+"Found multiple array declaration");
+				Console.log(String.valueOf(this.lineNumber) , "Found multiple array declaration");
 			}
 		}
 	}

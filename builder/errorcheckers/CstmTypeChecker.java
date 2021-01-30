@@ -10,8 +10,6 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import console.Console;
-import builder.CstmBuildChecker;
-import builder.CstmErrorRepo;
 import model.CUSTOMParser.ArgsContext;
 import model.CUSTOMParser.CallContext;
 import model.CUSTOMParser.ConstantContext;
@@ -69,22 +67,22 @@ public class CstmTypeChecker implements CstmErrCheckerInterface, ParseTreeListen
 			}
 			else if(this.cstmValue.getPrimitiveType() == PrimitiveType.BOOLEAN) {
 				if(constCtx.BOOLCONSTANT() == null) {
-					Console.log("In line " + this.lineNumber + " : Expected boolean type.");
+					Console.log(String.valueOf(this.lineNumber) , "Expected boolean type.");
 				}
 			}
 			else if(this.cstmValue.getPrimitiveType() == PrimitiveType.INT) {
 				if(constCtx.INTEGERCONSTANT() == null) {
-					Console.log("In line " + this.lineNumber + " : Expected int type.");
+					Console.log(String.valueOf(this.lineNumber) , "Expected int type.");
 				}
 			}
 			else if(this.cstmValue.getPrimitiveType() == PrimitiveType.FLOAT) {
 				if(constCtx.FLOATCONSTANT() == null) {
-					Console.log("In line " + this.lineNumber + " : Expected float type.");
+					Console.log(String.valueOf(this.lineNumber) , "Expected float type.");
 				}
 			}
 			else if(this.cstmValue.getPrimitiveType() == PrimitiveType.STRING) {
 				if(constCtx.STRINGCONSTANT() == null) {
-					Console.log("In line " + this.lineNumber + " : Expected string type.");
+					Console.log(String.valueOf(this.lineNumber) , "Expected string type.");
 				}
 			}
 		} 
@@ -95,33 +93,33 @@ public class CstmTypeChecker implements CstmErrCheckerInterface, ParseTreeListen
 				CstmValue cstmValue = GlobalScopeManager.getInstance().searchScopedVariable(mutCtx.IDENTIFIER().getText());
 				if(cstmValue != null) {
 					if(this.cstmValue.getPrimitiveType() == PrimitiveType.BOOLEAN && cstmValue.getPrimitiveType() != PrimitiveType.BOOLEAN) {
-						Console.log("In line " + this.lineNumber + " : Expected boolean type.");
+						Console.log(String.valueOf(this.lineNumber) , "Expected boolean type.");
 					}
 					else if(this.cstmValue.getPrimitiveType() == PrimitiveType.INT && cstmValue.getPrimitiveType() != PrimitiveType.INT) {
-						Console.log("In line " + this.lineNumber + " : Expected int type.");
+						Console.log(String.valueOf(this.lineNumber) , "Expected int type.");
 					}
 					else if(this.cstmValue.getPrimitiveType() == PrimitiveType.FLOAT && cstmValue.getPrimitiveType() != PrimitiveType.FLOAT) {
-						Console.log("In line " + this.lineNumber + " : Expected float type.");
+						Console.log(String.valueOf(this.lineNumber) , "Expected float type.");
 					}
 					else if(this.cstmValue.getPrimitiveType() == PrimitiveType.STRING && cstmValue.getPrimitiveType() != PrimitiveType.STRING) {
-						Console.log("In line " + this.lineNumber + " : Expected string type.");
+						Console.log(String.valueOf(this.lineNumber) , "Expected string type.");
 					} else if(this.cstmValue.getPrimitiveType() == PrimitiveType.ARRAY) {
 						if (cstmValue.getPrimitiveType() != PrimitiveType.ARRAY) {
-							Console.log("In line " + this.lineNumber + " : Expected array type.");
+							Console.log(String.valueOf(this.lineNumber) , "Expected array type.");
 						} else {
 							CstmArray pa = (CstmArray)this.cstmValue.getValue();
 							CstmArray pa1 = (CstmArray)cstmValue.getValue();
 							if(pa.getPrimitiveType() == PrimitiveType.BOOLEAN && pa1.getPrimitiveType() != PrimitiveType.BOOLEAN) {
-								Console.log("In line " + this.lineNumber + " : Expected boolean type.");
+								Console.log(String.valueOf(this.lineNumber) , "Expected boolean type.");
 							}
 							else if(pa.getPrimitiveType() == PrimitiveType.INT && pa1.getPrimitiveType() != PrimitiveType.INT) {
-								Console.log("In line " + this.lineNumber + " : Expected int type.");
+								Console.log(String.valueOf(this.lineNumber) , "Expected int type.");
 							}
 							else if(pa.getPrimitiveType() == PrimitiveType.FLOAT && pa1.getPrimitiveType() != PrimitiveType.FLOAT) {
-								Console.log("In line " + this.lineNumber + " : Expected float type.");
+								Console.log(String.valueOf(this.lineNumber) , "Expected float type.");
 							}
 							else if(pa.getPrimitiveType() == PrimitiveType.STRING && pa1.getPrimitiveType() != PrimitiveType.STRING) {
-								Console.log("In line " + this.lineNumber + " : Expected string type.");
+								Console.log(String.valueOf(this.lineNumber) , "Expected string type.");
 							}
 						}
 					}

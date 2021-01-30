@@ -20,9 +20,10 @@ public class Console {
       createConsole();
 	}
 
-  public static void log(final String logMessage){
+  public static void log(final String logLocation, final String logMessage){
     createConsole();
-    consoleInstance.logList.add(logMessage);
+    String logLoc = "In line " + logLocation + ":";
+    consoleInstance.logList.add(logLoc + logMessage + "\n");
   }
 
   public static ArrayList<String> getLogList(){

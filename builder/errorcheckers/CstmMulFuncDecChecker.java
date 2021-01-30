@@ -2,8 +2,6 @@ package builder.errorcheckers;
 
 import org.antlr.v4.runtime.Token;
 
-import builder.CstmBuildChecker;
-import builder.CstmErrorRepo;
 import model.CUSTOMParser.FuncBlockContext;
 import semantics.representations.CstmFunction;
 import semantics.symboltable.GlobalScopeManager;

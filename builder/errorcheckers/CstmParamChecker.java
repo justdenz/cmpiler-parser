@@ -27,10 +27,10 @@ public class CstmParamChecker implements CstmErrCheckerInterface{
 		}
 		
 		if(this.expressionCtxList == null && this.function.getParameterCount() != 0) {
-			Console.log("In line " + this.lineNumber + " : Found paramater mismatch.");
+			Console.log(String.valueOf(this.lineNumber) , "Found paramater mismatch.");
 		}
 		else if(this.expressionCtxList != null && this.expressionCtxList.size() != this.function.getParameterCount()) {
-			Console.log("In line " + this.lineNumber + " : Found paramater mismatch.");
+			Console.log(String.valueOf(this.lineNumber) , "Found paramater mismatch.");
 		}
 	}
 }

@@ -39,7 +39,7 @@ public class ParamsAnalyzer implements ParseTreeListener{
             // check if duplicate parameter
             String paramName = paramCtx.IDENTIFIER().getText();
             if(function.getParameter(paramName) != null){
-                Console.log("In line "+paramCtx.getStart().getLine()+" :Found duplicate parameter");
+                Console.log(String.valueOf(paramCtx.getStart().getLine()) , "Found duplicate parameter");
             } 
             // check if variable type specifier
             if(paramCtx.typeSpecifier() != null){

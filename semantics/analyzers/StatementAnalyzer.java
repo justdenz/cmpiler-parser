@@ -1,10 +1,6 @@
 package semantics.analyzers;
 
 import org.antlr.v4.runtime.ParserRuleContext;
-import org.antlr.v4.runtime.tree.ErrorNode;
-import org.antlr.v4.runtime.tree.ParseTreeListener;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import org.antlr.v4.runtime.tree.TerminalNode;
 
 import console.Console;
 import builder.errorcheckers.CstmUnDecChecker;
@@ -24,31 +20,38 @@ public class StatementAnalyzer{
         if(ctx instanceof StatementContext){
             StatementContext stmtCtx = (StatementContext) ctx;
 
+            // SCAN STATEMENT
             if (stmtCtx.scanStatement() != null){
                 ScanStatementContext scanStatementCtx = stmtCtx.scanStatement();
                 if(scanStatementCtx.scanStatementList() != null){
                     String scanStmtIdentifier =  scanStatementCtx.scanStatementList().IDENTIFIER().toString();
                     if(GlobalScopeManager.getInstance().searchScopedVariable(scanStmtIdentifier) == null){
-                        Console.log("Variable not yet initialized.");
-                        System.out.println("variable not found");
+                        Console.log(String.valueOf(scanStatementCtx.getStart().getLine()) , "Variable not yet initialized");
                     }
                 }
-
-            } else if(stmtCtx.printStatement() != null){
+            } 
+            // PRINT STATEMENT
+            else if(stmtCtx.printStatement() != null){
                 PrintStatementContext printStatementCtx = stmtCtx.printStatement();
                 if(printStatementCtx.printStatementList() != null){
                     PrintStatementAnalyzer printStatementAnalyzer = new PrintStatementAnalyzer();
                     printStatementAnalyzer.analyze(printStatementCtx.printStatementList());
                 }
-            } else if(stmtCtx.expressionStatement() != null){
+            } 
+            // EXPRESSION STATEMENT
+            else if(stmtCtx.expressionStatement() != null){
                 // ExpressionAnalyzer
-            } else if(stmtCtx.compoundStatement() != null){
+            } 
+            // COMPOUND STATEMENT
+            else if(stmtCtx.compoundStatement() != null){
                 CompoundStatementContext compoundCtx = stmtCtx.compoundStatement();
                 if(compoundCtx.compoundStatementList() != null){
                     CompoundStatementAnalyzer compoundStmtAnalyzer = new CompoundStatementAnalyzer();
                     compoundStmtAnalyzer.analyze(compoundCtx);
                 }
-            } else if(stmtCtx.selectionStatement() != null){
+            } 
+            // SELECTION STATEMENT
+            else if(stmtCtx.selectionStatement() != null){
                 SelectionStatementContext selectStmtCtx = stmtCtx.selectionStatement();
                 // verify the declared variables in condition
                 CstmUnDecChecker undecChecker = new CstmUnDecChecker(selectStmtCtx.simpleExpression());
@@ -74,11 +77,15 @@ public class StatementAnalyzer{
                     }
                     
                 } 
-            } else if(stmtCtx.iterationStatement() != null){
+            } 
+            // ITERATION STATEMENT
+            else if(stmtCtx.iterationStatement() != null){
                 // IterationAnalyzer (for and while loop)
                 IterationAnalyzer iterationAnalyzer = new IterationAnalyzer();
                 // iterationAnalyzer.analyze(stmtCtx.iterationStatement());
-            } else if(stmtCtx.returnStatement() != null){
+            } 
+            // RETURN STATEMENT
+            else if(stmtCtx.returnStatement() != null){
                 if(stmtCtx.returnStatement().simpleExpression() != null){
                     CstmUnDecChecker unDecChecker = new CstmUnDecChecker(stmtCtx.returnStatement().simpleExpression());
                     unDecChecker.verify();
