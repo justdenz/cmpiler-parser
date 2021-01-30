@@ -97,7 +97,7 @@ public class StmtAnalyzer{
                         CstmLocalScope forScope = new CstmLocalScope(GlobalScopeManager.getInstance().getCurrentScope());
                         GlobalScopeManager.getInstance().setCurrentScope(forScope);
                         System.out.println("Opened For Loop Scope");
-                        CompoundStatementAnalyzer forStatementAnalyzer = new CompoundStatementAnalyzer();
+                        CompStmtAnalyzer forStatementAnalyzer = new CompStmtAnalyzer();
                         forStatementAnalyzer.analyze(stmtCtx.iterationStatement().forStatement().compoundStatement());
                     } else {
                         System.out.println("For loop declaration is empty");
