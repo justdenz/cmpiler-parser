@@ -63,8 +63,7 @@ public class GlobalScopeManager {
 		CstmValue cstmValue = null;
 
 		while (localScope != null) {
-			if(localScope.getVariable(identifier) != null)
-            	cstmValue = localScope.getVariable(identifier);
+			cstmValue = localScope.getVariable(identifier);
 
             if (cstmValue != null) {
                 return cstmValue;

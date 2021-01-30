@@ -19,20 +19,12 @@ public class CstmLocalScope {
 	
 	public CstmLocalScope() {
 		this.parentScope = null;
-		this.initializeLocalVariableMap();
+		this.localVariables = new HashMap<String, CstmValue>();
 	}
 	
 	public CstmLocalScope(CstmLocalScope parentScope) {
 		this.parentScope = parentScope;
-	}
-	
-	/*
-	 * Initialize the moment a variable is about to be placed.
-	 */
-	public void initializeLocalVariableMap() {
-		if(this.localVariables == null) {
-			this.localVariables = new HashMap<String, CstmValue>();
-		}
+		this.localVariables = new HashMap<String, CstmValue>();
 	}
 	
 	public void setParent(CstmLocalScope parentScope) {
