@@ -10,7 +10,6 @@ import console.Console;
 import builder.errorcheckers.CstmMulVarDecChecker;
 import builder.errorcheckers.CstmTypeChecker;
 import builder.errorcheckers.CstmUnDecChecker;
-import semantics.utils.CstmIdentifiedTokens;
 import model.CUSTOMParser.DeclarationContext;
 import model.CUSTOMParser.ExpressionContext;
 import model.CUSTOMParser.TypeSpecifierContext;
@@ -24,9 +23,9 @@ import semantics.symboltable.scopes.CstmLocalScope;
 import semantics.representations.CstmArray;
 import semantics.representations.CstmValue;
 
-public class DeclarationListAnalyzer implements ParseTreeListener{
+public class DecListAnalyzer implements ParseTreeListener{
 	
-	public DeclarationListAnalyzer() {}
+	public DecListAnalyzer() {}
 	
 	public void analyze(DeclarationContext decListCtx) {
 		ParseTreeWalker treeWalker = new ParseTreeWalker();

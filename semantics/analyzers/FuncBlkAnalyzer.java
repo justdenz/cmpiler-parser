@@ -76,7 +76,7 @@ public class FuncBlkAnalyzer implements ParseTreeListener{
 			CompoundStatementContext compoundCtx = (CompoundStatementContext) ctx;
 			
 			if(compoundCtx.compoundStatementList() != null){
-				CompoundStatementAnalyzer compoundStmtAnalyzer = new CompoundStatementAnalyzer();
+				CompStmtAnalyzer compoundStmtAnalyzer = new CompStmtAnalyzer();
 				compoundStmtAnalyzer.analyze(compoundCtx);
 			}
 		}

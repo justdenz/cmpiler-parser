@@ -35,7 +35,7 @@ public class IterationAnalyzer implements ParseTreeListener{
 			// }else if (forStmtCtx.forCondition())
 
 			if(forStmtCtx.compoundStatement() != null){
-				CompoundStatementAnalyzer compoundStatementAnalyzer = new CompoundStatementAnalyzer();
+				CompStmtAnalyzer compoundStatementAnalyzer = new CompStmtAnalyzer();
 				compoundStatementAnalyzer.analyze(forStmtCtx.compoundStatement());
 			}
 
@@ -48,7 +48,7 @@ public class IterationAnalyzer implements ParseTreeListener{
 			// }
 
 			if(whileStmtContext.compoundStatement() != null){
-				CompoundStatementAnalyzer compoundStatementAnalyzer = new CompoundStatementAnalyzer();
+				CompStmtAnalyzer compoundStatementAnalyzer = new CompStmtAnalyzer();
 				compoundStatementAnalyzer.analyze(whileStmtContext.compoundStatement());
 			}
 
