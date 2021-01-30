@@ -5,6 +5,9 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import console.Console;
 import builder.errorcheckers.CstmUnDecChecker;
 import model.CUSTOMParser.CompoundStatementContext;
+import model.CUSTOMParser.ForDeclarationContext;
+import model.CUSTOMParser.ForExpressionContext;
+import model.CUSTOMParser.ForStatementContext;
 import model.CUSTOMParser.PrintStatementContext;
 import model.CUSTOMParser.ScanStatementContext;
 import model.CUSTOMParser.SelectionStatementContext;
@@ -56,7 +59,7 @@ public class StatementAnalyzer{
                 // verify the declared variables in condition
                 CstmUnDecChecker undecChecker = new CstmUnDecChecker(selectStmtCtx.simpleExpression());
                 undecChecker.verify();
-                
+                System.out.println(selectStmtCtx.simpleExpression().getText());
                 CstmLocalScope ifScope = new CstmLocalScope(GlobalScopeManager.getInstance().getCurrentScope());
                 GlobalScopeManager.getInstance().setCurrentScope(ifScope);
                 System.out.println("Opened if/else if scope");
@@ -82,6 +85,23 @@ public class StatementAnalyzer{
             else if(stmtCtx.iterationStatement() != null){
                 // IterationAnalyzer (for and while loop)
                 IterationAnalyzer iterationAnalyzer = new IterationAnalyzer();
+                ForDeclarationContext forDeclaration = stmtCtx.iterationStatement().forStatement().forCondition().forDeclaration();
+                ForExpressionContext forExpression = stmtCtx.iterationStatement().forStatement().forCondition().forExpression();
+                
+                if(stmtCtx.iterationStatement().forStatement() != null){
+                    if(forExpression != null && forDeclaration != null){
+                        
+                        CstmLocalScope forScope = new CstmLocalScope(GlobalScopeManager.getInstance().getCurrentScope());
+                        GlobalScopeManager.getInstance().setCurrentScope(forScope);
+                        System.out.println("Opened For Loop Scope");
+                        CompoundStatementAnalyzer forStatementAnalyzer = new CompoundStatementAnalyzer();
+                        forStatementAnalyzer.analyze(stmtCtx.iterationStatement().forStatement().compoundStatement());
+                    } else {
+                        System.out.println("For loop declaration is empty");
+                    }
+                } else {
+                    
+                }
                 // iterationAnalyzer.analyze(stmtCtx.iterationStatement());
             } 
             // RETURN STATEMENT
