@@ -12,7 +12,7 @@ public class TerminalPane {
     VBox vbox = new VBox();
 
     console.setEditable(false);
-    console.setPrefHeight(150);
+    console.setPrefHeight(250);
 
     vbox.getChildren().addAll(btnPane.buttonPane(), console);
 

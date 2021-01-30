@@ -7,7 +7,6 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-
 import console.Console;
 
 import java.util.ArrayList;
@@ -19,6 +18,7 @@ import controller.Controller;
 public class MainGUI extends Application {
   EditorArea editorArea = new EditorArea();
   TerminalPane terminalPane = new TerminalPane();
+  ScannerWindow scannerWindow = new ScannerWindow();
   Controller controller = new Controller();
 
   @Override
@@ -29,6 +29,7 @@ public class MainGUI extends Application {
     layout.setBottom(terminalPane.addTerminalBox());
     terminalPane.getBtnCompile().setOnAction(compile);
     terminalPane.getBtnParse().setOnAction(viewParseTree);
+    scannerWindow.getEnterBtn().setOnAction(enterScanner);
 
     Scene scene = new Scene(layout, 600, 600);
     scene.getStylesheets().add("/components/style/java-keywords.css");
@@ -51,6 +52,10 @@ public class MainGUI extends Application {
       String input = editorArea.getInput();
       ArrayList<String> logList = new ArrayList<>();
       String output = "";
+
+      // if(input.contains("scan")){
+      //   scannerWindow.showScannerWindow();
+      // }
       try {
         controller.run(input);
         logList = Console.getLogList();
@@ -75,5 +80,15 @@ public class MainGUI extends Application {
     public void handle(ActionEvent event) {
       controller.viewParseTree();
     }
+  };
+
+  EventHandler<ActionEvent> enterScanner = new EventHandler<ActionEvent>(){
+
+    @Override
+    public void handle(ActionEvent event) {
+      scannerWindow.close();
+
+    }
+    
   };
 }
