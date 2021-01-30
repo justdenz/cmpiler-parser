@@ -62,7 +62,6 @@ public class StmtAnalyzer{
                 // verify the declared variables in condition
                 CstmUnDecChecker undecChecker = new CstmUnDecChecker(selectStmtCtx.simpleExpression());
                 undecChecker.verify();
-                System.out.println(selectStmtCtx.simpleExpression().getText());
                 CstmLocalScope ifScope = new CstmLocalScope(GlobalScopeManager.getInstance().getCurrentScope());
                 GlobalScopeManager.getInstance().setCurrentScope(ifScope);
                 System.out.println("Opened if/else if scope");
