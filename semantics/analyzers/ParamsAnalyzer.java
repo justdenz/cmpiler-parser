@@ -12,6 +12,7 @@ import console.Console;
 import model.CUSTOMParser.ParamListContext;
 import semantics.representations.CstmValue;
 import semantics.representations.CstmValue.PrimitiveType;
+import semantics.symboltable.GlobalScopeManager;
 import semantics.utils.CstmKeywords;
 import semantics.representations.CstmFunction;
 import semantics.representations.CstmArray;
@@ -46,12 +47,15 @@ public class ParamsAnalyzer implements ParseTreeListener{
                 if(paramCtx.typeSpecifier().Int() != null){
                     CstmValue cstmValue = new CstmValue(null, CstmKeywords.IS_INT);
                     this.function.addParameter(paramName, cstmValue);
+                    GlobalScopeManager.getInstance().getCurrentScope().addVariable(paramName, cstmValue);
                 } else if(paramCtx.typeSpecifier().Float() != null){
                     CstmValue cstmValue = new CstmValue(null, CstmKeywords.IS_FLOAT);
                     this.function.addParameter(paramName, cstmValue);
+                    GlobalScopeManager.getInstance().getCurrentScope().addVariable(paramName, cstmValue);
                 } else if(paramCtx.typeSpecifier().Boolean() != null){
                     CstmValue cstmValue = new CstmValue(null, CstmKeywords.IS_BOOLEAN);
                     this.function.addParameter(paramName, cstmValue);
+                    GlobalScopeManager.getInstance().getCurrentScope().addVariable(paramName, cstmValue);
                 } else if(paramCtx.typeSpecifier().String() != null){
                     CstmValue cstmValue = new CstmValue(null, CstmKeywords.IS_STRING);
                     this.function.addParameter(paramName, cstmValue);
@@ -70,7 +74,8 @@ public class ParamsAnalyzer implements ParseTreeListener{
                     cstmArray = new CstmArray(PrimitiveType.STRING, paramName);
                 }
                 CstmValue cstmValue = new CstmValue(cstmArray, CstmKeywords.IS_ARRAY);
-                this.function.addParameter(paramCtx.IDENTIFIER().getText(), cstmValue);
+                this.function.addParameter(paramName, cstmValue);
+                GlobalScopeManager.getInstance().getCurrentScope().addVariable(paramName, cstmValue);
             }
 		}
 	}

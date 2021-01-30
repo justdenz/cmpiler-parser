@@ -22,7 +22,7 @@ public class Console {
 
   public static void log(final String logLocation, final String logMessage){
     createConsole();
-    String logLoc = "In line " + logLocation + ":";
+    String logLoc = "In line " + logLocation + ": ";
     consoleInstance.logList.add(logLoc + logMessage + "\n");
   }
 

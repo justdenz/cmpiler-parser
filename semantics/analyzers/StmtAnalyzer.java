@@ -13,6 +13,7 @@ import model.CUSTOMParser.PrintStatementContext;
 import model.CUSTOMParser.ScanStatementContext;
 import model.CUSTOMParser.SelectionStatementContext;
 import model.CUSTOMParser.StatementContext;
+import semantics.representations.CstmValue;
 import semantics.symboltable.GlobalScopeManager;
 import semantics.symboltable.scopes.CstmLocalScope;
 
