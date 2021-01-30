@@ -67,9 +67,7 @@ public class CstmUnDecChecker implements CstmErrCheckerInterface, ParseTreeListe
 		
 		if(value == null) {
 			Console.log(String.valueOf(this.lineNumber) , "Variable not found.");
-        } else {
-			System.out.println("Variable exists!");
-		}
+        }
 	}
 
 	private void verifyFunction(ParserRuleContext ctx) {

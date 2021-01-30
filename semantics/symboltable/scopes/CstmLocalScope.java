@@ -15,7 +15,7 @@ public class CstmLocalScope {
 
     private CstmLocalScope parentScope;
 	
-	private HashMap<String, CstmValue> localVariables = null;
+	private HashMap<String, CstmValue> localVariables;
 	
 	public CstmLocalScope() {
 		this.parentScope = null;

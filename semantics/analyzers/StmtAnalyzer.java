@@ -98,6 +98,32 @@ public class StmtAnalyzer{
                     unDecChecker.verify();
                 }
             }
+        } else if(ctx instanceof SelectionStatementContext){
+            SelectionStatementContext selectStmtCtx = (SelectionStatementContext) ctx;
+            // verify the declared variables in condition
+            CstmUnDecChecker undecChecker = new CstmUnDecChecker(selectStmtCtx.simpleExpression());
+            undecChecker.verify();
+            System.out.println(selectStmtCtx.simpleExpression().getText());
+            CstmLocalScope ifScope = new CstmLocalScope(GlobalScopeManager.getInstance().getCurrentScope());
+            GlobalScopeManager.getInstance().setCurrentScope(ifScope);
+            System.out.println("Opened if/else if scope");
+
+            CompStmtAnalyzer compoundStatementAnalyzer = new CompStmtAnalyzer();
+            compoundStatementAnalyzer.analyze(selectStmtCtx.compoundStatement());
+
+            if(selectStmtCtx.elseStatement() != null){
+                if(selectStmtCtx.elseStatement().compoundStatement() != null){
+                    CstmLocalScope elseScope = new CstmLocalScope(GlobalScopeManager.getInstance().getCurrentScope());
+                    GlobalScopeManager.getInstance().setCurrentScope(elseScope);
+                    System.out.println("Opened else scope");
+                    CompStmtAnalyzer elseStatementAnalyzer = new CompStmtAnalyzer();
+                    elseStatementAnalyzer.analyze(selectStmtCtx.elseStatement().compoundStatement());
+                } else {
+                    StmtAnalyzer stmtAnalyzer = new StmtAnalyzer();
+                    stmtAnalyzer.analyze(selectStmtCtx.elseStatement().selectionStatement());
+                }
+                
+            } 
         }
 	}
 

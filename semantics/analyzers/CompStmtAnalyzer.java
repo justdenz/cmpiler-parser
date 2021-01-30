@@ -19,11 +19,9 @@ public class CompStmtAnalyzer {
             if(compoundStatementContext.statement() != null){
                 StmtAnalyzer stmtAnalyzer = new StmtAnalyzer();
                 stmtAnalyzer.analyze(compoundStatementContext.statement());
-                System.out.println("In line "+compoundStatementContext.statement().getStart().getLine()+": Found statement");
             }else if(compoundStatementContext.declaration() != null){
                 DecListAnalyzer decAnalyzer = new DecListAnalyzer();
                 decAnalyzer.analyze(compoundStatementContext.declaration());
-                System.out.println("In line "+compoundStatementContext.declaration().getStart().getLine()+": Found local declaration");
             }
         }
 

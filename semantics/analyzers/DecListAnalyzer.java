@@ -69,8 +69,7 @@ public class DecListAnalyzer implements ParseTreeListener{
 				}
 
 				CstmLocalScope currentScope = GlobalScopeManager.getInstance().getCurrentScope();
-				String varIdentifier = varDecCtx.variableDeclarationInitialize().IDENTIFIER().getText();
-				currentScope.addVariable(varIdentifier, cstmValue);
+				currentScope.addVariable(varDecCtx.variableDeclarationInitialize().IDENTIFIER().getText(), cstmValue);
 				System.out.println("Found variable declaration");
 			}
 			// check if array declaration
@@ -102,7 +101,6 @@ public class DecListAnalyzer implements ParseTreeListener{
 					typeChecker.verify();
 				} else if(arrDecCtx.arrayDeclarationInitialize().arrayExpression() != null){
 					// (arrVarType = create arrValueType) i-check if same type ba yung variable and value assigned
-					System.out.println("it went here");
 					TypeSpecifierContext arrVarType = arrDecCtx.arrayTypeSpecifier().typeSpecifier();
 					TypeSpecifierContext arrValueType = arrDecCtx.arrayDeclarationInitialize().arrayExpression().typeSpecifier();
 
