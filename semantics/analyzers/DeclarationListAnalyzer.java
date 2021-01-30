@@ -10,7 +10,6 @@ import console.Console;
 import builder.errorcheckers.CstmMulVarDecChecker;
 import builder.errorcheckers.CstmTypeChecker;
 import builder.errorcheckers.CstmUnDecChecker;
-import semantics.utils.CstmIdentifiedTokens;
 import model.CUSTOMParser.DeclarationContext;
 import model.CUSTOMParser.ExpressionContext;
 import model.CUSTOMParser.TypeSpecifierContext;

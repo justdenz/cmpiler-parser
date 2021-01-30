@@ -5,6 +5,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import console.Console;
 import builder.errorcheckers.CstmUnDecChecker;
 import model.CUSTOMParser.CompoundStatementContext;
+import model.CUSTOMParser.ExpressionStatementContext;
 import model.CUSTOMParser.PrintStatementContext;
 import model.CUSTOMParser.ScanStatementContext;
 import model.CUSTOMParser.SelectionStatementContext;
@@ -40,7 +41,9 @@ public class StatementAnalyzer{
             } 
             // EXPRESSION STATEMENT
             else if(stmtCtx.expressionStatement() != null){
-                // ExpressionAnalyzer
+                ExpressionStatementContext expStmtCtx = stmtCtx.expressionStatement();
+                ExpressionStatementAnalyzer expStmtAnalyzer = new ExpressionStatementAnalyzer();
+                expStmtAnalyzer.analyze(expStmtCtx);
             } 
             // COMPOUND STATEMENT
             else if(stmtCtx.compoundStatement() != null){
