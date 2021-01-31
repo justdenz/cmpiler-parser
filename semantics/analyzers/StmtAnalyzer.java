@@ -5,15 +5,11 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import console.Console;
 import builder.errorcheckers.CstmUnDecChecker;
 import model.CUSTOMParser.CompoundStatementContext;
-import model.CUSTOMParser.ForDeclarationContext;
-import model.CUSTOMParser.ForExpressionContext;
-import model.CUSTOMParser.ForStatementContext;
 import model.CUSTOMParser.ExpressionStatementContext;
 import model.CUSTOMParser.PrintStatementContext;
 import model.CUSTOMParser.ScanStatementContext;
 import model.CUSTOMParser.SelectionStatementContext;
 import model.CUSTOMParser.StatementContext;
-import semantics.representations.CstmValue;
 import semantics.symboltable.GlobalScopeManager;
 import semantics.symboltable.scopes.CstmLocalScope;
 
@@ -28,11 +24,9 @@ public class StmtAnalyzer{
             // SCAN STATEMENT
             if (stmtCtx.scanStatement() != null){
                 ScanStatementContext scanStatementCtx = stmtCtx.scanStatement();
-                if(scanStatementCtx.scanStatementList() != null){
-                    String scanStmtIdentifier =  scanStatementCtx.scanStatementList().IDENTIFIER().toString();
-                    if(GlobalScopeManager.getInstance().searchScopedVariable(scanStmtIdentifier) == null){
-                        Console.log(String.valueOf(scanStatementCtx.getStart().getLine()) , "Variable not yet initialized");
-                    }
+                String scanStmtIdentifier =  scanStatementCtx.IDENTIFIER().toString();
+                if(GlobalScopeManager.getInstance().searchScopedVariable(scanStmtIdentifier) == null){
+                    Console.log(String.valueOf(scanStatementCtx.getStart().getLine()) , "Variable not yet initialized");
                 }
             } 
             // PRINT STATEMENT

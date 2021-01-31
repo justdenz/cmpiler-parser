@@ -73,11 +73,7 @@ statement
     ;
 
 scanStatement
-    : Scan LeftParen scanStatementList RightParen Semi
-    ;
-
-scanStatementList
-    : STRINGCONSTANT Comma IDENTIFIER
+    : Scan LeftParen StringLiteral Comma IDENTIFIER RightParen Semi
     ;
 
 printStatement
@@ -86,13 +82,15 @@ printStatement
 
 printStatementList
     : (IDENTIFIER | INTEGERCONSTANT | illegalSymbols) (IDENTIFIER | INTEGERCONSTANT | illegalSymbols)+ {notifyErrorListeners("Missing double quotes in print statement. Consider wrapping it with double quotes.");}
-    | printParameters
-    | printStatementList Plus printParameters
+    | printParameters (Plus printParameters)*
     | printStatementList Plus {notifyErrorListeners("Excess '+' found in print statement. Consider removing it or concatenate with a variable.");}
     ;
 
 printParameters
-    : simpleExpression | STRINGCONSTANT
+    : StringLiteral
+    | IDENTIFIER
+    | call
+    | simpleExpression
     ;
 
 illegalSymbols
@@ -266,7 +264,7 @@ args
 constant
     : INTEGERCONSTANT
     | FLOATCONSTANT
-    | STRINGCONSTANT
+    | StringLiteral
     | BOOLCONSTANT
     ;
 
@@ -378,7 +376,6 @@ SCharSequence
     :   SChar+
     ;
 
-fragment
 StringLiteral
     : DoubleQuotation SCharSequence? DoubleQuotation
     ;
@@ -395,10 +392,6 @@ FLOATCONSTANT
 BOOLCONSTANT
     : True
     | False
-    ;
-
-STRINGCONSTANT
-    : StringLiteral
     ;
 
 IDENTIFIER

@@ -81,7 +81,7 @@ public class CstmTypeChecker implements CstmErrCheckerInterface, ParseTreeListen
 				}
 			}
 			else if(this.cstmValue.getPrimitiveType() == PrimitiveType.STRING) {
-				if(constCtx.STRINGCONSTANT() == null) {
+				if(constCtx.StringLiteral() == null) {
 					Console.log(String.valueOf(this.lineNumber) , "Expected string type.");
 				}
 			}

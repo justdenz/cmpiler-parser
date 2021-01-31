@@ -158,16 +158,6 @@ public interface CUSTOMListener extends ParseTreeListener {
 	 */
 	void exitScanStatement(CUSTOMParser.ScanStatementContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link CUSTOMParser#scanStatementList}.
-	 * @param ctx the parse tree
-	 */
-	void enterScanStatementList(CUSTOMParser.ScanStatementListContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link CUSTOMParser#scanStatementList}.
-	 * @param ctx the parse tree
-	 */
-	void exitScanStatementList(CUSTOMParser.ScanStatementListContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link CUSTOMParser#printStatement}.
 	 * @param ctx the parse tree
 	 */

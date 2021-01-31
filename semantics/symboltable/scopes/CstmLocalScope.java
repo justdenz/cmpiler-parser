@@ -46,4 +46,23 @@ public class CstmLocalScope {
 	public void addVariable(String identifier, CstmValue cstmValue) {
 		this.localVariables.put(identifier, cstmValue);
 	}
+
+	public CstmValue getVariableWithinScope(String id) {
+        
+        CstmLocalScope current = this;
+        CstmValue cstmValue = null;
+
+        while (current != null) {
+            cstmValue = this.getVariable(id);
+
+            if (cstmValue != null) {
+                return cstmValue;
+            } 
+
+            current = current.getParent();
+        }
+        
+        return cstmValue;
+
+    }
 }

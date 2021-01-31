@@ -10,8 +10,6 @@ public class PrintStmtAnalyzer {
     if(ctx instanceof PrintStatementListContext){
 
       if(ctx.printParameters() != null){
-        CstmUnDecChecker unDecChecker = new CstmUnDecChecker(ctx.printParameters().simpleExpression());
-        unDecChecker.verify();
         PrintCommand printCmd = new PrintCommand(ctx);
         ExecutionManager.getInstance().addCommand(printCmd);
       }

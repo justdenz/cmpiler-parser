@@ -9,18 +9,25 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 
 import builder.errorcheckers.CstmUnDecChecker;
 import console.Printer;
+import execution.ExecutionManager;
+import console.Console;
 import model.CUSTOMParser.PrintParametersContext;
 import model.CUSTOMParser.PrintStatementContext;
 import model.CUSTOMParser.PrintStatementListContext;
 import model.CUSTOMParser.SimpleExpressionContext;
+import semantics.representations.CstmValue;
+import semantics.symboltable.GlobalScopeManager;
+import semantics.symboltable.scopes.CstmLocalScope;
 
 public class PrintCommand implements CommandInterface, ParseTreeListener {
 
     private PrintStatementListContext printStatementList;
     private String statementToPrint = "";
+    private CstmLocalScope cstmScope;
 
     public PrintCommand(PrintStatementListContext printStatementList){
         this.printStatementList = printStatementList;
+        this.cstmScope = GlobalScopeManager.getInstance().getCurrentScope();
     }
 
     @Override
@@ -37,8 +44,25 @@ public class PrintCommand implements CommandInterface, ParseTreeListener {
         if(ctx instanceof PrintParametersContext){
             PrintParametersContext printParamCtx = (PrintParametersContext) ctx;
 
-            this.statementToPrint = printParamCtx.getText().replace("\"", "");
-            
+            //printing of regular string
+            if(printParamCtx.StringLiteral() != null){
+                this.statementToPrint = printParamCtx.StringLiteral().getText().replaceAll("^\"+|\"+$", "");
+            }
+            //printing expressions
+
+            //printing variables
+            else if(printParamCtx.IDENTIFIER() != null){
+                String varName = printParamCtx.IDENTIFIER().getText();
+                CstmValue val = cstmScope.getVariableWithinScope(varName);
+                if(val != null){
+                    this.statementToPrint = val.getValue().toString();
+                } else {
+                    this.statementToPrint = "In line " + String.valueOf(printParamCtx.getStart().getLine()) + " : Found undeclared value for printing.";
+                    ExecutionManager.getInstance().resetCommands();
+                }
+            }
+            //printing function calls
+
         }
     }
 
@@ -56,8 +80,4 @@ public class PrintCommand implements CommandInterface, ParseTreeListener {
     public void visitTerminal(TerminalNode arg0) {
 
     }
-
-    public String getStatementToPrint() {
-		return this.statementToPrint;
-	}
 }
