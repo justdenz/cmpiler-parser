@@ -7,6 +7,7 @@ import java.util.List;
 
 import builder.errorcheckers.CstmTypeChecker;
 import console.Console;
+import execution.commands.CommandInterface;
 import model.CUSTOMParser.ExpressionContext;
 import semantics.representations.CstmValue.PrimitiveType;
 import semantics.representations.CstmArray;
@@ -28,18 +29,19 @@ public class CstmFunction {
     }
     
     private String functionName;
-	//private List<ICommand> commandSequences; //the list of commands execution by the function
-	
+	private List<CommandInterface> commandList; //the list of commands execution by the function
+	private boolean returned; // refers to the function returning a value back to main
     private CstmLocalScope functionScope; //refers to the scope of the function
-
 	private LinkedHashMap<String, CstmValue> parameterValues;	//the list of parameters of the function
 	private CstmValue returnValue; //the return value of the function. null if it's a void type
-	private FunctionType returnType = FunctionType.VOID_TYPE; //the return type of the function
+	private FunctionType returnType; //the return type of the function
     
     public CstmFunction() {
-		//this.commandSequences = new ArrayList<ICommand>();
+		this.commandList = new ArrayList<CommandInterface>();
 		this.parameterValues = new LinkedHashMap<String,CstmValue>();
 		this.functionScope = new CstmLocalScope();
+		this.returnType = FunctionType.VOID_TYPE;
+		this.returned = false;
     }
     
     public void setFunctionLocalScope(CstmLocalScope localScope) {
@@ -115,50 +117,13 @@ public class CstmFunction {
 		}
 	}
 	
-	// @Override
-	// public void addCommand(ICommand command) {
-	// 	this.commandSequences.add(command);
-	// 	Console.log("Command added to " +this.functionName);
-	// }
-	
-	// @Override
-	// public void execute() {
-	// 	ExecutionMonitor executionMonitor = ExecutionManager.getInstance().getExecutionMonitor();
-	// 	FunctionTracker.getInstance().reportEnterFunction(this);
-	// 	try {
-	// 		for(ICommand command : this.commandSequences) {
-	// 			executionMonitor.tryExecution();
-	// 			command.execute();
-	// 		}
+	public void addCommand(CommandInterface command) {
+		this.commandList.add(command);
+		System.out.println("Added new command to " + this.functionName);
+	}
 
-	// 	} catch(InterruptedException e) {
-	// 		Log.e(TAG, "Monitor block interrupted! " +e.getMessage());
-	// 	}
-		
-	// 	FunctionTracker.getInstance().reportExitFunction();
-	// }
-
-	// @Override
-	// public ControlTypeEnum getControlType() {
-	// 	return ControlTypeEnum.FUNCTION_TYPE;
-	// }
-
-	public static FunctionType identifyFunctionType(String primitiveTypeString) {
-		
-		if(CstmKeywords.matchesKeyword(CstmKeywords.IS_BOOLEAN, primitiveTypeString)) {
-			return FunctionType.BOOLEAN_TYPE;
-		}
-		else if(CstmKeywords.matchesKeyword(CstmKeywords.IS_FLOAT, primitiveTypeString)) {
-			return FunctionType.FLOAT_TYPE;
-		}
-		else if(CstmKeywords.matchesKeyword(CstmKeywords.IS_INT, primitiveTypeString)) {
-			return FunctionType.INT_TYPE;
-		}
-		else if(CstmKeywords.matchesKeyword(CstmKeywords.IS_STRING, primitiveTypeString)) {
-			return FunctionType.STRING_TYPE;
-		}
-		
-		return FunctionType.VOID_TYPE;
+	public List<CommandInterface> getCommands(){
+		return this.commandList;
 	}
 
 }
