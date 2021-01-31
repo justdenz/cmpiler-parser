@@ -30,7 +30,7 @@ public class CstmFunction {
     
     private String functionName;
 	private List<CommandInterface> commandList; //the list of commands execution by the function
-	private boolean returned; // refers to the function returning a value back to main
+	private boolean calledReturned; // refers to the function returning a value back to main
     private CstmLocalScope functionScope; //refers to the scope of the function
 	private LinkedHashMap<String, CstmValue> parameterValues;	//the list of parameters of the function
 	private CstmValue returnValue; //the return value of the function. null if it's a void type
@@ -41,7 +41,7 @@ public class CstmFunction {
 		this.parameterValues = new LinkedHashMap<String,CstmValue>();
 		this.functionScope = new CstmLocalScope();
 		this.returnType = FunctionType.VOID_TYPE;
-		this.returned = false;
+		this.calledReturned = false;
     }
     
     public void setFunctionLocalScope(CstmLocalScope localScope) {
@@ -115,6 +115,10 @@ public class CstmFunction {
 		else {
 			return this.returnValue;
 		}
+	}
+
+	public boolean getReturnStatus(){
+		return this.calledReturned;
 	}
 	
 	public void addCommand(CommandInterface command) {
