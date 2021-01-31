@@ -9,8 +9,6 @@ public class ExecutionManager {
     private ArrayList<CommandInterface> commandList = new ArrayList<CommandInterface>();
     private ExecutionThread executionThread;
 
-    //setter of flag for thread
-
     public ExecutionManager(){
 
     }
@@ -33,6 +31,14 @@ public class ExecutionManager {
 
     public void addCommand(CommandInterface command){
         this.commandList.add(command);
+    }
+
+    public void pauseThread(){
+        this.executionThread.pauseRunning();
+    }
+
+    public void resumeThread(){
+        this.executionThread.resumeRunning();
     }
 
 }

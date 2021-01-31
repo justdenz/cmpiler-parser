@@ -1,16 +1,10 @@
 package semantics.representations;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import builder.errorcheckers.CstmTypeChecker;
-import console.Console;
 import execution.commands.CommandInterface;
-import model.CUSTOMParser.ExpressionContext;
-import semantics.representations.CstmValue.PrimitiveType;
-import semantics.representations.CstmArray;
 import semantics.symboltable.scopes.CstmLocalScope;
 import semantics.utils.CstmKeywords;
 

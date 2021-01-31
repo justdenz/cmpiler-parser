@@ -6,22 +6,32 @@ import console.Console;
 import execution.commands.CommandInterface;
 
 public class ExecutionThread extends Thread{
+
     private ArrayList<CommandInterface> commandList = new ArrayList<CommandInterface>();
-
-    // flag object is here
-    //make a setter for flag (pause and resume)
-
+    private volatile boolean isRunning; // flag if thread is running or not
     public ExecutionThread(ArrayList<CommandInterface> commandList){
         this.commandList = commandList;
+        this.isRunning = true;
     }
 
     @Override
     public void run(){
-        for (CommandInterface command : commandList) {
-            command.execute();
+        int index = 0;
+        while(index < commandList.size()){
+            if (this.isRunning) {
+                commandList.get(index).execute();
+                index++;
+            }
         }
     }
 
-    // make a method to terminate thread agad if may runtime error
+    public void pauseRunning(){
+        this.isRunning = false;
+    }
+
+    public void resumeRunning(){
+        this.isRunning = true;
+        System.out.println("Thread has been resumed.");
+    }
     
 }
