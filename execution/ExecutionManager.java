@@ -9,6 +9,8 @@ public class ExecutionManager {
     private ArrayList<CommandInterface> commandList = new ArrayList<CommandInterface>();
     private ExecutionThread executionThread;
 
+    //setter of flag for thread
+
     public ExecutionManager(){
 
     }
