@@ -44,7 +44,6 @@ public class CstmLocalScope {
 	}
 	
 	public void addVariable(String identifier, CstmValue cstmValue) {
-		System.out.println("added variable "+cstmValue.getValue().toString());
 		this.localVariables.put(identifier, cstmValue);
 	}
 
