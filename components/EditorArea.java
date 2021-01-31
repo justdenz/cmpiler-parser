@@ -1,9 +1,14 @@
 package components;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
@@ -16,6 +21,7 @@ import org.fxmisc.richtext.model.StyleSpansBuilder;
 import org.reactfx.Subscription;
 
 public class EditorArea {
+
   private static final String[] KEYWORDS = new String[] {
     "abstract",
     "assert",
@@ -69,15 +75,13 @@ public class EditorArea {
     "while",
   };
 
-  private static final String KEYWORD_PATTERN =
-    "\\b(" + String.join("|", KEYWORDS) + ")\\b";
+  private static final String KEYWORD_PATTERN ="\\b(" + String.join("|", KEYWORDS) + ")\\b";
   private static final String PAREN_PATTERN = "\\(|\\)";
   private static final String BRACE_PATTERN = "\\{|\\}";
   private static final String BRACKET_PATTERN = "\\[|\\]";
   private static final String SEMICOLON_PATTERN = "\\;";
   private static final String STRING_PATTERN = "\"([^\"\\\\]|\\\\.)*\"";
-  private static final String COMMENT_PATTERN =
-    "//[^\n]*" + "|" + "/\\*(.|\\R)*?\\*/";
+  private static final String COMMENT_PATTERN ="//[^\n]*" + "|" + "/\\*(.|\\R)*?\\*/";
 
   private static final Pattern PATTERN = Pattern.compile(
     "(?<KEYWORD>" +
@@ -103,10 +107,7 @@ public class EditorArea {
     ")"
   );
 
-  private static final String mainText = String.join(
-    "\n",
-    new String[] { "main(){", "", "}" }
-  );
+  private static final String test = "test.txt";
 
   public ExecutorService executor;
   private CodeArea codeArea = new CodeArea();
@@ -131,7 +132,20 @@ public class EditorArea {
       )
       .subscribe(this::applyHighlighting);
 
-    codeArea.replaceText(0, 0, mainText);
+    if(test != ""){
+      File file = new File(test);
+      Scanner sc;
+      try {
+        sc = new Scanner(file);
+          String s = "";
+        while (sc.hasNextLine()) {
+          s += sc.nextLine() + "\n";
+        }
+        codeArea.appendText(s);
+      } catch (FileNotFoundException e) {
+        e.printStackTrace();
+      }
+    }
     return codeArea;
   }
 
