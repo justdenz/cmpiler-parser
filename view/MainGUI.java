@@ -5,10 +5,13 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import console.Console;
 import console.Printer;
+import console.ScanWindow;
 
 import java.util.ArrayList;
 
@@ -20,7 +23,6 @@ import execution.ExecutionManager;
 public class MainGUI extends Application {
   public EditorArea editorArea = new EditorArea();
   public static TerminalPane terminalPane = new TerminalPane();
-  public ScannerWindow scannerWindow = new ScannerWindow();
   public Controller controller = new Controller();
 
   @Override
@@ -31,7 +33,6 @@ public class MainGUI extends Application {
     layout.setBottom(terminalPane.addTerminalBox());
     terminalPane.getBtnCompile().setOnAction(compile);
     terminalPane.getBtnParse().setOnAction(viewParseTree);
-    scannerWindow.getEnterBtn().setOnAction(enterScanner);
 
     Scene scene = new Scene(layout, 600, 600);
     scene.getStylesheets().add("/components/style/java-keywords.css");
@@ -54,10 +55,6 @@ public class MainGUI extends Application {
       String input = editorArea.getInput();
       ArrayList<String> logList = new ArrayList<>();
       String output = "";
-
-      // if(input.contains("scan")){
-      //   scannerWindow.showScannerWindow();
-      // }
 
       try {
         controller.run(input);
@@ -87,13 +84,4 @@ public class MainGUI extends Application {
     }
   };
 
-  EventHandler<ActionEvent> enterScanner = new EventHandler<ActionEvent>(){
-
-    @Override
-    public void handle(ActionEvent event) {
-      scannerWindow.close();
-
-    }
-    
-  };
 }

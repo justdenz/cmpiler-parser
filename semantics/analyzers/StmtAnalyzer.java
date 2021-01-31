@@ -3,6 +3,8 @@ package semantics.analyzers;
 import org.antlr.v4.runtime.ParserRuleContext;
 
 import console.Console;
+import execution.ExecutionManager;
+import execution.commands.ScanCommand;
 import builder.errorcheckers.CstmUnDecChecker;
 import model.CUSTOMParser.CompoundStatementContext;
 import model.CUSTOMParser.ExpressionStatementContext;
@@ -10,6 +12,8 @@ import model.CUSTOMParser.PrintStatementContext;
 import model.CUSTOMParser.ScanStatementContext;
 import model.CUSTOMParser.SelectionStatementContext;
 import model.CUSTOMParser.StatementContext;
+import semantics.representations.CstmValue;
+import semantics.representations.CstmValue.PrimitiveType;
 import semantics.symboltable.GlobalScopeManager;
 import semantics.symboltable.scopes.CstmLocalScope;
 
@@ -23,10 +27,21 @@ public class StmtAnalyzer{
 
             // SCAN STATEMENT
             if (stmtCtx.scanStatement() != null){
-                ScanStatementContext scanStatementCtx = stmtCtx.scanStatement();
-                String scanStmtIdentifier =  scanStatementCtx.IDENTIFIER().toString();
-                if(GlobalScopeManager.getInstance().searchScopedVariable(scanStmtIdentifier) == null){
-                    Console.log(String.valueOf(scanStatementCtx.getStart().getLine()) , "Variable not yet initialized");
+                ScanStatementContext scanCtx = stmtCtx.scanStatement();
+
+                if(scanCtx.IDENTIFIER() != null){
+                    CstmValue cstmValue = GlobalScopeManager.getInstance().searchScopedVariable(scanCtx.IDENTIFIER().getText());
+
+                    if(cstmValue != null){
+                        if(cstmValue.getPrimitiveType() != PrimitiveType.ARRAY){
+                            ScanCommand scanCmd = new ScanCommand(scanCtx.IDENTIFIER().getText(), scanCtx.StringLiteral().getText());
+                            ExecutionManager.getInstance().addCommand(scanCmd);
+                        } else{
+                            Console.log(String.valueOf(scanCtx.getStart().getLine()), "Cannot make a scan assignment to an array");
+                        }
+                    } else {
+                        Console.log(String.valueOf(scanCtx.getStart().getLine()) , "Variable not yet initialized");
+                    }
                 }
             } 
             // PRINT STATEMENT

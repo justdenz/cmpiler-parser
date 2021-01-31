@@ -48,18 +48,8 @@ public class CstmValue {
 		return this.isConstant;
     }
     
-    public void setValue(String value) {
-		
-		if(this.primitiveType == PrimitiveType.NOT_YET_IDENTIFIED) {
-			System.out.println("Primitive type not yet identified!");
-		}
-		
-		else if(this.primitiveType == PrimitiveType.STRING) {
-			this.objValue = value.replace("\"", "");
-		}
-		else if(this.primitiveType == PrimitiveType.ARRAY) {
-			System.out.println(this.primitiveType + " is an array. Cannot directly change value.");
-		}
+    public void setValue(Object value) {
+		this.objValue = value;
     }
     
     public Object getValue() {

@@ -7,6 +7,7 @@ import java.util.Arrays;
 
 import console.Console;
 import console.Printer;
+import console.ScanWindow;
 import execution.ExecutionManager;
 import model.CUSTOMLexer;
 import model.CUSTOMParser;
@@ -26,6 +27,7 @@ public class Controller {
 
   public void run(String input) throws Exception {
     Printer.getInstance();
+    ScanWindow.getInstance();
     ExecutionManager.getInstance();
     Console.initialize();
     CustomErrorListener errorListener = new CustomErrorListener();

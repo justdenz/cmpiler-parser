@@ -16,7 +16,7 @@ public class Printer {
   }
 
   public void display(String output) {
-    MainGUI.terminalPane.getTerminalArea().setText(output);
+    MainGUI.terminalPane.getTerminalArea().setText(this.getTerminalContent() + output);
   }
 
   public static void clearTerminal(){

@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class ScannerWindow {
   
@@ -17,17 +18,16 @@ public class ScannerWindow {
 
   public void showScannerWindow(){
 
-    scannerWindow.setTitle("Scanner");
+    scannerWindow.setTitle("Scanner Window");
 
     VBox layout = new VBox(10);
     layout.setPadding(new Insets(10));
 
-    inputField.setPromptText("Enter value");
-    enterBtn.setText("Enter");
+    inputField.setPromptText("Enter value:");
+    enterBtn.setText("Submit");
 
     layout.getChildren().addAll(inputField, enterBtn);
     layout.setAlignment(Pos.CENTER);
-    
 
     scene = new Scene(layout, 250, 100);
     scannerWindow.setScene(scene);
