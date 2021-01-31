@@ -9,6 +9,7 @@ public class ExecutionThread extends Thread{
 
     private ArrayList<CommandInterface> commandList = new ArrayList<CommandInterface>();
     private volatile boolean isRunning; // flag if thread is running or not
+    private int index;
     public ExecutionThread(ArrayList<CommandInterface> commandList){
         this.commandList = commandList;
         this.isRunning = true;
@@ -16,7 +17,7 @@ public class ExecutionThread extends Thread{
 
     @Override
     public void run(){
-        int index = 0;
+        index = 0;
         while(index < commandList.size()){
             if (this.isRunning) {
                 System.out.println("Index: "+index);
@@ -36,4 +37,7 @@ public class ExecutionThread extends Thread{
         System.out.println("Thread has resumed.");
     }
     
+    public void stopThread(){
+        this.index = commandList.size();
+    }
 }

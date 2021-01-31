@@ -10,6 +10,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import builder.errorcheckers.CstmUnDecChecker;
 import console.Printer;
 import execution.ExecutionManager;
+import execution.commands.evaluation.EvaluationCommand;
 import console.Console;
 import model.CUSTOMParser.PrintParametersContext;
 import model.CUSTOMParser.PrintStatementContext;
@@ -59,6 +60,12 @@ public class PrintCommand implements CommandInterface, ParseTreeListener {
                     this.statementToPrint = "In line " + String.valueOf(printParamCtx.getStart().getLine()) + " : Found undeclared value for printing.";
                     ExecutionManager.getInstance().resetCommands();
                 }
+            }
+
+            else{
+                EvaluationCommand evaluationCommand = new EvaluationCommand(printParamCtx.simpleExpression(), this.cstmScope);
+                evaluationCommand.execute();
+                System.out.println(evaluationCommand.getResult());
             }
             //printing function calls
 
