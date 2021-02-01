@@ -1,4 +1,5 @@
 main() {
-	int[] arr1;
-    int[] arr2 = arr1;
+	int x = 1;
+    x = x + 2;
+    print(x);
 }
