@@ -1,5 +1,12 @@
+func void test2(){
+    print("Fdasf");
+}
+
+func void test1(){
+    String x;
+    scan("Enter input", x);
+}
+
+
 main() {
-	int x = 1;
-    x = x + 2;
-    print(x);
 }

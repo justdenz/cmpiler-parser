@@ -70,11 +70,18 @@ public class DecListAnalyzer implements ParseTreeListener{
 					typeChecker.verify();
 
 					VarInitCommand varInitCmd = new VarInitCommand(varDecCtx.variableDeclarationInitialize().IDENTIFIER(), varDecCtx.variableDeclarationInitialize().simpleExpression());
-					ExecutionManager.getInstance().addCommand(varInitCmd);
+
+					if(GlobalScopeManager.getInstance().getIsInFunction()){
+						String currentFunctionName = GlobalScopeManager.getInstance().getCurrentFunctionName();
+						GlobalScopeManager.getInstance().getFunction(currentFunctionName).addCommand(varInitCmd);
+					} else {
+						ExecutionManager.getInstance().addCommand(varInitCmd);
+					}
 				}
 
 				CstmLocalScope currentScope = GlobalScopeManager.getInstance().getCurrentScope();
 				currentScope.addVariable(varDecCtx.variableDeclarationInitialize().IDENTIFIER().getText(), cstmValue);
+				
 			}
 			// check if array declaration
 			else if(decCtx.arrayDeclaration() != null){
@@ -124,8 +131,15 @@ public class DecListAnalyzer implements ParseTreeListener{
 						} else {
 							Console.log(String.valueOf(arrDecCtx.arrayDeclarationInitialize().getStart().getLine()), "Found an array type mismatch error.");
 						}
+
+						
 						ArrayInitCommand arrayInitCommand = new ArrayInitCommand(arrDecCtx.arrayDeclarationInitialize().IDENTIFIER(), arrDecCtx.arrayDeclarationInitialize().mutable());
-						ExecutionManager.getInstance().addCommand(arrayInitCommand);
+						if(GlobalScopeManager.getInstance().getIsInFunction()){
+							String currentFunctionName = GlobalScopeManager.getInstance().getCurrentFunctionName();
+							GlobalScopeManager.getInstance().getFunction(currentFunctionName).addCommand(arrayInitCommand);
+						} else {
+							ExecutionManager.getInstance().addCommand(arrayInitCommand);
+						}
 					} else {
 						Console.log(String.valueOf(String.valueOf(arrDecCtx.arrayDeclarationInitialize().getStart().getLine())), "Found an undeclared array value.");
 					}
@@ -154,7 +168,13 @@ public class DecListAnalyzer implements ParseTreeListener{
 					typeChecker.verify();
 
 					ArrayCreateCommand arrCreateCmd = new ArrayCreateCommand(cstmArray, arrDecCtx.arrayDeclarationInitialize().arrayExpression().simpleExpression());
-					ExecutionManager.getInstance().addCommand(arrCreateCmd);
+
+					if(GlobalScopeManager.getInstance().getIsInFunction()){
+						String currentFunctionName = GlobalScopeManager.getInstance().getCurrentFunctionName();
+						GlobalScopeManager.getInstance().getFunction(currentFunctionName).addCommand(arrCreateCmd);
+					} else {
+						ExecutionManager.getInstance().addCommand(arrCreateCmd);
+					}
 				}
 
 				if(arrDecCtx.arrayDeclarationInitialize().IDENTIFIER() != null){

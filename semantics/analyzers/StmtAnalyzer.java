@@ -35,7 +35,13 @@ public class StmtAnalyzer{
                     if(cstmValue != null){
                         if(cstmValue.getPrimitiveType() != PrimitiveType.ARRAY){
                             ScanCommand scanCmd = new ScanCommand(scanCtx.IDENTIFIER().getText(), scanCtx.StringLiteral().getText());
-                            ExecutionManager.getInstance().addCommand(scanCmd);
+
+                            if(GlobalScopeManager.getInstance().getIsInFunction()){
+                                String currentFunctionName = GlobalScopeManager.getInstance().getCurrentFunctionName();
+                                GlobalScopeManager.getInstance().getFunction(currentFunctionName).addCommand(scanCmd);
+                            } else {
+                                ExecutionManager.getInstance().addCommand(scanCmd);
+                            }
                         } else{
                             Console.log(String.valueOf(scanCtx.getStart().getLine()), "Cannot make a scan assignment to an array");
                         }
