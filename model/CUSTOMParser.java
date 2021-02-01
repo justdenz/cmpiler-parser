@@ -493,8 +493,8 @@ public class CUSTOMParser extends Parser {
 		public ArrayExpressionContext arrayExpression() {
 			return getRuleContext(ArrayExpressionContext.class,0);
 		}
-		public SimpleExpressionContext simpleExpression() {
-			return getRuleContext(SimpleExpressionContext.class,0);
+		public MutableContext mutable() {
+			return getRuleContext(MutableContext.class,0);
 		}
 		public ArrayDeclarationInitializeContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -550,7 +550,7 @@ public class CUSTOMParser extends Parser {
 					setState(148);
 					match(Assign);
 					setState(149);
-					simpleExpression(0);
+					mutable();
 					}
 				}
 
@@ -3812,14 +3812,14 @@ public class CUSTOMParser extends Parser {
 		"\u008c\3\2\2\2\u008c\u008d\5\26\f\2\u008d\u008e\5\16\b\2\u008e\u008f\7"+
 		"\63\2\2\u008f\r\3\2\2\2\u0090\u0093\7@\2\2\u0091\u0092\7\n\2\2\u0092\u0094"+
 		"\5H%\2\u0093\u0091\3\2\2\2\u0093\u0094\3\2\2\2\u0094\u009b\3\2\2\2\u0095"+
-		"\u0098\7@\2\2\u0096\u0097\7\n\2\2\u0097\u0099\5F$\2\u0098\u0096\3\2\2"+
-		"\2\u0098\u0099\3\2\2\2\u0099\u009b\3\2\2\2\u009a\u0090\3\2\2\2\u009a\u0095"+
-		"\3\2\2\2\u009b\17\3\2\2\2\u009c\u009e\7\17\2\2\u009d\u009c\3\2\2\2\u009d"+
-		"\u009e\3\2\2\2\u009e\u009f\3\2\2\2\u009f\u00a0\5\24\13\2\u00a0\u00a1\5"+
-		"\22\n\2\u00a1\u00a2\7\63\2\2\u00a2\21\3\2\2\2\u00a3\u00a6\7@\2\2\u00a4"+
-		"\u00a5\7\n\2\2\u00a5\u00a7\5F$\2\u00a6\u00a4\3\2\2\2\u00a6\u00a7\3\2\2"+
-		"\2\u00a7\23\3\2\2\2\u00a8\u00a9\t\2\2\2\u00a9\25\3\2\2\2\u00aa\u00ab\5"+
-		"\24\13\2\u00ab\u00ac\7\"\2\2\u00ac\u00ad\7\60\2\2\u00ad\27\3\2\2\2\u00ae"+
+		"\u0098\7@\2\2\u0096\u0097\7\n\2\2\u0097\u0099\5`\61\2\u0098\u0096\3\2"+
+		"\2\2\u0098\u0099\3\2\2\2\u0099\u009b\3\2\2\2\u009a\u0090\3\2\2\2\u009a"+
+		"\u0095\3\2\2\2\u009b\17\3\2\2\2\u009c\u009e\7\17\2\2\u009d\u009c\3\2\2"+
+		"\2\u009d\u009e\3\2\2\2\u009e\u009f\3\2\2\2\u009f\u00a0\5\24\13\2\u00a0"+
+		"\u00a1\5\22\n\2\u00a1\u00a2\7\63\2\2\u00a2\21\3\2\2\2\u00a3\u00a6\7@\2"+
+		"\2\u00a4\u00a5\7\n\2\2\u00a5\u00a7\5F$\2\u00a6\u00a4\3\2\2\2\u00a6\u00a7"+
+		"\3\2\2\2\u00a7\23\3\2\2\2\u00a8\u00a9\t\2\2\2\u00a9\25\3\2\2\2\u00aa\u00ab"+
+		"\5\24\13\2\u00ab\u00ac\7\"\2\2\u00ac\u00ad\7\60\2\2\u00ad\27\3\2\2\2\u00ae"+
 		"\u00b3\5\32\16\2\u00af\u00b0\7\16\2\2\u00b0\u00b2\5\32\16\2\u00b1\u00af"+
 		"\3\2\2\2\u00b2\u00b5\3\2\2\2\u00b3\u00b1\3\2\2\2\u00b3\u00b4\3\2\2\2\u00b4"+
 		"\u00b8\3\2\2\2\u00b5\u00b3\3\2\2\2\u00b6\u00b8\3\2\2\2\u00b7\u00ae\3\2"+

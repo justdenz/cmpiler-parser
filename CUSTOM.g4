@@ -29,7 +29,7 @@ arrayDeclaration
 
 arrayDeclarationInitialize
     : IDENTIFIER (Assign arrayExpression)?
-    | IDENTIFIER (Assign simpleExpression)?
+    | IDENTIFIER (Assign mutable)?
     ;
 
 variableDeclaration

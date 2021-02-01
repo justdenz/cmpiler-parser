@@ -8,19 +8,19 @@ public class CstmValue {
     
     //these are the accepted primitive types
     public enum PrimitiveType {
-		NOT_YET_IDENTIFIED,
-		BOOLEAN,
-		INT,
-		FLOAT,
-		STRING,
-		ARRAY
+			NOT_YET_IDENTIFIED,
+			BOOLEAN,
+			INT,
+			FLOAT,
+			STRING,
+			ARRAY
     }
     
 	private Object objValue;
 	private PrimitiveType primitiveType = PrimitiveType.NOT_YET_IDENTIFIED;
-    private boolean isConstant = false;
+  private boolean isConstant = false;
     
-    public CstmValue(Object value, String primitiveType) {
+  public CstmValue(Object value, String primitiveType) {
 
 		PrimitiveType verifiedPrimType = verifyPrimType(primitiveType);
 
@@ -31,6 +31,11 @@ public class CstmValue {
 		else {
 			System.out.println("Value is not appropriate for  " + primitiveType + "!");
 		}
+	}
+
+	public CstmValue(Object value, PrimitiveType primitiveType) {
+		this.primitiveType = primitiveType;
+		this.objValue = null;
 	}
 	
 	public void setPrimitiveType(PrimitiveType primitiveType) {

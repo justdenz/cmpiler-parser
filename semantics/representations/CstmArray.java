@@ -6,7 +6,7 @@ import semantics.utils.CstmKeywords;
 
 public class CstmArray {
 
-    private CstmValue[] valueArray;
+  private CstmValue[] valueArray;
 	private PrimitiveType arrayPrimitiveType;
 	private String arrayIdentifier;
 	private boolean finalFlag = false;
@@ -34,7 +34,11 @@ public class CstmArray {
 	
 	public void initializeSize(int size) {
 		this.valueArray = new CstmValue[size];
-		System.out.println("Mobi array initialized to size " +this.valueArray.length);
+
+		for(int i = 0; i < size; i++){
+			CstmValue val = new CstmValue(null, this.arrayPrimitiveType);
+			this.valueArray[i] = val;
+		}
 	}
 	
 	public int getSize() {
@@ -42,23 +46,11 @@ public class CstmArray {
 	}
 	
 	public void updateValueAt(CstmValue value, int index) {
-		if(index >= this.valueArray.length) {
-            System.out.println("RUNTIME ARRAY OUT OF BOUNDS");
-			// Console.log(LogType.ERROR, String.format(ErrorRepository.getErrorMessage(ErrorRepository.RUNTIME_ARRAY_OUT_OF_BOUNDS), this.arrayIdentifier));
-			return;
-		}
 		this.valueArray[index] = value;
 	}
 	
 	public CstmValue getValueAt(int index) {
-		if(index >= this.valueArray.length) {
-            System.out.println("RUNTIME ARRAY OUT OF BOUNDS");
-			// Console.log(LogType.ERROR, String.format(ErrorRepository.getErrorMessage(ErrorRepository.RUNTIME_ARRAY_OUT_OF_BOUNDS), this.arrayIdentifier));
-			return this.valueArray[this.valueArray.length - 1];
-		}
-		else {
-			return this.valueArray[index];
-		}
+		return this.valueArray[index];
 	}
 	
 	/*

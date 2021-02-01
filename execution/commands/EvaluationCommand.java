@@ -1,7 +1,6 @@
 package execution.commands;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
@@ -11,16 +10,10 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 
 import console.Printer;
 import execution.ExecutionManager;
-import execution.commands.CommandInterface;
 import model.CUSTOMParser.MutableContext;
 import model.CUSTOMParser.SimpleExpressionContext;
-import model.CUSTOMParser.SumExpressionContext;
-import model.CUSTOMParser.SimpleExpressionContext;
-import model.CUSTOMParser.SimpleExpressionContext;
 import semantics.representations.CstmArray;
-import semantics.representations.CstmFunction;
 import semantics.representations.CstmValue;
-import semantics.symboltable.GlobalScopeManager;
 import semantics.symboltable.scopes.CstmLocalScope;
 import semantics.utils.CstmKeywords;
 import semantics.utils.Expression;
