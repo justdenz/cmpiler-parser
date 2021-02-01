@@ -1,6 +1,4 @@
 main(){
-    int x;
-    print("hello");
-    scan("What is the input: " ,x);
-    print("world");
+    int x = 1;
+    print(1 + x);
 }

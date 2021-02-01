@@ -41,4 +41,8 @@ public class ExecutionManager {
         this.executionThread.resumeRunning();
     }
 
+    public void stopExecution(){
+        this.executionThread.stopThread();
+    }
+
 }
