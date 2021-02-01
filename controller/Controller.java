@@ -30,6 +30,7 @@ public class Controller {
     Printer.getInstance().clearTerminal();
     ScanWindow.getInstance();
     ExecutionManager.getInstance();
+    ExecutionManager.getInstance().resetCommands();
     Console.getInstance();
     Console.getInstance().clearLogList();
     CustomErrorListener errorListener = new CustomErrorListener();
