@@ -10,7 +10,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import builder.errorcheckers.CstmUnDecChecker;
 import console.Printer;
 import execution.ExecutionManager;
-import execution.commands.evaluation.EvaluationCommand;
+import execution.commands.EvaluationCommand;
 import console.Console;
 import model.CUSTOMParser.PrintParametersContext;
 import model.CUSTOMParser.PrintStatementContext;
