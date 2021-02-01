@@ -66,11 +66,9 @@ public class EvaluationCommand implements CommandInterface, ParseTreeListener {
         // TODO Auto-generated method stub
         if(ctx instanceof MutableContext){
             MutableContext mutableContext = (MutableContext) ctx;
-            System.out.println("It should go in enter every rule of eval command");
             // if non-array variable
             if(mutableContext.IDENTIFIER() != null && mutableContext.LeftBracket() == null) {
                 CstmValue cstmValue = scope.getVariableWithinScope(mutableContext.IDENTIFIER().getText());
-                System.out.println("Variable value: " + cstmValue.getValue());
                 this.modifiedExpression = this.modifiedExpression.replaceFirst(mutableContext.IDENTIFIER().getText(), cstmValue.getValue().toString());
             } else {
                 EvaluationCommand evaluationCommand = new EvaluationCommand(mutableContext.simpleExpression(), this.scope);
