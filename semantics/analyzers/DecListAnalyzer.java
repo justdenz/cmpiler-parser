@@ -7,6 +7,8 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import console.Console;
+import execution.ExecutionManager;
+import execution.commands.VarInitCommand;
 import builder.errorcheckers.CstmMulVarDecChecker;
 import builder.errorcheckers.CstmTypeChecker;
 import builder.errorcheckers.CstmUnDecChecker;
@@ -63,14 +65,16 @@ public class DecListAnalyzer implements ParseTreeListener{
 				// if may assignment of value, check if declared or compatible types
 				if(varDecCtx.variableDeclarationInitialize().Assign() != null){
 					CstmUnDecChecker undeclaredChecker = new CstmUnDecChecker(varDecCtx.variableDeclarationInitialize().simpleExpression());
-					CstmTypeChecker typeChecker = new CstmTypeChecker(cstmValue, varDecCtx.variableDeclarationInitialize().simpleExpression());
 					undeclaredChecker.verify();
+					CstmTypeChecker typeChecker = new CstmTypeChecker(cstmValue, varDecCtx.variableDeclarationInitialize().simpleExpression());
 					typeChecker.verify();
+
+					VarInitCommand varInitCmd = new VarInitCommand(varDecCtx.variableDeclarationInitialize().IDENTIFIER(), varDecCtx.variableDeclarationInitialize().simpleExpression());
+					ExecutionManager.getInstance().addCommand(varInitCmd);
 				}
 
 				CstmLocalScope currentScope = GlobalScopeManager.getInstance().getCurrentScope();
 				currentScope.addVariable(varDecCtx.variableDeclarationInitialize().IDENTIFIER().getText(), cstmValue);
-				System.out.println("Found variable declaration");
 			}
 			// check if array declaration
 			else if(decCtx.arrayDeclaration() != null){
@@ -116,7 +120,6 @@ public class DecListAnalyzer implements ParseTreeListener{
 
 					CstmLocalScope currentScope = GlobalScopeManager.getInstance().getCurrentScope();
 					currentScope.addVariable(arrDecCtx.arrayDeclarationInitialize().IDENTIFIER().getText(), cstmValue);
-					System.out.println("Found array variable declaration");
 				}
 			}
 		}

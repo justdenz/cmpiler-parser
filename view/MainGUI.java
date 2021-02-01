@@ -60,7 +60,7 @@ public class MainGUI extends Application {
         controller.run(input);
         logList = Console.getLogList();
         if(logList.size() == 0){
-          Printer.getInstance().display("No syntax errors found \n\n");
+          Printer.getInstance().display("No syntax errors found \n");
           ExecutionManager.getInstance().runAllCommands();
         } else {
           for(String log : logList){

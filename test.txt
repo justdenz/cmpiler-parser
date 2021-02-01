@@ -1,8 +1,4 @@
 main(){
-    int x;
-    print("hello");
-    print("hello tao");
-
-    scan("musta ka na?", x);
-    print("world");
+    int x = 5;
+    print(x);
 }
