@@ -23,13 +23,12 @@ public class ArrayInitCommand implements CommandInterface{
 
 	@Override
 	public void execute() {
-    EvaluationCommand evaluationCommand = new EvaluationCommand(this.simpleExpressionContext ,this.cstmLocalScope);
-    evaluationCommand.execute();
 
-    CstmValue cstmValue = this.cstmLocalScope.getVariableWithinScope(this.identifier.getText());
+    CstmValue leftHandSide = this.cstmLocalScope.getVariableWithinScope(this.identifier.getText());
+    CstmValue rightHandSide = this.cstmLocalScope.getVariableWithinScope(this.simpleExpressionContext.getText());
     
-    if(cstmValue != null){
-
+    if(leftHandSide != null){
+      leftHandSide.setValue(rightHandSide);
     }
     
 	}

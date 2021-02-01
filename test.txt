@@ -1,11 +1,4 @@
-func void test1(){
-
-}
-
-func void test1(){
-
-}
-
 main() {
-	int x;
+	int[] arr1;
+    int[] arr2 = arr1;
 }

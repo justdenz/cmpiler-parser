@@ -8,6 +8,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 
 import console.Console;
 import execution.ExecutionManager;
+import execution.commands.ArrayInitCommand;
 import execution.commands.VarInitCommand;
 import builder.errorcheckers.CstmMulVarDecChecker;
 import builder.errorcheckers.CstmTypeChecker;
@@ -99,10 +100,14 @@ public class DecListAnalyzer implements ParseTreeListener{
 
 				// if may assignment of array value, check if declared or compatible types
 				if(arrDecCtx.arrayDeclarationInitialize().simpleExpression() != null){
-					CstmUnDecChecker undeclaredChecker = new CstmUnDecChecker(arrDecCtx.arrayDeclarationInitialize().arrayExpression().simpleExpression());
-					CstmTypeChecker typeChecker = new CstmTypeChecker(cstmValue, arrDecCtx.arrayDeclarationInitialize().arrayExpression().simpleExpression());
+					CstmUnDecChecker undeclaredChecker = new CstmUnDecChecker(arrDecCtx.arrayDeclarationInitialize().simpleExpression());
+					CstmTypeChecker typeChecker = new CstmTypeChecker(cstmValue, arrDecCtx.arrayDeclarationInitialize().simpleExpression());
 					undeclaredChecker.verify();
 					typeChecker.verify();
+
+					ArrayInitCommand arrayInitCommand = new ArrayInitCommand(arrDecCtx.arrayDeclarationInitialize().IDENTIFIER(), arrDecCtx.arrayDeclarationInitialize().simpleExpression());
+					ExecutionManager.getInstance().addCommand(arrayInitCommand);
+
 				} else if(arrDecCtx.arrayDeclarationInitialize().arrayExpression() != null){
 					// (arrVarType = create arrValueType) i-check if same type ba yung variable and value assigned
 					TypeSpecifierContext arrVarType = arrDecCtx.arrayTypeSpecifier().typeSpecifier();
@@ -118,9 +123,11 @@ public class DecListAnalyzer implements ParseTreeListener{
 						Console.log(String.valueOf(arrDecCtx.getStart().getLine()), "Found mismatch type for Float Array");
 					}
 
-					CstmLocalScope currentScope = GlobalScopeManager.getInstance().getCurrentScope();
-					currentScope.addVariable(arrDecCtx.arrayDeclarationInitialize().IDENTIFIER().getText(), cstmValue);
+					
 				}
+
+				CstmLocalScope currentScope = GlobalScopeManager.getInstance().getCurrentScope();
+				currentScope.addVariable(arrDecCtx.arrayDeclarationInitialize().IDENTIFIER().getText(), cstmValue);
 			}
 		}
 		
