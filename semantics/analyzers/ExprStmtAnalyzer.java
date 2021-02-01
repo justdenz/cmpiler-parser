@@ -3,6 +3,8 @@ package semantics.analyzers;
 import java.util.List;
 
 import console.Console;
+import execution.ExecutionManager;
+import execution.commands.AssignmentCommand;
 import builder.errorcheckers.CstmConstChecker;
 import builder.errorcheckers.CstmParamChecker;
 import builder.errorcheckers.CstmTypeChecker;
@@ -24,17 +26,20 @@ public class ExprStmtAnalyzer {
     public void analyze(ExpressionStatementContext ctx){
         if(ctx.experssionStandAlone() != null){
 			ExperssionStandAloneContext exprStdAlneCtx = ctx.experssionStandAlone();
-			MutableContext mutableCtx = exprStdAlneCtx.mutable();
+			MutableContext mutableCtx = exprStdAlneCtx.mutable(); //left hand side
 			
 			CstmConstChecker constChecker = new CstmConstChecker(mutableCtx);
 			constChecker.verify();
 			
 			CstmValue cstmValue = GlobalScopeManager.getInstance().searchScopedVariable(mutableCtx.IDENTIFIER().getText());
 
-			if (exprStdAlneCtx.simpleExpression() != null) {
+			if (exprStdAlneCtx.simpleExpression() != null) { // if right hand side is simple expression
 				if (cstmValue != null) {
 					CstmTypeChecker typeChecker = new CstmTypeChecker(cstmValue, exprStdAlneCtx.simpleExpression());
-					typeChecker.verify();;
+					typeChecker.verify();
+					//put assignment command here
+					AssignmentCommand assignmentCommand = new AssignmentCommand(mutableCtx, exprStdAlneCtx.simpleExpression());
+					ExecutionManager.getInstance().addCommand(assignmentCommand);
 				} else {
 					Console.log(String.valueOf(exprStdAlneCtx.getStart().getLine()) , "Found an undecalred variable.");
 				}
