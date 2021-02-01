@@ -35,7 +35,8 @@ public class PrintCommand implements CommandInterface, ParseTreeListener {
     public void execute() {
         ParseTreeWalker tree = new ParseTreeWalker();
         tree.walk(this, this.printStatementList);
-        Printer.getInstance().display(this.statementToPrint + "\n");
+        System.out.println("To be printed: "+this.statementToPrint);
+        Printer.getInstance().display(this.statementToPrint);
         this.statementToPrint = "";
     }
 
@@ -46,7 +47,8 @@ public class PrintCommand implements CommandInterface, ParseTreeListener {
 
             //printing of regular string
             if(printParamCtx.StringLiteral() != null){
-                this.statementToPrint = printParamCtx.StringLiteral().getText().replaceAll("^\"+|\"+$", "");
+                System.out.println("its a string so imma print: " + printParamCtx.StringLiteral().getText().replaceAll("^\"+|\"+$", ""));
+                this.statementToPrint += printParamCtx.StringLiteral().getText().replaceAll("^\"+|\"+$", "");
             }
             //printing expressions
 
@@ -55,10 +57,10 @@ public class PrintCommand implements CommandInterface, ParseTreeListener {
                 String varName = printParamCtx.IDENTIFIER().getText();
                 CstmValue val = cstmScope.getVariableWithinScope(varName);
                 if(val != null){
-                    this.statementToPrint = val.getValue().toString();
+                    this.statementToPrint += val.getValue().toString();
                 } else {
                     this.statementToPrint = "In line " + String.valueOf(printParamCtx.getStart().getLine()) + " : Found undeclared value for printing.";
-                    ExecutionManager.getInstance().resetCommands();
+                    ExecutionManager.getInstance().stopExecution();
                 }
             }
 

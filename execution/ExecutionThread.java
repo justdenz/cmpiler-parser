@@ -17,14 +17,16 @@ public class ExecutionThread extends Thread{
 
     @Override
     public void run(){
+        System.out.println("Execution Started. Command Count: " + commandList.size());
         index = 0;
         while(index < commandList.size()){
             if (this.isRunning) {
-                System.out.println("Index: "+index);
+                System.out.println("Executing " + commandList.get(index).getClass());
                 commandList.get(index).execute();
                 index++;
             }
         }
+        //ExecutionManager.getInstance().resetCommands();
     }
 
     public void pauseRunning(){
@@ -39,5 +41,6 @@ public class ExecutionThread extends Thread{
     
     public void stopThread(){
         this.index = commandList.size();
+        System.out.println("Thread has been stopped.");
     }
 }

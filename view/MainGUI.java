@@ -62,7 +62,6 @@ public class MainGUI extends Application {
         if(logList.size() == 0){
           Printer.getInstance().display("No syntax errors found \n\n");
           ExecutionManager.getInstance().runAllCommands();
-          ExecutionManager.getInstance().resetCommands();
         } else {
           for(String log : logList){
             output += output + log;

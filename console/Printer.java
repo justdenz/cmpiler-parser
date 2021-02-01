@@ -11,15 +11,16 @@ public class Printer {
   public static Printer getInstance(){
     if(printerInstance == null){
       printerInstance = new Printer();
+      System.out.println("Printer initialized");
     }
     return printerInstance;
   }
 
   public void display(String output) {
-    MainGUI.terminalPane.getTerminalArea().setText(this.getTerminalContent() + output);
+    MainGUI.terminalPane.getTerminalArea().setText(this.getTerminalContent() + output + "\n");
   }
 
-  public static void clearTerminal(){
+  public void clearTerminal(){
     MainGUI.terminalPane.getTerminalArea().clear();
   }
 

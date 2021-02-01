@@ -27,6 +27,7 @@ public class Controller {
 
   public void run(String input) throws Exception {
     Printer.getInstance();
+    Printer.getInstance().clearTerminal();
     ScanWindow.getInstance();
     ExecutionManager.getInstance();
     Console.initialize();
