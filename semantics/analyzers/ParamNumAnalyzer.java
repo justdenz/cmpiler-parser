@@ -7,7 +7,7 @@ import model.CUSTOMParser.ArgsContext;
 import model.CUSTOMParser.SimpleExpressionContext;
 import semantics.representations.CstmFunction;
 
-public class ParamNumAnalyzer {
+public class ParamNumAnalyzer implements AnalyzerInterface{
   
   private CstmFunction function;
   private int lineNumber;
@@ -22,6 +22,7 @@ public class ParamNumAnalyzer {
     }
   }
 
+  @Override
   public void analyze(){
     if(this.exprCtxList == null && this.function.getParameterCount() != 0){
       Console.log(String.valueOf(this.lineNumber), "Found a paramater count mismatch.");

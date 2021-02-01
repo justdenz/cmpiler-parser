@@ -22,8 +22,16 @@ import semantics.representations.CstmValue;
 import semantics.representations.CstmValue.PrimitiveType;
 import semantics.symboltable.GlobalScopeManager;
 
-public class ExprStmtAnalyzer {
-    public void analyze(ExpressionStatementContext ctx){
+public class ExprStmtAnalyzer implements AnalyzerInterface{
+
+		private ExpressionStatementContext ctx;
+
+		public ExprStmtAnalyzer(ExpressionStatementContext ctx){
+			this.ctx = ctx;
+		}
+
+		@Override
+    public void analyze(){
         if(ctx.experssionStandAlone() != null){
 			ExperssionStandAloneContext exprStdAlneCtx = ctx.experssionStandAlone();
 			MutableContext mutableCtx = exprStdAlneCtx.mutable(); //left hand side

@@ -2,12 +2,19 @@ package semantics.analyzers;
 
 import model.CUSTOMParser.PrintStatementListContext;
 import semantics.symboltable.GlobalScopeManager;
-import builder.errorcheckers.CstmUnDecChecker;
 import execution.ExecutionManager;
 import execution.commands.PrintCommand;
 
-public class PrintStmtAnalyzer {
-  public void analyze(PrintStatementListContext ctx){
+public class PrintStmtAnalyzer implements AnalyzerInterface{
+
+  private PrintStatementListContext ctx;
+
+  public PrintStmtAnalyzer(PrintStatementListContext ctx){
+    this.ctx = ctx;
+  }
+
+  @Override
+  public void analyze(){
     if(ctx instanceof PrintStatementListContext){
 
       if(ctx.printParameters() != null){

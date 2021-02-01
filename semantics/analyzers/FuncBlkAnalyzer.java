@@ -16,16 +16,18 @@ import semantics.representations.CstmFunction.FunctionType;
 import semantics.symboltable.GlobalScopeManager;
 import semantics.symboltable.scopes.CstmLocalScope;
 
-public class FuncBlkAnalyzer implements ParseTreeListener{
+public class FuncBlkAnalyzer implements AnalyzerInterface, ParseTreeListener{
 
+	private FuncBlockContext ctx;
 	private CstmFunction function = new CstmFunction();
 	private boolean opened = false;
 
-  public FuncBlkAnalyzer() {
-
+  public FuncBlkAnalyzer(FuncBlockContext ctx) {
+		this.ctx = ctx;
 	}
 	
-	public void analyze(FuncBlockContext ctx) {
+	@Override
+	public void analyze() {
 		CstmMulFuncDecChecker mulFuncChecker = new CstmMulFuncDecChecker(ctx);
 		mulFuncChecker.verify();
 
@@ -62,8 +64,8 @@ public class FuncBlkAnalyzer implements ParseTreeListener{
 		GlobalScopeManager.getInstance().setCurrentScope(funcScope);
 		GlobalScopeManager.getInstance().addFunction(function.getFunctionName(), function);
 		
-        ParseTreeWalker walker = new ParseTreeWalker();
-        walker.walk(this, ctx);
+		ParseTreeWalker walker = new ParseTreeWalker();
+		walker.walk(this, ctx);
 	}
 
 	@Override
@@ -80,8 +82,8 @@ public class FuncBlkAnalyzer implements ParseTreeListener{
 			CompoundStatementContext compoundCtx = (CompoundStatementContext) ctx;
 			
 			if(compoundCtx.compoundStatementList() != null){
-				CompStmtAnalyzer compoundStmtAnalyzer = new CompStmtAnalyzer();
-				compoundStmtAnalyzer.analyze(compoundCtx);
+				CompStmtAnalyzer compoundStmtAnalyzer = new CompStmtAnalyzer(compoundCtx);
+				compoundStmtAnalyzer.analyze();
 			}
 		}
 	}

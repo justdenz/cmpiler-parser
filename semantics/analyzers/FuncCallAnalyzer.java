@@ -9,7 +9,7 @@ import model.CUSTOMParser.SimpleExpressionContext;
 import semantics.representations.CstmFunction;
 import semantics.symboltable.GlobalScopeManager;
 
-public class FuncCallAnalyzer {
+public class FuncCallAnalyzer implements AnalyzerInterface{
   
   private CallContext callCtx;
   private ArgsContext argsCtx;
@@ -23,6 +23,7 @@ public class FuncCallAnalyzer {
     this.function = GlobalScopeManager.getInstance().getFunction(this.functionCallName);
   }
 
+  @Override
   public void analyze(){
     ParamNumAnalyzer paramNumAnalyzer = new ParamNumAnalyzer(this.function, this.argsCtx);
     paramNumAnalyzer.analyze();

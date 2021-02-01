@@ -2,26 +2,29 @@ package semantics.analyzers;
 
 import java.util.List;
 
-import console.Console;
 import model.CUSTOMParser.CompoundStatementContext;
 import model.CUSTOMParser.CompoundStatementListContext;
 import semantics.symboltable.GlobalScopeManager;
-import semantics.symboltable.scopes.CstmLocalScope;
 
-public class CompStmtAnalyzer {
-    public CompStmtAnalyzer(){
+public class CompStmtAnalyzer implements AnalyzerInterface{
+
+    CompoundStatementContext ctx;
+
+    public CompStmtAnalyzer(CompoundStatementContext ctx){
+        this.ctx = ctx;
     }
 
-    public void analyze(CompoundStatementContext ctx){
-        List<CompoundStatementListContext> compoundStatementListContext = ctx.compoundStatementList();
+    @Override
+    public void analyze(){
+        List<CompoundStatementListContext> compoundStatementListContext = this.ctx.compoundStatementList();
 
         for(CompoundStatementListContext compoundStatementContext: compoundStatementListContext){
             if(compoundStatementContext.statement() != null){
-                StmtAnalyzer stmtAnalyzer = new StmtAnalyzer();
-                stmtAnalyzer.analyze(compoundStatementContext.statement());
+                StmtAnalyzer stmtAnalyzer = new StmtAnalyzer(compoundStatementContext.statement());
+                stmtAnalyzer.analyze();
             }else if(compoundStatementContext.declaration() != null){
-                DecListAnalyzer decAnalyzer = new DecListAnalyzer();
-                decAnalyzer.analyze(compoundStatementContext.declaration());
+                DecListAnalyzer decAnalyzer = new DecListAnalyzer(compoundStatementContext.declaration());
+                decAnalyzer.analyze();
             }
         }
 

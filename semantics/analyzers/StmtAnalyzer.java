@@ -17,11 +17,16 @@ import semantics.representations.CstmValue.PrimitiveType;
 import semantics.symboltable.GlobalScopeManager;
 import semantics.symboltable.scopes.CstmLocalScope;
 
-public class StmtAnalyzer{
-    public StmtAnalyzer() {}
-    
+public class StmtAnalyzer implements AnalyzerInterface{
 
-	public void analyze(ParserRuleContext ctx) {
+    private ParserRuleContext ctx;
+    
+    public StmtAnalyzer(ParserRuleContext ctx) {
+        this.ctx = ctx;
+    }
+    
+    @Override
+	public void analyze() {
         if(ctx instanceof StatementContext){
             StatementContext stmtCtx = (StatementContext) ctx;
 
@@ -54,22 +59,22 @@ public class StmtAnalyzer{
             else if(stmtCtx.printStatement() != null){
                 PrintStatementContext printStatementCtx = stmtCtx.printStatement();
                 if(printStatementCtx.printStatementList() != null){
-                    PrintStmtAnalyzer printStatementAnalyzer = new PrintStmtAnalyzer();
-                    printStatementAnalyzer.analyze(printStatementCtx.printStatementList());
+                    PrintStmtAnalyzer printStatementAnalyzer = new PrintStmtAnalyzer(printStatementCtx.printStatementList());
+                    printStatementAnalyzer.analyze();
                 }
             } 
             // EXPRESSION STATEMENT
             else if(stmtCtx.expressionStatement() != null){
                 ExpressionStatementContext expStmtCtx = stmtCtx.expressionStatement();
-                ExprStmtAnalyzer expStmtAnalyzer = new ExprStmtAnalyzer();
-                expStmtAnalyzer.analyze(expStmtCtx);
+                ExprStmtAnalyzer expStmtAnalyzer = new ExprStmtAnalyzer(expStmtCtx);
+                expStmtAnalyzer.analyze();
             } 
             // COMPOUND STATEMENT
             else if(stmtCtx.compoundStatement() != null){
                 CompoundStatementContext compoundCtx = stmtCtx.compoundStatement();
                 if(compoundCtx.compoundStatementList() != null){
-                    CompStmtAnalyzer compoundStmtAnalyzer = new CompStmtAnalyzer();
-                    compoundStmtAnalyzer.analyze(compoundCtx);
+                    CompStmtAnalyzer compoundStmtAnalyzer = new CompStmtAnalyzer(compoundCtx);
+                    compoundStmtAnalyzer.analyze();
                 }
             } 
             // SELECTION STATEMENT
@@ -82,19 +87,19 @@ public class StmtAnalyzer{
                 GlobalScopeManager.getInstance().setCurrentScope(ifScope);
                 System.out.println("Opened if/else if scope");
 
-                CompStmtAnalyzer compoundStatementAnalyzer = new CompStmtAnalyzer();
-                compoundStatementAnalyzer.analyze(selectStmtCtx.compoundStatement());
+                CompStmtAnalyzer compoundStatementAnalyzer = new CompStmtAnalyzer(selectStmtCtx.compoundStatement());
+                compoundStatementAnalyzer.analyze();
 
                 if(selectStmtCtx.elseStatement() != null){
                     if(selectStmtCtx.elseStatement().compoundStatement() != null){
                         CstmLocalScope elseScope = new CstmLocalScope(GlobalScopeManager.getInstance().getCurrentScope());
                         GlobalScopeManager.getInstance().setCurrentScope(elseScope);
                         System.out.println("Opened else scope");
-                        CompStmtAnalyzer elseStatementAnalyzer = new CompStmtAnalyzer();
-                        elseStatementAnalyzer.analyze(selectStmtCtx.elseStatement().compoundStatement());
+                        CompStmtAnalyzer elseStatementAnalyzer = new CompStmtAnalyzer(selectStmtCtx.elseStatement().compoundStatement());
+                        elseStatementAnalyzer.analyze();
                     } else {
-                        StmtAnalyzer stmtAnalyzer = new StmtAnalyzer();
-                        stmtAnalyzer.analyze(selectStmtCtx.elseStatement().selectionStatement());
+                        StmtAnalyzer stmtAnalyzer = new StmtAnalyzer(selectStmtCtx.elseStatement().selectionStatement());
+                        stmtAnalyzer.analyze();
                     }
                     
                 } 
@@ -103,8 +108,8 @@ public class StmtAnalyzer{
             else if(stmtCtx.iterationStatement() != null){
                 // IterationAnalyzer (for and while loop)
                 System.out.println("Enter iteration statement");
-                IterationAnalyzer iterationAnalyzer = new IterationAnalyzer();
-                iterationAnalyzer.analyze(stmtCtx);
+                IterationAnalyzer iterationAnalyzer = new IterationAnalyzer(stmtCtx);
+                iterationAnalyzer.analyze();
             } 
             // RETURN STATEMENT
             else if(stmtCtx.returnStatement() != null){
@@ -123,19 +128,19 @@ public class StmtAnalyzer{
             GlobalScopeManager.getInstance().setCurrentScope(ifScope);
             System.out.println("Opened if/else if scope");
 
-            CompStmtAnalyzer compoundStatementAnalyzer = new CompStmtAnalyzer();
-            compoundStatementAnalyzer.analyze(selectStmtCtx.compoundStatement());
+            CompStmtAnalyzer compoundStatementAnalyzer = new CompStmtAnalyzer(selectStmtCtx.compoundStatement());
+            compoundStatementAnalyzer.analyze();
 
             if(selectStmtCtx.elseStatement() != null){
                 if(selectStmtCtx.elseStatement().compoundStatement() != null){
                     CstmLocalScope elseScope = new CstmLocalScope(GlobalScopeManager.getInstance().getCurrentScope());
                     GlobalScopeManager.getInstance().setCurrentScope(elseScope);
                     System.out.println("Opened else scope");
-                    CompStmtAnalyzer elseStatementAnalyzer = new CompStmtAnalyzer();
-                    elseStatementAnalyzer.analyze(selectStmtCtx.elseStatement().compoundStatement());
+                    CompStmtAnalyzer elseStatementAnalyzer = new CompStmtAnalyzer(selectStmtCtx.elseStatement().compoundStatement());
+                    elseStatementAnalyzer.analyze();
                 } else {
-                    StmtAnalyzer stmtAnalyzer = new StmtAnalyzer();
-                    stmtAnalyzer.analyze(selectStmtCtx.elseStatement().selectionStatement());
+                    StmtAnalyzer stmtAnalyzer = new StmtAnalyzer(selectStmtCtx.elseStatement().selectionStatement());
+                    stmtAnalyzer.analyze();
                 }
                 
             } 

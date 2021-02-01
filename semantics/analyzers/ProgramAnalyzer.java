@@ -46,16 +46,16 @@ public class ProgramAnalyzer implements ParseTreeListener{
 			System.out.println("Set In Function to True");
 			GlobalScopeManager.getInstance().setCurrentFuncitonName(functionBlock.IDENTIFIER().getText());
 			FuncBlockContext funcCtx = (FuncBlockContext) ctx;
-			FuncBlkAnalyzer funcAnalyzer = new FuncBlkAnalyzer();
-			funcAnalyzer.analyze(funcCtx);
+			FuncBlkAnalyzer funcAnalyzer = new FuncBlkAnalyzer(funcCtx);
+			funcAnalyzer.analyze();
 			GlobalScopeManager.getInstance().setIsInFunction(false);
 			GlobalScopeManager.getInstance().setCurrentFuncitonName(null);
 			System.out.println("Set In Function to False");
         } else if(ctx instanceof MainBlockContext) {
 			System.out.println("Found main block");
 			MainBlockContext mainCtx = (MainBlockContext) ctx;
-			MainBlkAnalyzer mainAnalyzer = new MainBlkAnalyzer();
-			mainAnalyzer.analyze(mainCtx);		
+			MainBlkAnalyzer mainAnalyzer = new MainBlkAnalyzer(mainCtx);
+			mainAnalyzer.analyze();		
 		}
 	}
 

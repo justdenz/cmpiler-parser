@@ -1,10 +1,6 @@
 package semantics.analyzers;
 
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.runtime.ParserRuleContext;
-import org.antlr.v4.runtime.tree.ErrorNode;
-import org.antlr.v4.runtime.tree.ParseTreeListener;
-import org.antlr.v4.runtime.tree.TerminalNode;
 
 import console.Console;
 import model.CUSTOMParser.ForDeclarationContext;
@@ -13,16 +9,18 @@ import model.CUSTOMParser.ForStatementContext;
 import model.CUSTOMParser.WhileStatementContext;
 import semantics.symboltable.GlobalScopeManager;
 import semantics.symboltable.scopes.CstmLocalScope;
-import model.CUSTOMParser.IterationStatementContext;
 import model.CUSTOMParser.StatementContext;
 
+public class IterationAnalyzer implements AnalyzerInterface{
 
-public class IterationAnalyzer {
+	private ParserRuleContext ctx;
 
-	public IterationAnalyzer(){
+	public IterationAnalyzer(ParserRuleContext ctx){
+		this.ctx = ctx;
 	}
 
-	public void analyze (ParserRuleContext ctx) {
+	@Override
+	public void analyze() {
 		
 		StatementContext stmtCtx = (StatementContext) ctx;
 		if (stmtCtx.iterationStatement().forStatement() != null){
@@ -30,13 +28,12 @@ public class IterationAnalyzer {
 			ForDeclarationContext forDeclaration = forStmtCtx.forCondition().forDeclaration();
       ForExpressionContext forExpression = forStmtCtx.forCondition().forExpression();
 			
-
 			if(forExpression != null && forDeclaration != null){
 				System.out.println("Opened For Loop Scope");			
 				CstmLocalScope forScope = new CstmLocalScope(GlobalScopeManager.getInstance().getCurrentScope());
 				GlobalScopeManager.getInstance().setCurrentScope(forScope);
-				CompStmtAnalyzer forStatementAnalyzer = new CompStmtAnalyzer();
-				forStatementAnalyzer.analyze(forStmtCtx.compoundStatement());
+				CompStmtAnalyzer forStatementAnalyzer = new CompStmtAnalyzer(forStmtCtx.compoundStatement());
+				forStatementAnalyzer.analyze();
 			} else {
 				Console.log(String.valueOf(forStmtCtx.getStart().getLine()), "Missing for loop declarations.");
 			}
@@ -49,8 +46,8 @@ public class IterationAnalyzer {
 				CstmLocalScope forScope = new CstmLocalScope(GlobalScopeManager.getInstance().getCurrentScope());
 				GlobalScopeManager.getInstance().setCurrentScope(forScope);
 				System.out.println("Opened While Loop Scope");
-				CompStmtAnalyzer whileStatementAnalyzer = new CompStmtAnalyzer();
-				whileStatementAnalyzer.analyze(whileStmtContext.compoundStatement());
+				CompStmtAnalyzer whileStatementAnalyzer = new CompStmtAnalyzer(whileStmtContext.compoundStatement());
+				whileStatementAnalyzer.analyze();
 			} else {
 				Console.log(String.valueOf(whileStmtContext.getStart().getLine()), "Missing while loop declarations.");
 			}

@@ -25,11 +25,16 @@ import semantics.representations.CstmArray;
 import semantics.representations.CstmValue;
 import semantics.representations.CstmValue.PrimitiveType;
 
-public class DecListAnalyzer implements ParseTreeListener{
+public class DecListAnalyzer implements AnalyzerInterface, ParseTreeListener{
+
+	private DeclarationContext decListCtx;
 	
-	public DecListAnalyzer() {}
+	public DecListAnalyzer(DeclarationContext decListCtx) {
+		this.decListCtx = decListCtx;
+	}
 	
-	public void analyze(DeclarationContext decListCtx) {
+	@Override
+	public void analyze() {
 		ParseTreeWalker treeWalker = new ParseTreeWalker();
 		treeWalker.walk(this, decListCtx);
 	}
