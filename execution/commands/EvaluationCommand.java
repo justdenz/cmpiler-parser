@@ -41,7 +41,7 @@ public class EvaluationCommand implements CommandInterface, ParseTreeListener {
     public void execute() {
         // TODO Auto-generated method stub
         this.modifiedExpression = this.simpleExpression.getText();
-
+        evaluateIfFloat();
         if(this.modifiedExpression.contains(CstmKeywords.BOOLEAN_TRUE)){
             this.result = new BigDecimal(1);
         } else if(this.modifiedExpression.contains(CstmKeywords.BOOLEAN_FALSE)){
@@ -50,8 +50,16 @@ public class EvaluationCommand implements CommandInterface, ParseTreeListener {
             ParseTreeWalker tree = new ParseTreeWalker();
             tree.walk(this, this.simpleExpression);
 
-            Expression evalExpression = new Expression(this.modifiedExpression);
-            this.result = evalExpression.eval();
+            if(!this.modifiedExpression.contains("\"")){
+                Expression evalExpression = new Expression(this.modifiedExpression);
+                this.result = evalExpression.eval();
+            }
+        }
+    }
+
+    private void evaluateIfFloat(){
+        if(this.modifiedExpression.contains("f")){
+            this.modifiedExpression = this.modifiedExpression.replaceFirst("f", "");
         }
     }
 
@@ -60,7 +68,6 @@ public class EvaluationCommand implements CommandInterface, ParseTreeListener {
         // TODO Auto-generated method stub
         if(ctx instanceof MutableContext){
             MutableContext mutableContext = (MutableContext) ctx;
-            System.out.println(this.scope.getVariable("x").getValue());
             // if non-array variable
             if(mutableContext.IDENTIFIER() != null && mutableContext.LeftBracket() == null) {
                 CstmValue cstmValue = scope.getVariableWithinScope(mutableContext.IDENTIFIER().getText());
