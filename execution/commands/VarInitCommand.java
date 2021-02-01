@@ -39,7 +39,7 @@ public class VarInitCommand implements CommandInterface {
             } else if(cstmValue.getPrimitiveType() == PrimitiveType.FLOAT){
                 cstmValue.setValue(evalResult.floatValue());
             } else if(cstmValue.getPrimitiveType() == PrimitiveType.STRING){
-                cstmValue.setValue(evalResult.toString());
+                cstmValue.setValue(exprCtx.getText().replaceAll("\"", ""));
             } else if(cstmValue.getPrimitiveType() == PrimitiveType.BOOLEAN){
                 switch(evalResult.intValue()){
                     case 0:

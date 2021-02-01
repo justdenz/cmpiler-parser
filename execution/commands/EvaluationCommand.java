@@ -50,8 +50,10 @@ public class EvaluationCommand implements CommandInterface, ParseTreeListener {
             ParseTreeWalker tree = new ParseTreeWalker();
             tree.walk(this, this.simpleExpression);
 
-            Expression evalExpression = new Expression(this.modifiedExpression);
-            this.result = evalExpression.eval();
+            if(!this.modifiedExpression.contains("\"")){
+                Expression evalExpression = new Expression(this.modifiedExpression);
+                this.result = evalExpression.eval();
+            }
         }
     }
 
