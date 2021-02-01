@@ -53,21 +53,16 @@ public class MainGUI extends Application {
     @Override
     public void handle(ActionEvent event) {
       String input = editorArea.getInput();
-      ArrayList<String> logList = new ArrayList<>();
-      String output = "";
 
       try {
         controller.run(input);
-        logList = Console.getLogList();
-        if(logList.size() == 0){
+        if(Console.getLogList().size() == 0){
           Printer.getInstance().display("No syntax errors found \n");
           ExecutionManager.getInstance().runAllCommands();
         } else {
-          for(String log : logList){
-            output += output + log;
+          for(String log : Console.getLogList()){
+            Printer.getInstance().display(log);
           }
-          Printer.getInstance().display(output);
-          Console.clearLogList();
         }
       } catch (Exception e) {
         e.printStackTrace();

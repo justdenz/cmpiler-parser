@@ -30,7 +30,8 @@ public class Controller {
     Printer.getInstance().clearTerminal();
     ScanWindow.getInstance();
     ExecutionManager.getInstance();
-    Console.initialize();
+    Console.getInstance();
+    Console.getInstance().clearLogList();
     CustomErrorListener errorListener = new CustomErrorListener();
     InputStream inputStream = new ByteArrayInputStream(input.getBytes());
     try {

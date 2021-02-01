@@ -4,33 +4,31 @@ import java.util.ArrayList;
 public class Console {
 
   private static Console consoleInstance = null;
-  private ArrayList<String> logList;
+  private static ArrayList<String> logList;
 
-  public static void createConsole() {
+  public static Console getInstance() {
     if (consoleInstance == null) {
+      logList = new ArrayList<String>();
       consoleInstance = new Console();
+      System.out.println("Console initialized");
     }
-  }
-
-  private Console() {
-    this.logList = new ArrayList<String>();
+    return consoleInstance;
   }
 
   public static void initialize() {
-      createConsole();
+      getInstance();
 	}
 
   public static void log(final String logLocation, final String logMessage){
-    createConsole();
     String logLoc = "In line " + logLocation + ": ";
-    consoleInstance.logList.add(logLoc + logMessage + "\n");
+    logList.add(logLoc + logMessage);
   }
 
   public static ArrayList<String> getLogList(){
-    return consoleInstance.logList;
+    return logList;
   }
 
-  public static void clearLogList() {
-    consoleInstance.logList.clear();
+  public void clearLogList() {
+    logList.clear();
   }
 }

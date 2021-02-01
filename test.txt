@@ -1,4 +1,11 @@
-main(){
-    String test = "test";
-    String test2 = "test2" + test;
+func void test1(){
+
+}
+
+func void test1(){
+
+}
+
+main() {
+	int x;
 }
