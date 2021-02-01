@@ -32,7 +32,7 @@ public class ReturnCommand implements CommandInterface{
 
 	@Override
 	public void execute() {
-    EvaluationCommand evaluationCommand = new EvaluationCommand(this.simpleExpCtx, cstmLocalScope);
+    EvaluationCommand evaluationCommand = new EvaluationCommand(this.simpleExpCtx, this.cstmLocalScope);
     evaluationCommand.execute();
 
     CstmValue cstmValue = this.cstmFunc.getReturnValue();
