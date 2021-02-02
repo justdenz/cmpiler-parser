@@ -7,6 +7,7 @@ import builder.errorcheckers.CstmUnDecChecker;
 import console.Console;
 import model.CUSTOMParser.ForConditionContext;
 import model.CUSTOMParser.ForStatementContext;
+import model.CUSTOMParser.IterationStatementContext;
 import model.CUSTOMParser.WhileStatementContext;
 import semantics.representations.CstmValue;
 import semantics.representations.CstmValue.PrimitiveType;
@@ -17,26 +18,24 @@ import model.CUSTOMParser.StatementContext;
 
 public class IterationAnalyzer implements AnalyzerInterface{
 
-	private ParserRuleContext ctx;
+	private IterationStatementContext stmtCtx;
 
-	public IterationAnalyzer(ParserRuleContext ctx){
-		this.ctx = ctx;
+	public IterationAnalyzer(IterationStatementContext ctx){
+		this.stmtCtx = ctx;
 	}
 
 	@Override
 	public void analyze() {
-		
-		StatementContext stmtCtx = (StatementContext) ctx;
 
 		// FOR STATEMENT
-		if (stmtCtx.iterationStatement().forStatement() != null){
-			ForStatementContext forStmtCtx = stmtCtx.iterationStatement().forStatement();
+		if (stmtCtx.forStatement() != null){
+			ForStatementContext forStmtCtx = stmtCtx.forStatement();
 			ForConditionContext conditionCtx = forStmtCtx.forCondition();
 
 			// Int Declaration as Condition
 			if(conditionCtx.Int() != null){
 				if(GlobalScopeManager.getInstance().searchScopedVariable(conditionCtx.IDENTIFIER().getText()) != null){
-					Console.log(String.valueOf(ctx.getStart().getLine()), "Found multiple declaration of variable in for statement");
+					Console.log(String.valueOf(stmtCtx.getStart().getLine()), "Found multiple declaration of variable in for statement");
 				} else {
 					CstmValue tempVal = new CstmValue(null, CstmKeywords.IS_INT);
 					GlobalScopeManager.getInstance().getCurrentScope().addVariable(conditionCtx.IDENTIFIER().getText(), tempVal);
@@ -54,10 +53,10 @@ public class IterationAnalyzer implements AnalyzerInterface{
 
 				if(cstmValue != null){
 					if(cstmValue.getPrimitiveType() != PrimitiveType.INT){
-						Console.log(String.valueOf(ctx.getStart().getLine()), "Found a type mismatch in for statement");
+						Console.log(String.valueOf(forStmtCtx.getStart().getLine()), "Found a type mismatch in for statement");
 					}
 				} else {
-					Console.log(String.valueOf(ctx.getStart().getLine()), "Found an undeclared variable in for statement");
+					Console.log(String.valueOf(stmtCtx.getStart().getLine()), "Found an undeclared variable in for statement");
 				}
 
 				if(conditionCtx.Assign() != null){
@@ -83,18 +82,18 @@ public class IterationAnalyzer implements AnalyzerInterface{
 		} 
 
 		// WHILE STATEMENT
-		else if (stmtCtx.iterationStatement().whileStatement() != null){
+		else if (stmtCtx.whileStatement() != null){
 			
-			WhileStatementContext whileStmtContext = stmtCtx.iterationStatement().whileStatement();
+			WhileStatementContext whileStmtContext = stmtCtx.whileStatement();
 			String whileVar = whileStmtContext.IDENTIFIER().getText();
 			CstmValue cstmValue = GlobalScopeManager.getInstance().searchScopedVariable(whileVar);
 
 			if(cstmValue != null){
 				if(cstmValue.getPrimitiveType() != PrimitiveType.INT){
-					Console.log(String.valueOf(whileStmtContext.getStart().getLine()), "Found type mismatch in while loop declaration.");
+					Console.log(String.valueOf(stmtCtx.getStart().getLine()), "Found type mismatch in while loop declaration.");
 				}
 			} else {
-				Console.log(String.valueOf(whileStmtContext.getStart().getLine()), "Found undeclared variable in while loop declaration.");
+				Console.log(String.valueOf(stmtCtx.getStart().getLine()), "Found undeclared variable in while loop declaration.");
 			}
 
 			CstmUnDecChecker undecChecker = new CstmUnDecChecker(whileStmtContext.simpleExpression());
