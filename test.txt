@@ -1,9 +1,6 @@
 main() {
-	int i = 0;
-	int n = 500;
-	
-	while i up to n {
-		print("Yesh!");
+	int i = 5;
+	for i up to 5{
+		print("test");
 	}
-
 }

@@ -14,7 +14,7 @@ public class ForCommand implements IterCommandInterface{
 	private ArrayList<CommandInterface> commandList;
 	private IterationEvaluatorCommand iterationEvaluatorCommand;
 
-	private ForCommand(ForStatementContext forStmtCtx){
+	public ForCommand(ForStatementContext forStmtCtx){
 		this.forStmtCtx = forStmtCtx;
 		this.commandList = new ArrayList<CommandInterface>();
 		this.cstmLocalScope = GlobalScopeManager.getInstance().getCurrentScope();
@@ -24,6 +24,11 @@ public class ForCommand implements IterCommandInterface{
 	@Override
 	public void execute() {
 		iterationEvaluatorCommand.execute();
+
+		while(iterationEvaluatorCommand.getResult()){
+			iterationEvaluatorCommand.execute();
+			System.out.println("test for loop");
+		}
 	}
 
 	@Override

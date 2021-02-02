@@ -6,6 +6,7 @@ import builder.errorcheckers.CstmTypeChecker;
 import builder.errorcheckers.CstmUnDecChecker;
 import console.Console;
 import execution.ExecutionManager;
+import execution.commands.ForCommand;
 import execution.commands.WhileCommand;
 import model.CUSTOMParser.ForConditionContext;
 import model.CUSTOMParser.ForStatementContext;
@@ -81,6 +82,8 @@ public class IterationAnalyzer implements AnalyzerInterface{
 			System.out.println("Opened For Loop Scope");
 			CompStmtAnalyzer whileStatementAnalyzer = new CompStmtAnalyzer(forStmtCtx.compoundStatement());
 			whileStatementAnalyzer.analyze();
+			ForCommand forCommand = new ForCommand(forStmtCtx);
+			ExecutionManager.getInstance().addCommand(forCommand);
 		} 
 
 		// WHILE STATEMENT

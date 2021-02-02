@@ -40,6 +40,8 @@ public class IterationEvaluatorCommand implements CommandInterface{
 
             if(forStatement.upDownToStatement().getText().contains("up to")){
                 if(leftHandValue <= rightHandValue){
+                    int newValue = leftHandValue+1;
+                    cstmValue.setValue(Integer.toString(newValue));
                     this.result = true;
                 } else {
                     this.result = false;
