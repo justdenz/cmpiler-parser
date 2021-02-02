@@ -22,15 +22,12 @@ public class WhileCommand implements IterCommandInterface{
 
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
 		iterationEval.execute();
-
-		
 	}
 
 	@Override
 	public void addCommand(CommandInterface commandInterface) {
-		// TODO Auto-generated method stub
+		this.commandList.add(commandInterface);
 		
 	}
   
