@@ -2,5 +2,9 @@ main() {
 	int i = 5;
 	if(i==4) then{
 		print("hello");
+	} else if(i == 5) then{
+		print("heehe");
+	} else then{
+		print("bye");
 	}
 }

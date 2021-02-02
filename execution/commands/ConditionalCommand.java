@@ -28,7 +28,6 @@ public class ConditionalCommand implements SelectCommandInterface{
     public void execute() {
         // TODO Auto-generated method stub
         this.evaluationCommand.execute();
-        System.out.println(this.evaluationCommand.getResult().intValue());
         if(this.evaluationCommand.getResult().intValue() == 1){
             int index = 0;
             while (index < positiveCommands.size() ) {

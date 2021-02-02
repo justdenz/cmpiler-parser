@@ -25,7 +25,7 @@ public class PrintStmtAnalyzer implements AnalyzerInterface{
         PrintCommand printCmd = new PrintCommand(ctx);
         addCommand(printCmd);
       }
-      
+
     }
   }
 
