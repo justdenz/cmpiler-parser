@@ -3,6 +3,7 @@ package semantics.analyzers;
 import java.util.List;
 
 import builder.errorcheckers.CstmUnDecChecker;
+import execution.ExecutionManager;
 import execution.commands.FuncCallCommand;
 import model.CUSTOMParser.ArgsContext;
 import model.CUSTOMParser.CallContext;
@@ -36,7 +37,7 @@ public class FuncCallAnalyzer implements AnalyzerInterface{
       unDecChecker.verify();
     }
     FuncCallCommand functionCallCommand = new FuncCallCommand(this.function, argsCtx);
-    functionCallCommand.execute();
+    ExecutionManager.getInstance().addCommand(functionCallCommand);
   }
 
 }
