@@ -6,6 +6,7 @@ import builder.errorcheckers.CstmTypeChecker;
 import builder.errorcheckers.CstmUnDecChecker;
 import console.Console;
 import execution.ExecutionManager;
+import execution.StmtCmdTracker;
 import execution.commands.ForCommand;
 import execution.commands.WhileCommand;
 import model.CUSTOMParser.ForConditionContext;
@@ -80,9 +81,13 @@ public class IterationAnalyzer implements AnalyzerInterface{
 			GlobalScopeManager.getInstance().setCurrentScope(forScope);
 
 			System.out.println("Opened For Loop Scope");
-			CompStmtAnalyzer whileStatementAnalyzer = new CompStmtAnalyzer(forStmtCtx.compoundStatement());
-			whileStatementAnalyzer.analyze();
 			ForCommand forCommand = new ForCommand(forStmtCtx);
+			StmtCmdTracker.getInstance().openIterationCommand(forCommand);
+
+			CompStmtAnalyzer forStatementAnalyzer = new CompStmtAnalyzer(forStmtCtx.compoundStatement());
+			forStatementAnalyzer.analyze();
+			
+			StmtCmdTracker.getInstance().closeIterationCommand();
 			ExecutionManager.getInstance().addCommand(forCommand);
 		} 
 
@@ -112,9 +117,13 @@ public class IterationAnalyzer implements AnalyzerInterface{
 			GlobalScopeManager.getInstance().setCurrentScope(forScope);
 
 			System.out.println("Opened While Loop Scope");
+			WhileCommand whileCommand = new WhileCommand(whileStmtContext);
+			StmtCmdTracker.getInstance().openIterationCommand(whileCommand);
+
 			CompStmtAnalyzer whileStatementAnalyzer = new CompStmtAnalyzer(whileStmtContext.compoundStatement());
 			whileStatementAnalyzer.analyze();
-			WhileCommand whileCommand = new WhileCommand(whileStmtContext);
+
+			StmtCmdTracker.getInstance().closeIterationCommand();
 			ExecutionManager.getInstance().addCommand(whileCommand);
 		}
 	}
