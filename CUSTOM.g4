@@ -224,7 +224,6 @@ mulExpression
 mulop
     : Star
     | Div
-    | Mod
     ;
 
 unaryExpression

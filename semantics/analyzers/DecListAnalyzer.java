@@ -75,13 +75,7 @@ public class DecListAnalyzer implements AnalyzerInterface, ParseTreeListener{
 					typeChecker.verify();
 
 					VarInitCommand varInitCmd = new VarInitCommand(varDecCtx.variableDeclarationInitialize().IDENTIFIER(), varDecCtx.variableDeclarationInitialize().simpleExpression());
-
-					if(GlobalScopeManager.getInstance().getIsInFunction()){
-						String currentFunctionName = GlobalScopeManager.getInstance().getCurrentFunctionName();
-						GlobalScopeManager.getInstance().getFunction(currentFunctionName).addCommand(varInitCmd);
-					} else {
-						ExecutionManager.getInstance().addCommand(varInitCmd);
-					}
+					ExecutionManager.getInstance().addCommand(varInitCmd);
 				}
 
 				CstmLocalScope currentScope = GlobalScopeManager.getInstance().getCurrentScope();
@@ -139,12 +133,7 @@ public class DecListAnalyzer implements AnalyzerInterface, ParseTreeListener{
 
 						
 						ArrayInitCommand arrayInitCommand = new ArrayInitCommand(arrDecCtx.arrayDeclarationInitialize().IDENTIFIER(), arrDecCtx.arrayDeclarationInitialize().mutable());
-						if(GlobalScopeManager.getInstance().getIsInFunction()){
-							String currentFunctionName = GlobalScopeManager.getInstance().getCurrentFunctionName();
-							GlobalScopeManager.getInstance().getFunction(currentFunctionName).addCommand(arrayInitCommand);
-						} else {
-							ExecutionManager.getInstance().addCommand(arrayInitCommand);
-						}
+						ExecutionManager.getInstance().addCommand(arrayInitCommand);
 					} else {
 						Console.log(String.valueOf(String.valueOf(arrDecCtx.arrayDeclarationInitialize().getStart().getLine())), "Found an undeclared array value.");
 					}
@@ -173,13 +162,7 @@ public class DecListAnalyzer implements AnalyzerInterface, ParseTreeListener{
 					typeChecker.verify();
 
 					ArrayCreateCommand arrCreateCmd = new ArrayCreateCommand(cstmArray, arrDecCtx.arrayDeclarationInitialize().arrayExpression().simpleExpression());
-
-					if(GlobalScopeManager.getInstance().getIsInFunction()){
-						String currentFunctionName = GlobalScopeManager.getInstance().getCurrentFunctionName();
-						GlobalScopeManager.getInstance().getFunction(currentFunctionName).addCommand(arrCreateCmd);
-					} else {
-						ExecutionManager.getInstance().addCommand(arrCreateCmd);
-					}
+					ExecutionManager.getInstance().addCommand(arrCreateCmd);
 				}
 
 				if(arrDecCtx.arrayDeclarationInitialize().IDENTIFIER() != null){

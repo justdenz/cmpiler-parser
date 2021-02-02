@@ -19,12 +19,7 @@ public class PrintStmtAnalyzer implements AnalyzerInterface{
 
       if(ctx.printParameters() != null){
         PrintCommand printCmd = new PrintCommand(ctx);
-        if(GlobalScopeManager.getInstance().getIsInFunction()){
-          String currentFunctionName = GlobalScopeManager.getInstance().getCurrentFunctionName();
-          GlobalScopeManager.getInstance().getFunction(currentFunctionName).addCommand(printCmd);
-        } else {
-          ExecutionManager.getInstance().addCommand(printCmd);
-        }
+        ExecutionManager.getInstance().addCommand(printCmd);
       }
     }
   }

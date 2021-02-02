@@ -3142,7 +3142,7 @@ public class CUSTOMParser extends Parser {
 							setState(447); 
 							_errHandler.sync(this);
 							_la = _input.LA(1);
-						} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << Div) | (1L << Mod) | (1L << Star))) != 0) );
+						} while ( _la==Div || _la==Star );
 						setState(449);
 						unaryExpression();
 						notifyErrorListeners("Mismatched input " + (((MulExpressionContext)_localctx).g!=null?_input.getText(((MulExpressionContext)_localctx).g.start,((MulExpressionContext)_localctx).g.stop):null) + ". Expecting '+', '-', '*', or '/' as operator only.");
@@ -3171,7 +3171,6 @@ public class CUSTOMParser extends Parser {
 	public static class MulopContext extends ParserRuleContext {
 		public TerminalNode Star() { return getToken(CUSTOMParser.Star, 0); }
 		public TerminalNode Div() { return getToken(CUSTOMParser.Div, 0); }
-		public TerminalNode Mod() { return getToken(CUSTOMParser.Mod, 0); }
 		public MulopContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -3195,7 +3194,7 @@ public class CUSTOMParser extends Parser {
 			{
 			setState(457);
 			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << Div) | (1L << Mod) | (1L << Star))) != 0)) ) {
+			if ( !(_la==Div || _la==Star) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -3789,11 +3788,11 @@ public class CUSTOMParser extends Parser {
 		"\13\64\3\64\5\64\u01f8\n\64\3\65\3\65\3\65\2\7\"FJRV\66\2\4\6\b\n\f\16"+
 		"\20\22\24\26\30\32\34\36 \"$&(*,.\60\62\64\668:<>@BDFHJLNPRTVXZ\\^`bd"+
 		"fh\2\t\6\2\13\13\32\32  \65\65\b\2\3\b\r\16!\"\')/\60\63\64\4\2\25\25"+
-		"99\6\2\30\30\35\36$%**\4\2\'\',,\5\2\21\21((\64\64\3\2<?\2\u0209\2m\3"+
-		"\2\2\2\4r\3\2\2\2\6x\3\2\2\2\b\u0083\3\2\2\2\n\u0087\3\2\2\2\f\u008a\3"+
-		"\2\2\2\16\u009a\3\2\2\2\20\u009d\3\2\2\2\22\u00a3\3\2\2\2\24\u00a8\3\2"+
-		"\2\2\26\u00aa\3\2\2\2\30\u00b7\3\2\2\2\32\u00bb\3\2\2\2\34\u00c6\3\2\2"+
-		"\2\36\u00c8\3\2\2\2 \u00d0\3\2\2\2\"\u00ec\3\2\2\2$\u00fa\3\2\2\2&\u00fc"+
+		"99\6\2\30\30\35\36$%**\4\2\'\',,\4\2\21\21\64\64\3\2<?\2\u0209\2m\3\2"+
+		"\2\2\4r\3\2\2\2\6x\3\2\2\2\b\u0083\3\2\2\2\n\u0087\3\2\2\2\f\u008a\3\2"+
+		"\2\2\16\u009a\3\2\2\2\20\u009d\3\2\2\2\22\u00a3\3\2\2\2\24\u00a8\3\2\2"+
+		"\2\26\u00aa\3\2\2\2\30\u00b7\3\2\2\2\32\u00bb\3\2\2\2\34\u00c6\3\2\2\2"+
+		"\36\u00c8\3\2\2\2 \u00d0\3\2\2\2\"\u00ec\3\2\2\2$\u00fa\3\2\2\2&\u00fc"+
 		"\3\2\2\2(\u0100\3\2\2\2*\u0104\3\2\2\2,\u010f\3\2\2\2.\u0111\3\2\2\2\60"+
 		"\u011f\3\2\2\2\62\u0123\3\2\2\2\64\u0133\3\2\2\2\66\u0135\3\2\2\28\u013f"+
 		"\3\2\2\2:\u0148\3\2\2\2<\u0153\3\2\2\2>\u0155\3\2\2\2@\u0161\3\2\2\2B"+

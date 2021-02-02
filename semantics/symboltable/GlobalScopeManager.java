@@ -34,7 +34,7 @@ public class GlobalScopeManager {
 		this.currentScope = newCurrentScope;
 	}
 
-	public void setCurrentFuncitonName(String name){
+	public void setCurrentFunctionName(String name){
 		this.currentFunctionName = name;
 	}
 

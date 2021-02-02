@@ -8,6 +8,7 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import execution.ExecutionManager;
 import model.CUSTOMParser.CompoundStatementContext;
 import model.CUSTOMParser.FuncBlockContext;
 import model.CUSTOMParser.MainBlockContext;
@@ -44,14 +45,15 @@ public class ProgramAnalyzer implements ParseTreeListener{
 			System.out.println("Found function block");
 			GlobalScopeManager.getInstance().setIsInFunction(true);
 			System.out.println("Set In Function to True");
-			GlobalScopeManager.getInstance().setCurrentFuncitonName(functionBlock.IDENTIFIER().getText());
+			GlobalScopeManager.getInstance().setCurrentFunctionName(functionBlock.IDENTIFIER().getText());
 			FuncBlockContext funcCtx = (FuncBlockContext) ctx;
 			FuncBlkAnalyzer funcAnalyzer = new FuncBlkAnalyzer(funcCtx);
 			funcAnalyzer.analyze();
 			GlobalScopeManager.getInstance().setIsInFunction(false);
-			GlobalScopeManager.getInstance().setCurrentFuncitonName(null);
+			GlobalScopeManager.getInstance().setCurrentFunctionName(null);
 			System.out.println("Set In Function to False");
-        } else if(ctx instanceof MainBlockContext) {
+			ExecutionManager.getInstance().resetFunction();
+    } else if(ctx instanceof MainBlockContext) {
 			System.out.println("Found main block");
 			MainBlockContext mainCtx = (MainBlockContext) ctx;
 			MainBlkAnalyzer mainAnalyzer = new MainBlkAnalyzer(mainCtx);

@@ -3,22 +3,23 @@ package execution;
 import java.util.ArrayList;
 
 import execution.commands.CommandInterface;
+import semantics.representations.CstmFunction;
+import semantics.symboltable.GlobalScopeManager;
 
 public class ExecutionManager {
     private static ExecutionManager sharedInstance = null;
     private static ArrayList<CommandInterface> commandList;
     private ExecutionThread executionThread;
-    // private CstmFunction currFunc;
+    private CstmFunction currFunc;
 
     public ExecutionManager(){
-
+        this.currFunc = new CstmFunction();
     }
 
     public static ExecutionManager getInstance(){
         if(sharedInstance == null){
             sharedInstance = new ExecutionManager();
             commandList = new ArrayList<CommandInterface>();
-            // this.currFunc = null;
             System.out.println("Execution Manager initialized");
         }
         return sharedInstance;
@@ -37,13 +38,18 @@ public class ExecutionManager {
     }
 
     public void addCommand(CommandInterface command){
-        System.out.println("Added " + command.getClass() + " to command list");
-        // if may currentFunction sa GlobalScopeManager
-            // 1. this.currFunc = new CstmFunction()
-            // 2. this.currFunc = GlobalScopeManager.getFunction(currentFunction);
-            // 3. this.currFunc.functionCommandList.add(command)
-        // else
+        if(GlobalScopeManager.getInstance().getIsInFunction()){
+            this.setFunction();
+            currFunc.addCommand(command);
+            System.out.println("Added " + command.getClass() + " to function command list");
+        } else {
             commandList.add(command);
+            System.out.println("Added " + command.getClass() + " to main command list");
+        }
+    }
+
+    public boolean isRunning(){
+        return this.executionThread.getRunStatus();
     }
 
     public void pauseThread(){
@@ -58,4 +64,12 @@ public class ExecutionManager {
         this.executionThread.stopThread();
     }
 
+    public void setFunction(){
+        String currFuncName = GlobalScopeManager.getInstance().getCurrentFunctionName();
+        this.currFunc = GlobalScopeManager.getInstance().getFunction(currFuncName);
+    }
+
+    public void resetFunction(){
+        this.currFunc = new CstmFunction();
+    }
 }

@@ -30,6 +30,10 @@ public class ExecutionThread extends Thread{
         System.out.println("Execution Ended.");
     }
 
+    public boolean getRunStatus(){
+        return this.isRunning;
+    }
+
     public void pauseRunning(){
         this.isRunning = false;
         System.out.println("Thread has been paused.");
