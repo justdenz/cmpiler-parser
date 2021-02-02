@@ -278,6 +278,16 @@ public interface CUSTOMListener extends ParseTreeListener {
 	 */
 	void exitForStatement(CUSTOMParser.ForStatementContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link CUSTOMParser#upDownToStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterUpDownToStatement(CUSTOMParser.UpDownToStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CUSTOMParser#upDownToStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitUpDownToStatement(CUSTOMParser.UpDownToStatementContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link CUSTOMParser#forCondition}.
 	 * @param ctx the parse tree
 	 */

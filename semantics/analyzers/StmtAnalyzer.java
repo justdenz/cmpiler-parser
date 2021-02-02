@@ -100,9 +100,8 @@ public class StmtAnalyzer implements AnalyzerInterface{
             } 
             // ITERATION STATEMENT
             else if(stmtCtx.iterationStatement() != null){
-                // IterationAnalyzer (for and while loop)
                 System.out.println("Enter iteration statement");
-                IterationAnalyzer iterationAnalyzer = new IterationAnalyzer(stmtCtx);
+                IterationAnalyzer iterationAnalyzer = new IterationAnalyzer(stmtCtx.iterationStatement());
                 iterationAnalyzer.analyze();
             } 
             // RETURN STATEMENT

@@ -340,6 +340,18 @@ public class CUSTOMBaseListener implements CUSTOMListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterUpDownToStatement(CUSTOMParser.UpDownToStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitUpDownToStatement(CUSTOMParser.UpDownToStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterForCondition(CUSTOMParser.ForConditionContext ctx) { }
 	/**
 	 * {@inheritDoc}

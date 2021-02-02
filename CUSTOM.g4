@@ -124,21 +124,26 @@ iterationStatement
     | forStatement
     ;
 
-UpDownToStatement
-    : Upto
-    | Downto
-    ;
-
 whileStatement
-    : While IDENTIFIER UpDownToStatement simpleExpression compoundStatement
+    : While IDENTIFIER upDownToStatement simpleExpression compoundStatement
     ;
 
 forStatement
-    : For forCondition UpDownToStatement simpleExpression compoundStatement
+    : For forCondition upDownToStatement simpleExpression compoundStatement
     ; 
 
+upDownToStatement
+    : Upto
+    | Downto
+    | Up {notifyErrorListeners("Missing 'to' after the word 'up'");}
+    | Down {notifyErrorListeners("Missing 'to' after the word 'down'");}
+    | To {notifyErrorListeners("Missing 'up' or 'down' before the word 'to'");}
+    ;
+
 forCondition
-    : Int? IDENTIFIER Assign simpleExpression
+    : Int IDENTIFIER Assign simpleExpression
+    | Int IDENTIFIER {notifyErrorListeners("Newly declared variables in loops needs to be assigned to a value immediately.");}
+    | IDENTIFIER Assign simpleExpression
     | IDENTIFIER
     ;
 
