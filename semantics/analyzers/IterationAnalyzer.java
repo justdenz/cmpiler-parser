@@ -33,22 +33,57 @@ public class IterationAnalyzer implements AnalyzerInterface{
 			ForStatementContext forStmtCtx = stmtCtx.iterationStatement().forStatement();
 			ForConditionContext conditionCtx = forStmtCtx.forCondition();
 
+			// Int Declaration as Condition
 			if(conditionCtx.Int() != null){
-				
+				if(GlobalScopeManager.getInstance().searchScopedVariable(conditionCtx.IDENTIFIER().getText()) != null){
+					Console.log(String.valueOf(ctx.getStart().getLine()), "Found multiple declaration of variable in for statement");
+				} else {
+					CstmValue tempVal = new CstmValue(null, CstmKeywords.IS_INT);
+					GlobalScopeManager.getInstance().getCurrentScope().addVariable(conditionCtx.IDENTIFIER().getText(), tempVal);
+				}
+				// if no Int Declaration
+				if(conditionCtx.Assign() != null){
+					CstmValue tempVal = new CstmValue(null, CstmKeywords.IS_INT);
+					CstmTypeChecker typeChecker = new CstmTypeChecker(tempVal, conditionCtx.simpleExpression());
+					typeChecker.verify();
+				}
+			} 
+			// Variable as Condition
+			else {
+				CstmValue cstmValue = GlobalScopeManager.getInstance().searchScopedVariable(conditionCtx.IDENTIFIER().getText());
+
+				if(cstmValue != null){
+					if(cstmValue.getPrimitiveType() != PrimitiveType.INT){
+						Console.log(String.valueOf(ctx.getStart().getLine()), "Found a type mismatch in for statement");
+					}
+				} else {
+					Console.log(String.valueOf(ctx.getStart().getLine()), "Found an undeclared variable in for statement");
+				}
+
+				if(conditionCtx.Assign() != null){
+					CstmValue tempVal = new CstmValue(null, CstmKeywords.IS_INT);
+					CstmTypeChecker typeChecker = new CstmTypeChecker(tempVal, conditionCtx.simpleExpression());
+					typeChecker.verify();
+				}
 			}
-			
-			// if(forExpression != null && forDeclaration != null){
-			// 	System.out.println("Opened For Loop Scope");			
-			// 	CstmLocalScope forScope = new CstmLocalScope(GlobalScopeManager.getInstance().getCurrentScope());
-			// 	GlobalScopeManager.getInstance().setCurrentScope(forScope);
-			// 	CompStmtAnalyzer forStatementAnalyzer = new CompStmtAnalyzer(forStmtCtx.compoundStatement());
-			// 	forStatementAnalyzer.analyze();
-			// } else {
-			// 	Console.log(String.valueOf(forStmtCtx.getStart().getLine()), "Missing for loop declarations.");
-			// }
+
+			CstmUnDecChecker undecChecker = new CstmUnDecChecker(forStmtCtx.simpleExpression());
+			undecChecker.verify();
+
+			CstmValue tempVal = new CstmValue(null, CstmKeywords.IS_INT);
+			CstmTypeChecker typeChecker = new CstmTypeChecker(tempVal, forStmtCtx.simpleExpression());
+			typeChecker.verify();
+
+			CstmLocalScope forScope = new CstmLocalScope(GlobalScopeManager.getInstance().getCurrentScope());
+			GlobalScopeManager.getInstance().setCurrentScope(forScope);
+
+			System.out.println("Opened For Loop Scope");
+			CompStmtAnalyzer whileStatementAnalyzer = new CompStmtAnalyzer(forStmtCtx.compoundStatement());
+			whileStatementAnalyzer.analyze();
+		} 
 
 		// WHILE STATEMENT
-		} else if (stmtCtx.iterationStatement().whileStatement() != null){
+		else if (stmtCtx.iterationStatement().whileStatement() != null){
 			
 			WhileStatementContext whileStmtContext = stmtCtx.iterationStatement().whileStatement();
 			String whileVar = whileStmtContext.IDENTIFIER().getText();
@@ -67,14 +102,14 @@ public class IterationAnalyzer implements AnalyzerInterface{
 
 			CstmValue tempVal = new CstmValue(null, CstmKeywords.IS_INT);
 			CstmTypeChecker typeChecker = new CstmTypeChecker(tempVal, whileStmtContext.simpleExpression());
+			typeChecker.verify();
 
 			CstmLocalScope forScope = new CstmLocalScope(GlobalScopeManager.getInstance().getCurrentScope());
 			GlobalScopeManager.getInstance().setCurrentScope(forScope);
 
 			System.out.println("Opened While Loop Scope");
 			CompStmtAnalyzer whileStatementAnalyzer = new CompStmtAnalyzer(whileStmtContext.compoundStatement());
+			whileStatementAnalyzer.analyze();
 		}
 	}
-
-
 }
