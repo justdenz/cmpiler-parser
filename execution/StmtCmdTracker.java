@@ -40,7 +40,7 @@ public class StmtCmdTracker {
   }
 
   public void openSelectionCommand(SelectCommandInterface command){
-    if(this.stackCmd.isEmpty()){
+    if(!this.stackCmd.isEmpty()){
       this.addCommand(command);
     } else {
       this.activeCommand = command;
@@ -56,8 +56,7 @@ public class StmtCmdTracker {
 
   public void closeIterationCommand(){
     if(this.stackCmd.size() == 1){
-      CommandInterface rootCmd = this.stackCmd.pop();
-      ExecutionManager.getInstance().addCommand(rootCmd);
+      ExecutionManager.getInstance().addCommand(this.stackCmd.pop());
       this.activeCommand = null;
     } 
     else if(this.stackCmd.size() > 1){

@@ -14,6 +14,7 @@ import model.CUSTOMParser.MutableContext;
 import model.CUSTOMParser.SimpleExpressionContext;
 import semantics.representations.CstmArray;
 import semantics.representations.CstmValue;
+import semantics.symboltable.GlobalScopeManager;
 import semantics.symboltable.scopes.CstmLocalScope;
 import semantics.utils.CstmKeywords;
 import semantics.utils.Expression;
@@ -63,7 +64,7 @@ public class EvaluationCommand implements CommandInterface, ParseTreeListener {
             MutableContext mutableContext = (MutableContext) ctx;
             // if non-array variable
             if(mutableContext.IDENTIFIER() != null && mutableContext.LeftBracket() == null) {
-                CstmValue cstmValue = scope.getVariableWithinScope(mutableContext.IDENTIFIER().getText());
+                CstmValue cstmValue = this.scope.getVariableWithinScope(mutableContext.IDENTIFIER().getText());
                 this.modifiedExpression = this.modifiedExpression.replaceFirst(mutableContext.IDENTIFIER().getText(), cstmValue.getValue().toString());
             } else {
                 EvaluationCommand evaluationCommand = new EvaluationCommand(mutableContext.simpleExpression(), this.scope);

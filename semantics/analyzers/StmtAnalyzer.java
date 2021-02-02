@@ -4,6 +4,8 @@ import org.antlr.v4.runtime.ParserRuleContext;
 
 import console.Console;
 import execution.ExecutionManager;
+import execution.StmtCmdTracker;
+import execution.commands.ConditionalCommand;
 import execution.commands.ScanCommand;
 import builder.errorcheckers.CstmUnDecChecker;
 import model.CUSTOMParser.CompoundStatementContext;
@@ -77,12 +79,18 @@ public class StmtAnalyzer implements AnalyzerInterface{
                 // verify the declared variables in condition
                 CstmUnDecChecker undecChecker = new CstmUnDecChecker(selectStmtCtx.simpleExpression());
                 undecChecker.verify();
+
+                ConditionalCommand conditionalCommand = new ConditionalCommand(selectStmtCtx.simpleExpression());
+                StmtCmdTracker.getInstance().openSelectionCommand(conditionalCommand);
+                
                 CstmLocalScope ifScope = new CstmLocalScope(GlobalScopeManager.getInstance().getCurrentScope());
                 GlobalScopeManager.getInstance().setCurrentScope(ifScope);
                 System.out.println("Opened if/else if scope");
 
                 CompStmtAnalyzer compoundStatementAnalyzer = new CompStmtAnalyzer(selectStmtCtx.compoundStatement());
                 compoundStatementAnalyzer.analyze();
+
+                StmtCmdTracker.getInstance().exitIfCommand();
 
                 if(selectStmtCtx.elseStatement() != null){
                     if(selectStmtCtx.elseStatement().compoundStatement() != null){
@@ -97,6 +105,8 @@ public class StmtAnalyzer implements AnalyzerInterface{
                     }
                     
                 } 
+
+                StmtCmdTracker.getInstance().closeIterationCommand();
             } 
             // ITERATION STATEMENT
             else if(stmtCtx.iterationStatement() != null){

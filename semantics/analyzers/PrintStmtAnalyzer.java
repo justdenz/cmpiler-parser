@@ -3,7 +3,9 @@ package semantics.analyzers;
 import model.CUSTOMParser.PrintStatementListContext;
 import semantics.symboltable.GlobalScopeManager;
 import execution.ExecutionManager;
+import execution.StmtCmdTracker;
 import execution.commands.PrintCommand;
+import execution.commands.SelectCommandInterface;
 
 public class PrintStmtAnalyzer implements AnalyzerInterface{
 
@@ -19,7 +21,16 @@ public class PrintStmtAnalyzer implements AnalyzerInterface{
 
       if(ctx.printParameters() != null){
         PrintCommand printCmd = new PrintCommand(ctx);
-        ExecutionManager.getInstance().addCommand(printCmd);
+
+        if(StmtCmdTracker.getInstance().isSelectionCommand()){
+          SelectCommandInterface ifCommand = (SelectCommandInterface) StmtCmdTracker.getInstance().getActiveCommand();
+
+          if(StmtCmdTracker.getInstance().isInsideIf()){
+            ifCommand.addIfCommand(printCmd);
+          } else {
+            ExecutionManager.getInstance().addCommand(printCmd);
+          }
+        }
       }
     }
   }

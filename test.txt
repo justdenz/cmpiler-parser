@@ -1,6 +1,6 @@
 main() {
 	int i = 5;
-	for i up to 5{
-		print("test");
+	if(i==4) then{
+		print("hello");
 	}
 }

@@ -80,7 +80,6 @@ public class DecListAnalyzer implements AnalyzerInterface, ParseTreeListener{
 
 				CstmLocalScope currentScope = GlobalScopeManager.getInstance().getCurrentScope();
 				currentScope.addVariable(varDecCtx.variableDeclarationInitialize().IDENTIFIER().getText(), cstmValue);
-				
 			}
 			// check if array declaration
 			else if(decCtx.arrayDeclaration() != null){
