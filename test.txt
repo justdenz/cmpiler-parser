@@ -2,11 +2,6 @@ func void test2(){
     print("Fdasf");
 }
 
-func void test1(){
-    String x;
-    scan("Enter input", x);
-}
-
-
 main() {
+    test2();
 }

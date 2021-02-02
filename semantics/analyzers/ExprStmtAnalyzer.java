@@ -84,6 +84,9 @@ public class ExprStmtAnalyzer implements AnalyzerInterface{
 				CstmUnDecChecker undeclaredSemCheck = new CstmUnDecChecker(exprCtx);
 				undeclaredSemCheck.verify();
 			}
+
+			FuncCallAnalyzer functionCallAnalyzer = new FuncCallAnalyzer(callCtx);
+			functionCallAnalyzer.analyze();
         }
     }
 }
