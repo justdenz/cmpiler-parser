@@ -13,6 +13,7 @@ import model.CUSTOMLexer;
 import model.CUSTOMParser;
 import model.CustomErrorListener;
 import model.ProgramCustomListener;
+import semantics.symboltable.GlobalScopeManager;
 
 import org.antlr.v4.gui.TreeViewer;
 import org.antlr.v4.runtime.CharStreams;
@@ -29,6 +30,8 @@ public class Controller {
     Printer.getInstance();
     Printer.getInstance().clearTerminal();
     ScanWindow.getInstance();
+    GlobalScopeManager.getInstance();
+    GlobalScopeManager.getInstance().reset();
     ExecutionManager.getInstance();
     ExecutionManager.getInstance().resetCommands();
     Console.getInstance();

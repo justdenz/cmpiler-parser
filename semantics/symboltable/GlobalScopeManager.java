@@ -17,7 +17,7 @@ public class GlobalScopeManager {
 
 	public static GlobalScopeManager getInstance() {
 		if(sharedInstance == null){
-			System.out.println("Global Scope Manger initialzed 1st time!");
+			System.out.println("Global Scope Manger initialzed");
 			sharedInstance = new GlobalScopeManager();
 		}
 		return sharedInstance;
@@ -86,5 +86,12 @@ public class GlobalScopeManager {
         }
 
         return cstmValue;
+	}
+
+	public void reset(){
+		this.currentScope = null;
+		this.functionMap = new HashMap<String, CstmFunction>();
+		this.isInFunction = false;
+		this.currentFunctionName = null;
 	}
 }
