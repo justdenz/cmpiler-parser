@@ -8,6 +8,7 @@ public class ExecutionManager {
     private static ExecutionManager sharedInstance = null;
     private static ArrayList<CommandInterface> commandList;
     private ExecutionThread executionThread;
+    // private CstmFunction currFunc;
 
     public ExecutionManager(){
 
@@ -17,6 +18,7 @@ public class ExecutionManager {
         if(sharedInstance == null){
             sharedInstance = new ExecutionManager();
             commandList = new ArrayList<CommandInterface>();
+            // this.currFunc = null;
             System.out.println("Execution Manager initialized");
         }
         return sharedInstance;
@@ -36,7 +38,12 @@ public class ExecutionManager {
 
     public void addCommand(CommandInterface command){
         System.out.println("Added " + command.getClass() + " to command list");
-        commandList.add(command);
+        // if may currentFunction sa GlobalScopeManager
+            // 1. this.currFunc = new CstmFunction()
+            // 2. this.currFunc = GlobalScopeManager.getFunction(currentFunction);
+            // 3. this.currFunc.functionCommandList.add(command)
+        // else
+            commandList.add(command);
     }
 
     public void pauseThread(){
