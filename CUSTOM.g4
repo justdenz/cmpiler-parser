@@ -88,8 +88,8 @@ printStatementList
 
 printParameters
     : StringLiteral
-    | IDENTIFIER
     | call
+    | IDENTIFIER
     | simpleExpression
     ;
 

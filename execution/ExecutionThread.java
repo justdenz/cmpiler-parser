@@ -26,8 +26,7 @@ public class ExecutionThread extends Thread{
                 index++;
             }
         }
-        ExecutionManager.getInstance().stopExecution();
-        System.out.println("Execution Ended.");
+        ExecutionManager.getInstance().resetCommands();
     }
 
     public boolean getRunStatus(){

@@ -1353,10 +1353,10 @@ public class CUSTOMParser extends Parser {
 
 	public static class PrintParametersContext extends ParserRuleContext {
 		public TerminalNode StringLiteral() { return getToken(CUSTOMParser.StringLiteral, 0); }
-		public TerminalNode IDENTIFIER() { return getToken(CUSTOMParser.IDENTIFIER, 0); }
 		public CallContext call() {
 			return getRuleContext(CallContext.class,0);
 		}
+		public TerminalNode IDENTIFIER() { return getToken(CUSTOMParser.IDENTIFIER, 0); }
 		public SimpleExpressionContext simpleExpression() {
 			return getRuleContext(SimpleExpressionContext.class,0);
 		}
@@ -1392,14 +1392,14 @@ public class CUSTOMParser extends Parser {
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(245);
-				match(IDENTIFIER);
+				call();
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(246);
-				call();
+				match(IDENTIFIER);
 				}
 				break;
 			case 4:
@@ -3844,7 +3844,7 @@ public class CUSTOMParser extends Parser {
 		"\2\2\u00ed\u00f3\3\2\2\2\u00ee\u00ef\f\3\2\2\u00ef\u00f0\7,\2\2\u00f0"+
 		"\u00f2\b\22\1\2\u00f1\u00ee\3\2\2\2\u00f2\u00f5\3\2\2\2\u00f3\u00f1\3"+
 		"\2\2\2\u00f3\u00f4\3\2\2\2\u00f4#\3\2\2\2\u00f5\u00f3\3\2\2\2\u00f6\u00fb"+
-		"\7<\2\2\u00f7\u00fb\7@\2\2\u00f8\u00fb\5d\63\2\u00f9\u00fb\5F$\2\u00fa"+
+		"\7<\2\2\u00f7\u00fb\5d\63\2\u00f8\u00fb\7@\2\2\u00f9\u00fb\5F$\2\u00fa"+
 		"\u00f6\3\2\2\2\u00fa\u00f7\3\2\2\2\u00fa\u00f8\3\2\2\2\u00fa\u00f9\3\2"+
 		"\2\2\u00fb%\3\2\2\2\u00fc\u00fd\t\3\2\2\u00fd\'\3\2\2\2\u00fe\u0101\5"+
 		"B\"\2\u00ff\u0101\5d\63\2\u0100\u00fe\3\2\2\2\u0100\u00ff\3\2\2\2\u0101"+

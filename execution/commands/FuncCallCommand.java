@@ -28,6 +28,7 @@ public class FuncCallCommand implements CommandInterface{
 
   @Override
   public void execute() {
+    this.mapParameters();
     this.function.execute();
   }
 
@@ -75,7 +76,4 @@ public class FuncCallCommand implements CommandInterface{
       }
     }
   }
-  
-
-  
 }

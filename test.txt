@@ -1,7 +1,12 @@
-func void test2(){
-    print("Fdasf");
+func void test1(){
+	int x;
+	print("hello");
+	scan("how are you?", x);
 }
 
 main() {
-    test2();
+	int y;
+	test1();
+	scan("are you fine", y);
+	test1();
 }

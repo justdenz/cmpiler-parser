@@ -31,6 +31,7 @@ public class CstmFunction implements CommandInterface{
 		private LinkedHashMap<String, CstmValue> parameterValues;	//the list of parameters of the function
 		private CstmValue returnValue; //the return value of the function. null if it's a void type
 		private FunctionType returnType; //the return type of the function
+		private int index;
     
     public CstmFunction() {
 			this.commandList = new ArrayList<CommandInterface>();
@@ -171,11 +172,12 @@ public class CstmFunction implements CommandInterface{
 		@Override
 		public void execute() {
 			System.out.println("Function Call Started");
-			int index = 0;
+			index = 0;
 			while(index < commandList.size()){
 					if (ExecutionManager.getInstance().isRunning()) {
 							System.out.println("Executing " + commandList.get(index).getClass());
 							commandList.get(index).execute();
+							System.out.println("Executing done");
 							index++;
 					}
 			}
