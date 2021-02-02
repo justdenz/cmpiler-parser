@@ -1,17 +1,23 @@
 package semantics.analyzers;
 
 import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.tree.TerminalNode;
 
+import builder.errorcheckers.CstmConstChecker;
 import builder.errorcheckers.CstmTypeChecker;
 import builder.errorcheckers.CstmUnDecChecker;
 import console.Console;
 import execution.ExecutionManager;
 import execution.StmtCmdTracker;
 import execution.commands.ForCommand;
+import execution.commands.IterCommandInterface;
+import execution.commands.IterationAssignCommand;
+import execution.commands.SelectCommandInterface;
 import execution.commands.WhileCommand;
 import model.CUSTOMParser.ForConditionContext;
 import model.CUSTOMParser.ForStatementContext;
 import model.CUSTOMParser.IterationStatementContext;
+import model.CUSTOMParser.SimpleExpressionContext;
 import model.CUSTOMParser.WhileStatementContext;
 import semantics.representations.CstmValue;
 import semantics.representations.CstmValue.PrimitiveType;
@@ -46,9 +52,22 @@ public class IterationAnalyzer implements AnalyzerInterface{
 				}
 				// if no Int Declaration
 				if(conditionCtx.Assign() != null){
-					CstmValue tempVal = new CstmValue(null, CstmKeywords.IS_INT);
-					CstmTypeChecker typeChecker = new CstmTypeChecker(tempVal, conditionCtx.simpleExpression());
-					typeChecker.verify();
+					IterationAssignCommand iterAssignCmd = new IterationAssignCommand(conditionCtx.IDENTIFIER(), conditionCtx.simpleExpression());
+
+					if(StmtCmdTracker.getInstance().isSelectionCommand()){
+						SelectCommandInterface selectCmd = (SelectCommandInterface) StmtCmdTracker.getInstance().getActiveCommand();
+
+						if(StmtCmdTracker.getInstance().isInsideIf()){
+							selectCmd.addIfCommand(iterAssignCmd);
+						} else {
+							selectCmd.addElseCommand(iterAssignCmd);
+						}
+					} else if(StmtCmdTracker.getInstance().isIterationCommand()){
+						IterCommandInterface iterCmd = (IterCommandInterface) StmtCmdTracker.getInstance().getActiveCommand();
+						iterCmd.addCommand(iterAssignCmd);
+					} else {
+						ExecutionManager.getInstance().addCommand(iterAssignCmd);
+					}
 				}
 			} 
 			// Variable as Condition
@@ -64,9 +83,22 @@ public class IterationAnalyzer implements AnalyzerInterface{
 				}
 
 				if(conditionCtx.Assign() != null){
-					CstmValue tempVal = new CstmValue(null, CstmKeywords.IS_INT);
-					CstmTypeChecker typeChecker = new CstmTypeChecker(tempVal, conditionCtx.simpleExpression());
-					typeChecker.verify();
+					IterationAssignCommand iterAssignCmd = new IterationAssignCommand(conditionCtx.IDENTIFIER(), conditionCtx.simpleExpression());
+
+					if(StmtCmdTracker.getInstance().isSelectionCommand()){
+						SelectCommandInterface selectCmd = (SelectCommandInterface) StmtCmdTracker.getInstance().getActiveCommand();
+
+						if(StmtCmdTracker.getInstance().isInsideIf()){
+							selectCmd.addIfCommand(iterAssignCmd);
+						} else {
+							selectCmd.addElseCommand(iterAssignCmd);
+						}
+					} else if(StmtCmdTracker.getInstance().isIterationCommand()){
+						IterCommandInterface iterCmd = (IterCommandInterface) StmtCmdTracker.getInstance().getActiveCommand();
+						iterCmd.addCommand(iterAssignCmd);
+					} else {
+						ExecutionManager.getInstance().addCommand(iterAssignCmd);
+					}
 				}
 			}
 
@@ -88,7 +120,6 @@ public class IterationAnalyzer implements AnalyzerInterface{
 			forStatementAnalyzer.analyze();
 			
 			StmtCmdTracker.getInstance().closeIterationCommand();
-			ExecutionManager.getInstance().addCommand(forCommand);
 		} 
 
 		// WHILE STATEMENT
@@ -124,7 +155,6 @@ public class IterationAnalyzer implements AnalyzerInterface{
 			whileStatementAnalyzer.analyze();
 
 			StmtCmdTracker.getInstance().closeIterationCommand();
-			ExecutionManager.getInstance().addCommand(whileCommand);
 		}
 	}
 }
