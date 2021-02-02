@@ -288,26 +288,6 @@ public interface CUSTOMListener extends ParseTreeListener {
 	 */
 	void exitForCondition(CUSTOMParser.ForConditionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link CUSTOMParser#forDeclaration}.
-	 * @param ctx the parse tree
-	 */
-	void enterForDeclaration(CUSTOMParser.ForDeclarationContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link CUSTOMParser#forDeclaration}.
-	 * @param ctx the parse tree
-	 */
-	void exitForDeclaration(CUSTOMParser.ForDeclarationContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link CUSTOMParser#forExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterForExpression(CUSTOMParser.ForExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link CUSTOMParser#forExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitForExpression(CUSTOMParser.ForExpressionContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link CUSTOMParser#returnStatement}.
 	 * @param ctx the parse tree
 	 */

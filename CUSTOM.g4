@@ -124,29 +124,22 @@ iterationStatement
     | forStatement
     ;
 
+UpDownToStatement
+    : Upto
+    | Downto
+    ;
+
 whileStatement
-    : While IDENTIFIER Up To relExpression compoundStatement
-    | While IDENTIFIER Down To relExpression compoundStatement
+    : While IDENTIFIER UpDownToStatement simpleExpression compoundStatement
     ;
 
 forStatement
-    : For forCondition compoundStatement
+    : For forCondition UpDownToStatement simpleExpression compoundStatement
     ; 
 
 forCondition
-    : forDeclaration forExpression
-    | forDeclaration {notifyErrorListeners("Expecting 'up to' or 'down to' then expression");}
-    ;
-
-forDeclaration
-    : IDENTIFIER
-    | Int? IDENTIFIER Assign simpleExpression
-    ;
-
-forExpression
-    : (Up | Down) To sumExpression
-    | {notifyErrorListeners("Expecting the word 'up' or 'down'");} To sumExpression		
-    | (Up | Down) {notifyErrorListeners("Expecting the word 'to'");} sumExpression
+    : Int? IDENTIFIER Assign simpleExpression
+    | IDENTIFIER
     ;
 
 returnStatement
@@ -332,6 +325,11 @@ Digit
     ;
 
 fragment
+Space
+    : [ ]
+    ;
+
+fragment
 DigitSequence
     : Digit+
     ;
@@ -373,6 +371,14 @@ SChar
 fragment
 SCharSequence
     :   SChar+
+    ;
+
+Upto
+    : Up Space+ To
+    ;
+
+Downto
+    : Down Space+ To
     ;
 
 StringLiteral

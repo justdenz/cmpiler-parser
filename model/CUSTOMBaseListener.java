@@ -352,30 +352,6 @@ public class CUSTOMBaseListener implements CUSTOMListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterForDeclaration(CUSTOMParser.ForDeclarationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitForDeclaration(CUSTOMParser.ForDeclarationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterForExpression(CUSTOMParser.ForExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitForExpression(CUSTOMParser.ForExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterReturnStatement(CUSTOMParser.ReturnStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
