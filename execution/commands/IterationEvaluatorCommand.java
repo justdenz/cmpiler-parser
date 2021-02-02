@@ -58,13 +58,13 @@ public class IterationEvaluatorCommand implements CommandInterface{
             int leftHandValue = Integer.parseInt(cstmValue.getValue().toString());
             int rightHandValue = this.evaluationCommand.getResult().intValue();
 
-            if(whileStatement.UpDownToStatement().getText().contains("up to")){
+            if(whileStatement.upDownToStatement().getText().contains("up to")){
                 if(leftHandValue <= rightHandValue){
                     this.result = true;
                 } else {
                     this.result = false;
                 }
-            } else if(whileStatement.UpDownToStatement().getText().contains("down to")){
+            } else if(whileStatement.upDownToStatement().getText().contains("down to")){
                 if(leftHandValue >= rightHandValue){
                     this.result = true;
                 } else {
