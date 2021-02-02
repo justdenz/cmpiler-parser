@@ -23,12 +23,12 @@ public class ForCommand implements IterCommandInterface{
 	public void execute() {
 		EvaluationCommand evaluationCommand = new EvaluationCommand(this.forStmtCtx.simpleExpression(), this.cstmLocalScope);
 		evaluationCommand.execute();
-		while(){
-			for(CommandInterface comm: this.commandList){
-				comm.execute();
-			}
+		// while(){
+		// 	for(CommandInterface comm: this.commandList){
+		// 		comm.execute();
+		// 	}
 			
-		}
+		// }
 	}
 
 	@Override

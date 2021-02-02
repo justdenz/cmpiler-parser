@@ -1,0 +1,83 @@
+package execution.commands;
+
+import model.CUSTOMParser.ForStatementContext;
+import model.CUSTOMParser.SimpleExpressionContext;
+import model.CUSTOMParser.WhileStatementContext;
+import semantics.representations.CstmValue;
+import semantics.symboltable.GlobalScopeManager;
+import semantics.symboltable.scopes.CstmLocalScope;
+
+public class IterationEvaluatorCommand implements CommandInterface{
+
+    private ForStatementContext forStatement;
+    private WhileStatementContext whileStatement;
+    private CstmLocalScope scope;
+    EvaluationCommand evaluationCommand;
+    private boolean result;
+
+    public IterationEvaluatorCommand(ForStatementContext forStatement, CstmLocalScope scope){
+        this.forStatement = forStatement;
+        this.scope = scope;
+        this.evaluationCommand = new EvaluationCommand(forStatement.simpleExpression(), this.scope);
+        this.result = false;
+    }
+
+    public IterationEvaluatorCommand(WhileStatementContext whileStatement, CstmLocalScope scope){
+        this.whileStatement = whileStatement;
+        this.scope = scope;
+        this.evaluationCommand = new EvaluationCommand(whileStatement.simpleExpression(), this.scope);
+        this.result = false;
+    }
+
+    @Override
+    public void execute() {
+        this.evaluationCommand.execute();
+
+        if(forStatement != null){
+            CstmValue cstmValue = this.scope.getVariableWithinScope(this.forStatement.forCondition().IDENTIFIER().getText());
+            int leftHandValue = Integer.parseInt(cstmValue.getValue().toString());
+            int rightHandValue = this.evaluationCommand.getResult().intValue();
+
+            if(forStatement.UpDownToStatement().getText().contains("up to")){
+                if(leftHandValue <= rightHandValue){
+                    this.result = true;
+                } else {
+                    this.result = false;
+                }
+            } else if(forStatement.UpDownToStatement().getText().contains("down to")){
+                if(leftHandValue >= rightHandValue){
+                    this.result = true;
+                } else {
+                    this.result = false;
+                }
+            }
+        }
+        
+        else if(whileStatement != null){
+            CstmValue cstmValue = this.scope.getVariableWithinScope(this.whileStatement.IDENTIFIER().getText());
+            int leftHandValue = Integer.parseInt(cstmValue.getValue().toString());
+            int rightHandValue = this.evaluationCommand.getResult().intValue();
+
+            if(whileStatement.UpDownToStatement().getText().contains("up to")){
+                if(leftHandValue <= rightHandValue){
+                    this.result = true;
+                } else {
+                    this.result = false;
+                }
+            } else if(whileStatement.UpDownToStatement().getText().contains("down to")){
+                if(leftHandValue >= rightHandValue){
+                    this.result = true;
+                } else {
+                    this.result = false;
+                }
+            }
+        }
+
+        System.out.println(this.result);
+    }
+
+    public boolean getResult(){
+        return this.result;
+    }
+    
+}

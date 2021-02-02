@@ -1,12 +1,6 @@
-func void test1(){
-	int x;
-	print("hello");
-	scan("how are you?", x);
-}
-
 main() {
-	int y;
-	test1();
-	scan("are you fine", y);
-	test1();
+	int x = 5;
+	while x up to 10{
+
+	}
 }

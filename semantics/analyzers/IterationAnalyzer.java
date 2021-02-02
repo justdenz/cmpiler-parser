@@ -5,6 +5,8 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import builder.errorcheckers.CstmTypeChecker;
 import builder.errorcheckers.CstmUnDecChecker;
 import console.Console;
+import execution.ExecutionManager;
+import execution.commands.WhileCommand;
 import model.CUSTOMParser.ForConditionContext;
 import model.CUSTOMParser.ForStatementContext;
 import model.CUSTOMParser.WhileStatementContext;
@@ -110,6 +112,8 @@ public class IterationAnalyzer implements AnalyzerInterface{
 			System.out.println("Opened While Loop Scope");
 			CompStmtAnalyzer whileStatementAnalyzer = new CompStmtAnalyzer(whileStmtContext.compoundStatement());
 			whileStatementAnalyzer.analyze();
+			WhileCommand whileCommand = new WhileCommand(whileStmtContext);
+			ExecutionManager.getInstance().addCommand(whileCommand);
 		}
 	}
 }

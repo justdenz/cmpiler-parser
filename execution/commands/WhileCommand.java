@@ -11,16 +11,20 @@ public class WhileCommand implements IterCommandInterface{
   private CstmLocalScope cstmLocalScope;
   private ArrayList<CommandInterface> commandList;
   private WhileStatementContext whileStatementContext;
+  IterationEvaluatorCommand iterationEval;
   
-  public WhileCommand(){
+  public WhileCommand(WhileStatementContext whileStatementContext){
+	this.whileStatementContext = whileStatementContext;
     this.cstmLocalScope = GlobalScopeManager.getInstance().getCurrentScope();
-    
+    this.iterationEval = new IterationEvaluatorCommand(this.whileStatementContext, this.cstmLocalScope);
   }
 
 
 	@Override
 	public void execute() {
 		// TODO Auto-generated method stub
+		iterationEval.execute();
+
 		
 	}
 
