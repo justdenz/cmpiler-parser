@@ -37,12 +37,12 @@ public class IterationEvaluatorCommand implements CommandInterface{
             CstmValue cstmValue = this.scope.getVariableWithinScope(this.forStatement.forCondition().IDENTIFIER().getText());
             int leftHandValue = Integer.parseInt(cstmValue.getValue().toString());
             int rightHandValue = this.evaluationCommand.getResult().intValue();
-
+            
             if(forStatement.upDownToStatement().getText().contains("up to")){
                 if(leftHandValue <= rightHandValue){
                     int newValue = leftHandValue+1;
-                    cstmValue.setValue(Integer.toString(newValue));
                     this.result = true;
+                    cstmValue.setValue(Integer.toString(newValue));
                 } else {
                     this.result = false;
                 }
@@ -75,7 +75,6 @@ public class IterationEvaluatorCommand implements CommandInterface{
             }
         }
 
-        System.out.println(this.result);
     }
 
     public boolean getResult(){

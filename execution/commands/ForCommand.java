@@ -27,7 +27,7 @@ public class ForCommand implements IterCommandInterface{
 
 		while(iterationEvaluatorCommand.getResult()){
 			iterationEvaluatorCommand.execute();
-			System.out.println("test for loop");
+			
 		}
 	}
 
