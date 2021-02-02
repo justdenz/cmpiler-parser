@@ -30,11 +30,18 @@ public class ConditionalCommand implements SelectCommandInterface{
         this.evaluationCommand.execute();
         System.out.println(this.evaluationCommand.getResult().intValue());
         if(this.evaluationCommand.getResult().intValue() == 1){
-            System.out.println("If statement executing....");
             int index = 0;
             while (index < positiveCommands.size() ) {
                 if (ExecutionManager.getInstance().isRunning()) {
                     positiveCommands.get(index).execute();
+                    index ++;
+                } 
+            }
+        } else {
+            int index = 0;
+            while (index < negativeCommands.size() ) {
+                if (ExecutionManager.getInstance().isRunning()) {
+                    negativeCommands.get(index).execute();
                     index ++;
                 } 
             }
