@@ -171,10 +171,13 @@ public class CstmFunction implements CommandInterface{
 			index = 0;
 			while(index < commandList.size()){
 					if (ExecutionManager.getInstance().isRunning()) {
-							System.out.println("Executing " + commandList.get(index).getClass());
-							commandList.get(index).execute();
-							System.out.println("Executing done");
-							index++;
+
+						System.out.println("Executing " + commandList.get(index).getClass());
+						commandList.get(index).execute();
+						System.out.println("Executing done");
+						index++;
+						
+							
 					}
 			}
 			System.out.println("Function Call Ended");

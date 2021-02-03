@@ -39,7 +39,7 @@ public class ReturnCommand implements CommandInterface{
 
     CstmValue cstmValue = FuncCmdTracker.getInstance().getCurrentFunc().getReturnValue();
     BigDecimal evalResult = evaluationCommand.getResult();
-
+    
     if(cstmValue != null){
       if(cstmValue.getPrimitiveType() == PrimitiveType.INT){
           cstmValue.setValue(evalResult.intValue());

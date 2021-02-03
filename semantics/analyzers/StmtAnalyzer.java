@@ -107,31 +107,31 @@ public class StmtAnalyzer implements AnalyzerInterface{
                     if(FuncReturnTracker.getInstance().getCurFunction().getReturnType() == FunctionType.VOID_TYPE) {
                         Console.log(String.valueOf(stmtCtx.getStart().getLine()), "Found a return value for this void function.");
                     }
-                } else {
-                    CstmFunction currFunc = FuncReturnTracker.getInstance().getCurFunction();
-                    ReturnCommand returnCmd = new ReturnCommand(stmtCtx.returnStatement().simpleExpression(), currFunc);
+                } 
+                CstmFunction currFunc = FuncReturnTracker.getInstance().getCurFunction();
+                ReturnCommand returnCmd = new ReturnCommand(stmtCtx.returnStatement().simpleExpression(), currFunc);
 
-                    StmtCmdTracker stmtCmdTracker = StmtCmdTracker.getInstance();
+                StmtCmdTracker stmtCmdTracker = StmtCmdTracker.getInstance();
 
-                    if (stmtCmdTracker.isSelectionCommand()) {
-                        SelectCommandInterface ifCommand = (SelectCommandInterface) stmtCmdTracker.getActiveCommand();
+                if (stmtCmdTracker.isSelectionCommand()) {
+                    SelectCommandInterface ifCommand = (SelectCommandInterface) stmtCmdTracker.getActiveCommand();
 
-                        if (stmtCmdTracker.isInsideIf()) {
-                            ifCommand.addIfCommand(returnCmd);
-                        } else {
-                            ifCommand.addElseCommand(returnCmd);
-                        } 
+                    if (stmtCmdTracker.isInsideIf()) {
+                        ifCommand.addIfCommand(returnCmd);
+                    } else {
+                        ifCommand.addElseCommand(returnCmd);
+                    } 
 
-                    } else if (stmtCmdTracker.isIterationCommand()) {
-                        IterCommandInterface iterationCommand = (IterCommandInterface) stmtCmdTracker.getActiveCommand();
-                        iterationCommand.addCommand(returnCmd);
-                    }  else {
-                        ExecutionManager.getInstance().addCommand(returnCmd);
-                    }
-
-                    CstmUnDecChecker undecChecker = new CstmUnDecChecker(stmtCtx.returnStatement().simpleExpression());
-                    undecChecker.verify();
+                } else if (stmtCmdTracker.isIterationCommand()) {
+                    IterCommandInterface iterationCommand = (IterCommandInterface) stmtCmdTracker.getActiveCommand();
+                    iterationCommand.addCommand(returnCmd);
+                }  else {
+                    ExecutionManager.getInstance().addCommand(returnCmd);
                 }
+
+                CstmUnDecChecker undecChecker = new CstmUnDecChecker(stmtCtx.returnStatement().simpleExpression());
+                undecChecker.verify();
+                
             }
         } else if(ctx instanceof SelectionStatementContext){
             SelectionStatementContext selectStmtCtx = (SelectionStatementContext) ctx;

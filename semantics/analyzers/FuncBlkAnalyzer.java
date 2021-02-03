@@ -63,8 +63,6 @@ public class FuncBlkAnalyzer implements AnalyzerInterface, ParseTreeListener{
 			function.setReturnType(FunctionType.VOID_TYPE);
 		}
 
-		CstmLocalScope funcScope = new CstmLocalScope(GlobalScopeManager.getInstance().getCurrentScope());
-		GlobalScopeManager.getInstance().setCurrentScope(funcScope);
 		GlobalScopeManager.getInstance().addFunction(function.getFunctionName(), function);
 		
 		ParseTreeWalker walker = new ParseTreeWalker();
