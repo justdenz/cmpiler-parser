@@ -259,10 +259,11 @@ args
     ;
 
 constant
-    : INTEGERCONSTANT
+    : True
+    | False
+    | INTEGERCONSTANT
     | FLOATCONSTANT
     | StringLiteral
-    | BOOLCONSTANT
     ;
 
 /* keywords */
