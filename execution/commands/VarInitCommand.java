@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import builder.errorcheckers.CstmUnDecChecker;
 import model.CUSTOMParser.SimpleExpressionContext;
 import semantics.representations.CstmValue;
 import semantics.representations.CstmValue.PrimitiveType;
@@ -22,6 +23,9 @@ public class VarInitCommand implements CommandInterface {
         this.cstmScope = GlobalScopeManager.getInstance().getCurrentScope();
         this.exprCtx = exprCtx;
         this.identifier = identifier;
+
+        CstmUnDecChecker undecChecker = new CstmUnDecChecker(exprCtx);
+        undecChecker.verify();
 
         evalCommand = new EvaluationCommand(this.exprCtx, this.cstmScope);
     }
