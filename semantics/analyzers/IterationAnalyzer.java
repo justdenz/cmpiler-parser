@@ -104,11 +104,12 @@ public class IterationAnalyzer implements AnalyzerInterface{
 			typeChecker.verify();
 			
 			System.out.println("Opened For Loop Scope");
-			ForCommand forCommand = new ForCommand(forStmtCtx);
-			StmtCmdTracker.getInstance().openIterationCommand(forCommand);
 
 			CstmLocalScope forScope = new CstmLocalScope(GlobalScopeManager.getInstance().getCurrentScope());
 			GlobalScopeManager.getInstance().setCurrentScope(forScope);
+			
+			ForCommand forCommand = new ForCommand(forStmtCtx);
+			StmtCmdTracker.getInstance().openIterationCommand(forCommand);
 			
 			CompStmtAnalyzer forStatementAnalyzer = new CompStmtAnalyzer(forStmtCtx.compoundStatement());
 			forStatementAnalyzer.analyze();
