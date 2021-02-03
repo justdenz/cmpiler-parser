@@ -4,9 +4,11 @@ import org.antlr.v4.runtime.ParserRuleContext;
 
 import console.Console;
 import execution.ExecutionManager;
+import execution.FuncReturnTracker;
 import execution.StmtCmdTracker;
 import execution.commands.ConditionalCommand;
 import execution.commands.IterCommandInterface;
+import execution.commands.ReturnCommand;
 import execution.commands.ScanCommand;
 import execution.commands.SelectCommandInterface;
 import builder.errorcheckers.CstmUnDecChecker;
@@ -16,7 +18,9 @@ import model.CUSTOMParser.PrintStatementContext;
 import model.CUSTOMParser.ScanStatementContext;
 import model.CUSTOMParser.SelectionStatementContext;
 import model.CUSTOMParser.StatementContext;
+import semantics.representations.CstmFunction;
 import semantics.representations.CstmValue;
+import semantics.representations.CstmFunction.FunctionType;
 import semantics.representations.CstmValue.PrimitiveType;
 import semantics.symboltable.GlobalScopeManager;
 import semantics.symboltable.scopes.CstmLocalScope;
@@ -97,9 +101,36 @@ public class StmtAnalyzer implements AnalyzerInterface{
             } 
             // RETURN STATEMENT
             else if(stmtCtx.returnStatement() != null){
-                if(stmtCtx.returnStatement().simpleExpression() != null){
-                    CstmUnDecChecker unDecChecker = new CstmUnDecChecker(stmtCtx.returnStatement().simpleExpression());
-                    unDecChecker.verify();
+                if(FuncReturnTracker.getInstance().getCurFunction() != null && GlobalScopeManager.getInstance().getCurrentScope().getParent() == null){
+                    FuncReturnTracker.getInstance().setFuncReturned(true);
+
+                    if(FuncReturnTracker.getInstance().getCurFunction().getReturnType() == FunctionType.VOID_TYPE) {
+                        Console.log(String.valueOf(stmtCtx.getStart().getLine()), "Found a missing return value for this function.");
+                    }
+                } else {
+                    CstmFunction currFunc = FuncReturnTracker.getInstance().getCurFunction();
+                    ReturnCommand returnCmd = new ReturnCommand(stmtCtx.returnStatement().simpleExpression(), currFunc);
+
+                    StmtCmdTracker stmtCmdTracker = StmtCmdTracker.getInstance();
+
+                    if (stmtCmdTracker.isSelectionCommand()) {
+                        SelectCommandInterface ifCommand = (SelectCommandInterface) stmtCmdTracker.getActiveCommand();
+
+                        if (stmtCmdTracker.isInsideIf()) {
+                            ifCommand.addIfCommand(returnCmd);
+                        } else {
+                            ifCommand.addElseCommand(returnCmd);
+                        } 
+
+                    } else if (stmtCmdTracker.isIterationCommand()) {
+                        IterCommandInterface iterationCommand = (IterCommandInterface) stmtCmdTracker.getActiveCommand();
+                        iterationCommand.addCommand(returnCmd);
+                    }  else {
+                        ExecutionManager.getInstance().addCommand(returnCmd);
+                    }
+
+                    CstmUnDecChecker undecChecker = new CstmUnDecChecker(stmtCtx.returnStatement().simpleExpression());
+                    undecChecker.verify();
                 }
             }
         } else if(ctx instanceof SelectionStatementContext){

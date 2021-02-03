@@ -10,11 +10,8 @@ public class ExecutionManager {
     private static ExecutionManager sharedInstance = null;
     private static ArrayList<CommandInterface> commandList;
     private ExecutionThread executionThread;
-    private CstmFunction currFunc;
 
-    public ExecutionManager(){
-        this.currFunc = new CstmFunction();
-    }
+    public ExecutionManager(){}
 
     public static ExecutionManager getInstance(){
         if(sharedInstance == null){
@@ -39,8 +36,7 @@ public class ExecutionManager {
 
     public void addCommand(CommandInterface command){
         if(GlobalScopeManager.getInstance().getIsInFunction()){
-            this.setFunction();
-            currFunc.addCommand(command);
+            GlobalScopeManager.getInstance().getCurrentFunction().addCommand(command);
             System.out.println("Added " + command.getClass() + " to function command list");
         } else {
             commandList.add(command);
@@ -64,12 +60,13 @@ public class ExecutionManager {
         this.executionThread.stopThread();
     }
 
-    public void setFunction(){
-        String currFuncName = GlobalScopeManager.getInstance().getCurrentFunctionName();
-        this.currFunc = GlobalScopeManager.getInstance().getFunction(currFuncName);
+    public void enterFunction(CstmFunction currFunc){
+        GlobalScopeManager.getInstance().setCurrentFunction(currFunc);
+        GlobalScopeManager.getInstance().setIsInFunction(true);
     }
 
-    public void resetFunction(){
-        this.currFunc = new CstmFunction();
+    public void exitFunction(){
+        GlobalScopeManager.getInstance().setCurrentFunction(null);
+        GlobalScopeManager.getInstance().setIsInFunction(true);
     }
 }
