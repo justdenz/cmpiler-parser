@@ -7,6 +7,9 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import org.antlr.v4.runtime.tree.ErrorNode;
 
 import builder.errorcheckers.CstmMulFuncDecChecker;
+import console.Console;
+import execution.ExecutionManager;
+import execution.FuncReturnTracker;
 import model.CUSTOMParser.CompoundStatementContext;
 import model.CUSTOMParser.FuncBlockContext;
 import model.CUSTOMParser.ParamsContext;
@@ -70,21 +73,35 @@ public class FuncBlkAnalyzer implements AnalyzerInterface, ParseTreeListener{
 
 	@Override
 	public void enterEveryRule(ParserRuleContext ctx) {
-        if(ctx instanceof ParamsContext){
+    if(ctx instanceof ParamsContext){
 			ParamsContext paramCtx = (ParamsContext) ctx;
+
+			function.getFunctionLocalScope().setParent(GlobalScopeManager.getInstance().getCurrentScope());
+			GlobalScopeManager.getInstance().setCurrentScope(function.getFunctionLocalScope());
+
 			if(paramCtx.paramList() != null){
 				ParamsAnalyzer paramsAnalyzer = new ParamsAnalyzer(this.function);
 				paramsAnalyzer.analyze(paramCtx.paramList());
 			}
+
 		} else if (ctx instanceof CompoundStatementContext && !opened){
 			opened = true;
+
+			ExecutionManager.getInstance().enterFunction(function);
+			FuncReturnTracker.getInstance().setCurFunction(function);
+
 			System.out.println("Opened Function Scope");
 			CompoundStatementContext compoundCtx = (CompoundStatementContext) ctx;
+
+			CompStmtAnalyzer compoundStmtAnalyzer = new CompStmtAnalyzer(compoundCtx);
+			compoundStmtAnalyzer.analyze();
 			
-			if(compoundCtx.compoundStatementList() != null){
-				CompStmtAnalyzer compoundStmtAnalyzer = new CompStmtAnalyzer(compoundCtx);
-				compoundStmtAnalyzer.analyze();
+			if(function.getReturnType() != FunctionType.VOID_TYPE && !FuncReturnTracker.getInstance().funcHasReturned()){
+				Console.log(String.valueOf(compoundCtx.getStart().getLine()), "Found a missing return value for this function.");
 			}
+
+			ExecutionManager.getInstance().exitFunction();
+			FuncReturnTracker.getInstance().reset();
 		}
 	}
 

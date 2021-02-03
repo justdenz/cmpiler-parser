@@ -9,6 +9,8 @@ import console.Console;
 import console.Printer;
 import console.ScanWindow;
 import execution.ExecutionManager;
+import execution.FuncCmdTracker;
+import execution.FuncReturnTracker;
 import model.CUSTOMLexer;
 import model.CUSTOMParser;
 import model.CustomErrorListener;
@@ -34,6 +36,8 @@ public class Controller {
     GlobalScopeManager.getInstance().reset();
     ExecutionManager.getInstance();
     ExecutionManager.getInstance().resetCommands();
+    FuncCmdTracker.getInstance();
+    FuncReturnTracker.getInstance();
     Console.getInstance();
     Console.getInstance().clearLogList();
     CustomErrorListener errorListener = new CustomErrorListener();
