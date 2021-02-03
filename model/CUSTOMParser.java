@@ -3367,17 +3367,17 @@ public class CUSTOMParser extends Parser {
 	}
 
 	public static class ImmutableContext extends ParserRuleContext {
-		public TerminalNode LeftParen() { return getToken(CUSTOMParser.LeftParen, 0); }
-		public SimpleExpressionContext simpleExpression() {
-			return getRuleContext(SimpleExpressionContext.class,0);
-		}
-		public TerminalNode RightParen() { return getToken(CUSTOMParser.RightParen, 0); }
 		public CallContext call() {
 			return getRuleContext(CallContext.class,0);
 		}
 		public ConstantContext constant() {
 			return getRuleContext(ConstantContext.class,0);
 		}
+		public TerminalNode LeftParen() { return getToken(CUSTOMParser.LeftParen, 0); }
+		public SimpleExpressionContext simpleExpression() {
+			return getRuleContext(SimpleExpressionContext.class,0);
+		}
+		public TerminalNode RightParen() { return getToken(CUSTOMParser.RightParen, 0); }
 		public ImmutableContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -3399,21 +3399,10 @@ public class CUSTOMParser extends Parser {
 			setState(470);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
-			case LeftParen:
+			case IDENTIFIER:
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(464);
-				match(LeftParen);
-				setState(465);
-				simpleExpression(0);
-				setState(466);
-				match(RightParen);
-				}
-				break;
-			case IDENTIFIER:
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(468);
 				call();
 				}
 				break;
@@ -3421,10 +3410,21 @@ public class CUSTOMParser extends Parser {
 			case INTEGERCONSTANT:
 			case FLOATCONSTANT:
 			case BOOLCONSTANT:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(465);
+				constant();
+				}
+				break;
+			case LeftParen:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(469);
-				constant();
+				setState(466);
+				match(LeftParen);
+				setState(467);
+				simpleExpression(0);
+				setState(468);
+				match(RightParen);
 				}
 				break;
 			default:
@@ -3574,10 +3574,10 @@ public class CUSTOMParser extends Parser {
 	}
 
 	public static class ConstantContext extends ParserRuleContext {
-		public TerminalNode INTEGERCONSTANT() { return getToken(CUSTOMParser.INTEGERCONSTANT, 0); }
-		public TerminalNode FLOATCONSTANT() { return getToken(CUSTOMParser.FLOATCONSTANT, 0); }
-		public TerminalNode StringLiteral() { return getToken(CUSTOMParser.StringLiteral, 0); }
 		public TerminalNode BOOLCONSTANT() { return getToken(CUSTOMParser.BOOLCONSTANT, 0); }
+		public TerminalNode INTEGERCONSTANT() { return getToken(CUSTOMParser.INTEGERCONSTANT, 0); }
+		public TerminalNode StringLiteral() { return getToken(CUSTOMParser.StringLiteral, 0); }
+		public TerminalNode FLOATCONSTANT() { return getToken(CUSTOMParser.FLOATCONSTANT, 0); }
 		public ConstantContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -3842,19 +3842,19 @@ public class CUSTOMParser extends Parser {
 		"\u01c9\5`\61\2\u01c7\u01c9\5^\60\2\u01c8\u01c6\3\2\2\2\u01c8\u01c7\3\2"+
 		"\2\2\u01c9]\3\2\2\2\u01ca\u01d1\7B\2\2\u01cb\u01cc\7B\2\2\u01cc\u01cd"+
 		"\7\"\2\2\u01cd\u01ce\5D#\2\u01ce\u01cf\7\60\2\2\u01cf\u01d1\3\2\2\2\u01d0"+
-		"\u01ca\3\2\2\2\u01d0\u01cb\3\2\2\2\u01d1_\3\2\2\2\u01d2\u01d3\7#\2\2\u01d3"+
-		"\u01d4\5D#\2\u01d4\u01d5\7\61\2\2\u01d5\u01d9\3\2\2\2\u01d6\u01d9\5b\62"+
-		"\2\u01d7\u01d9\5f\64\2\u01d8\u01d2\3\2\2\2\u01d8\u01d6\3\2\2\2\u01d8\u01d7"+
-		"\3\2\2\2\u01d9a\3\2\2\2\u01da\u01db\7B\2\2\u01db\u01dc\7#\2\2\u01dc\u01dd"+
-		"\5d\63\2\u01dd\u01de\7\61\2\2\u01dec\3\2\2\2\u01df\u01e4\5D#\2\u01e0\u01e1"+
-		"\7\16\2\2\u01e1\u01e3\5D#\2\u01e2\u01e0\3\2\2\2\u01e3\u01e6\3\2\2\2\u01e4"+
-		"\u01e2\3\2\2\2\u01e4\u01e5\3\2\2\2\u01e5\u01e9\3\2\2\2\u01e6\u01e4\3\2"+
-		"\2\2\u01e7\u01e9\3\2\2\2\u01e8\u01df\3\2\2\2\u01e8\u01e7\3\2\2\2\u01e9"+
-		"e\3\2\2\2\u01ea\u01eb\t\7\2\2\u01ebg\3\2\2\2\62k\u0081\u0085\u0088\u0091"+
-		"\u0096\u0098\u009b\u00a4\u00b1\u00b5\u00b9\u00c4\u00d8\u00dd\u00df\u00e7"+
-		"\u00ea\u00f1\u00f8\u00fe\u0106\u010d\u0116\u011d\u0121\u0137\u0144\u0152"+
-		"\u0158\u0166\u016a\u016c\u017d\u0183\u018a\u019a\u019f\u01a1\u01b2\u01b7"+
-		"\u01b9\u01c2\u01c8\u01d0\u01d8\u01e4\u01e8";
+		"\u01ca\3\2\2\2\u01d0\u01cb\3\2\2\2\u01d1_\3\2\2\2\u01d2\u01d9\5b\62\2"+
+		"\u01d3\u01d9\5f\64\2\u01d4\u01d5\7#\2\2\u01d5\u01d6\5D#\2\u01d6\u01d7"+
+		"\7\61\2\2\u01d7\u01d9\3\2\2\2\u01d8\u01d2\3\2\2\2\u01d8\u01d3\3\2\2\2"+
+		"\u01d8\u01d4\3\2\2\2\u01d9a\3\2\2\2\u01da\u01db\7B\2\2\u01db\u01dc\7#"+
+		"\2\2\u01dc\u01dd\5d\63\2\u01dd\u01de\7\61\2\2\u01dec\3\2\2\2\u01df\u01e4"+
+		"\5D#\2\u01e0\u01e1\7\16\2\2\u01e1\u01e3\5D#\2\u01e2\u01e0\3\2\2\2\u01e3"+
+		"\u01e6\3\2\2\2\u01e4\u01e2\3\2\2\2\u01e4\u01e5\3\2\2\2\u01e5\u01e9\3\2"+
+		"\2\2\u01e6\u01e4\3\2\2\2\u01e7\u01e9\3\2\2\2\u01e8\u01df\3\2\2\2\u01e8"+
+		"\u01e7\3\2\2\2\u01e9e\3\2\2\2\u01ea\u01eb\t\7\2\2\u01ebg\3\2\2\2\62k\u0081"+
+		"\u0085\u0088\u0091\u0096\u0098\u009b\u00a4\u00b1\u00b5\u00b9\u00c4\u00d8"+
+		"\u00dd\u00df\u00e7\u00ea\u00f1\u00f8\u00fe\u0106\u010d\u0116\u011d\u0121"+
+		"\u0137\u0144\u0152\u0158\u0166\u016a\u016c\u017d\u0183\u018a\u019a\u019f"+
+		"\u01a1\u01b2\u01b7\u01b9\u01c2\u01c8\u01d0\u01d8\u01e4\u01e8";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

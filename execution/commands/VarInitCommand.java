@@ -47,10 +47,10 @@ public class VarInitCommand implements CommandInterface {
             } else if(cstmValue.getPrimitiveType() == PrimitiveType.BOOLEAN){
                 switch(evalResult.intValue()){
                     case 0:
-                        cstmValue.setValue(false);
+                        cstmValue.setValue('F');
                         break;
                     case 1:
-                        cstmValue.setValue(true);
+                        cstmValue.setValue('T');
                         break;
                 }
             }

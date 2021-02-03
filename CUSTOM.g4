@@ -244,9 +244,9 @@ mutable
     ;
 
 immutable
-    : LeftParen simpleExpression RightParen
-    | call
+    : call
     | constant
+    | LeftParen simpleExpression RightParen
     ;
 
 call
@@ -259,10 +259,10 @@ args
     ;
 
 constant
-    : INTEGERCONSTANT
-    | FLOATCONSTANT
+    : BOOLCONSTANT
+    | INTEGERCONSTANT
     | StringLiteral
-    | BOOLCONSTANT
+    | FLOATCONSTANT
     ;
 
 /* keywords */
@@ -400,8 +400,8 @@ FLOATCONSTANT
     ;
 
 BOOLCONSTANT
-    : True
-    | False
+    : 'T'
+    | 'F'
     ;
 
 IDENTIFIER
