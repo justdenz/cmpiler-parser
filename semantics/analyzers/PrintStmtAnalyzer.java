@@ -22,16 +22,11 @@ public class PrintStmtAnalyzer implements AnalyzerInterface{
   @Override
   public void analyze(){
     if(ctx instanceof PrintStatementListContext){
-
-      PrintStatementListContext printStatementListContext = (PrintStatementListContext) ctx;
-      if(ctx.printParameters() != null){
-
-        CstmUnDecChecker unDecChecker = new CstmUnDecChecker(printStatementListContext.printParameters().get(0).simpleExpression());
-        unDecChecker.verify();
-        PrintCommand printCmd = new PrintCommand(ctx);
+      PrintStatementListContext printContext = (PrintStatementListContext) ctx;
+      if(printContext.printParameters() != null){
+        PrintCommand printCmd = new PrintCommand(printContext);
         addCommand(printCmd);
       }
-
     }
   }
 

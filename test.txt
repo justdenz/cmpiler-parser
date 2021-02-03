@@ -1,4 +1,7 @@
+func void test1(){
+	print("hello");
+}
+
 main() {
-	String test ="asfdsa";
-	print(test);
+	test1();
 }

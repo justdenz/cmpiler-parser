@@ -12,8 +12,6 @@ public class GlobalScopeManager {
 
 	private CstmLocalScope currentScope;
 	private HashMap<String, CstmFunction> functionMap;
-	private boolean isInFunction;
-	private CstmFunction currentFunction;
 
 	public static GlobalScopeManager getInstance() {
 		if(sharedInstance == null){
@@ -26,28 +24,10 @@ public class GlobalScopeManager {
 	private GlobalScopeManager() {
 		this.currentScope = null;
 		this.functionMap = new HashMap<String, CstmFunction>();
-		this.isInFunction = false;
-		this.currentFunction = null;
 	}
 	
 	public void setCurrentScope(CstmLocalScope newCurrentScope){
 		this.currentScope = newCurrentScope;
-	}
-
-	public void setCurrentFunction(CstmFunction currentFunction){
-		this.currentFunction = currentFunction;
-	}
-
-	public void setIsInFunction(boolean value){
-		this.isInFunction = value;	
-	}
-
-	public boolean getIsInFunction(){
-		return this.isInFunction;
-	}
-
-	public CstmFunction getCurrentFunction(){
-		return this.currentFunction;
 	}
 
 	public CstmLocalScope getCurrentScope(){
@@ -91,7 +71,5 @@ public class GlobalScopeManager {
 	public void reset(){
 		this.currentScope = null;
 		this.functionMap = new HashMap<String, CstmFunction>();
-		this.isInFunction = false;
-		this.currentFunction = null;
 	}
 }

@@ -10,6 +10,8 @@ public class ExecutionManager {
     private static ExecutionManager sharedInstance = null;
     private static ArrayList<CommandInterface> commandList;
     private ExecutionThread executionThread;
+    private static boolean isInFunction = false;
+	private static CstmFunction currentFunction = null;
 
     public ExecutionManager(){}
 
@@ -17,6 +19,8 @@ public class ExecutionManager {
         if(sharedInstance == null){
             sharedInstance = new ExecutionManager();
             commandList = new ArrayList<CommandInterface>();
+            isInFunction = false;
+            currentFunction = null;
             System.out.println("Execution Manager initialized");
         }
         return sharedInstance;
@@ -35,8 +39,8 @@ public class ExecutionManager {
     }
 
     public void addCommand(CommandInterface command){
-        if(GlobalScopeManager.getInstance().getIsInFunction()){
-            GlobalScopeManager.getInstance().getCurrentFunction().addCommand(command);
+        if(isInFunction){
+            this.getCurrentFunction().addCommand(command);
             System.out.println("Added " + command.getClass() + " to function command list");
         } else {
             commandList.add(command);
@@ -61,12 +65,28 @@ public class ExecutionManager {
     }
 
     public void enterFunction(CstmFunction currFunc){
-        GlobalScopeManager.getInstance().setCurrentFunction(currFunc);
-        GlobalScopeManager.getInstance().setIsInFunction(true);
+        this.setCurrentFunction(currFunc);
+        this.setIsInFunction(true);
     }
 
     public void exitFunction(){
-        GlobalScopeManager.getInstance().setCurrentFunction(null);
-        GlobalScopeManager.getInstance().setIsInFunction(true);
+        this.setCurrentFunction(null);
+        this.setIsInFunction(false);
     }
+
+    public void setCurrentFunction(CstmFunction function){
+		currentFunction = function;
+	}
+
+	public void setIsInFunction(boolean value){
+		isInFunction = value;	
+	}
+
+	public boolean getIsInFunction(){
+		return isInFunction;
+	}
+
+	public CstmFunction getCurrentFunction(){
+		return currentFunction;
+	}
 }
