@@ -1,5 +1,7 @@
 package execution.commands;
 
+import java.math.BigDecimal;
+
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import builder.errorcheckers.CstmConstChecker;
@@ -55,16 +57,24 @@ public class AssignmentCommand implements CommandInterface{
     // if variable
     if(leftContext.LeftBracket() == null || leftContext.RightBracket() ==  null){
       this.evalCommand.execute();
+      BigDecimal evalResult = evalCommand.getResult();
 
       CstmValue cstmValue = this.scope.getVariableWithinScope(this.leftContext.getText());
 
       if(cstmValue != null){
-        if(cstmValue.getPrimitiveType() == PrimitiveType.STRING){
-          cstmValue.setValue(righContext.getText().replaceAll("\"", ""));
-        }else if(cstmValue.getPrimitiveType() == PrimitiveType.INT){
-          cstmValue.setValue(this.evalCommand.getResult().intValue());
-        }else if(cstmValue.getPrimitiveType() == PrimitiveType.FLOAT){
-          cstmValue.setValue(this.evalCommand.getResult().floatValue());
+        if(cstmValue.getPrimitiveType() == PrimitiveType.INT){
+            cstmValue.setValue(evalResult.intValue());
+        } else if(cstmValue.getPrimitiveType() == PrimitiveType.FLOAT){
+            cstmValue.setValue(evalResult.floatValue());
+        } else if(cstmValue.getPrimitiveType() == PrimitiveType.BOOLEAN){
+            switch(evalResult.intValue()){
+                case 0:
+                    cstmValue.setValue('F');
+                    break;
+                case 1:
+                    cstmValue.setValue('T');
+                    break;
+            }
         }
       }
     } 
@@ -73,6 +83,7 @@ public class AssignmentCommand implements CommandInterface{
       EvaluationCommand arrEvalCmd = new EvaluationCommand(leftContext.simpleExpression(), this.scope);
       arrEvalCmd.execute();
       this.evalCommand.execute();
+      BigDecimal evalResult = evalCommand.getResult();
 
       int arrIndex = arrEvalCmd.getResult().intValue();
 
@@ -81,23 +92,29 @@ public class AssignmentCommand implements CommandInterface{
 
       if (cstmArr.isInitialized()) {
           CstmValue curValue = cstmArr.getValueAt(arrIndex);
-      
+          
           if (curValue != null) {
-            if(curValue.getPrimitiveType() == PrimitiveType.STRING){
-              curValue.setValue(righContext.getText().replaceAll("\"", ""));
-            } else if(curValue.getPrimitiveType() == PrimitiveType.INT){
-              curValue.setValue(this.evalCommand.getResult().intValue());
+            if(curValue.getPrimitiveType() == PrimitiveType.INT){
+              curValue.setValue(evalResult.intValue());
             } else if(curValue.getPrimitiveType() == PrimitiveType.FLOAT){
-              curValue.setValue(this.evalCommand.getResult().floatValue());
+              curValue.setValue(evalResult.floatValue());
+            } else if(curValue.getPrimitiveType() == PrimitiveType.BOOLEAN){
+                switch(evalResult.intValue()){
+                    case 0:
+                        curValue.setValue('F');
+                        break;
+                    case 1:
+                        curValue.setValue('T');
+                        break;
+                }
             }
             cstmArr.updateValueAt(curValue, arrIndex);
           } else {
               Printer.getInstance().display("Program Terminated. Array Index is out of bounds.");
               ExecutionManager.getInstance().stopExecution();
           }
-          
       } else {
-        Printer.getInstance().display("Program Terminated. Array is not initialized.");
+          Printer.getInstance().display("Program Terminated. Array is not initialized.");
           ExecutionManager.getInstance().stopExecution();
       }  
     }

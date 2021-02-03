@@ -77,7 +77,7 @@ public class DecListAnalyzer implements AnalyzerInterface, ParseTreeListener{
 					CstmTypeChecker typeChecker = new CstmTypeChecker(cstmValue, varDecCtx.variableDeclarationInitialize().simpleExpression());
 					typeChecker.verify();
 
-					VarInitCommand varInitCmd = new VarInitCommand(varDecCtx.variableDeclarationInitialize().IDENTIFIER(), varDecCtx.variableDeclarationInitialize().simpleExpression());
+					VarInitCommand varInitCmd = new VarInitCommand(varDecCtx, varDecCtx.variableDeclarationInitialize().simpleExpression());
 					StmtCmdTracker stmtCmdTracker = StmtCmdTracker.getInstance();
 
 					if (stmtCmdTracker.isSelectionCommand()) {

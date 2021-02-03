@@ -24,7 +24,9 @@ public class ParamNumAnalyzer implements AnalyzerInterface{
 
   @Override
   public void analyze(){
-    if(this.exprCtxList == null && this.function.getParameterCount() != 0){
+    if(this.function == null){
+      return;
+    } else if(this.exprCtxList == null && this.function.getParameterCount() != 0){
       Console.log(String.valueOf(this.lineNumber), "Found a paramater count mismatch.");
     } else if(this.exprCtxList == null && this.function.getParameterCount() != this.exprCtxList.size()){
       Console.log(String.valueOf(this.lineNumber), "Found a paramater count mismatch.");

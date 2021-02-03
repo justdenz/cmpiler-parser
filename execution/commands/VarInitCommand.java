@@ -5,7 +5,10 @@ import java.math.BigDecimal;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import builder.errorcheckers.CstmUnDecChecker;
+import console.Printer;
+import execution.ExecutionManager;
 import model.CUSTOMParser.SimpleExpressionContext;
+import model.CUSTOMParser.VariableDeclarationContext;
 import semantics.representations.CstmValue;
 import semantics.representations.CstmValue.PrimitiveType;
 import semantics.symboltable.GlobalScopeManager;
@@ -17,12 +20,12 @@ public class VarInitCommand implements CommandInterface {
 
     private CstmLocalScope cstmScope;
     private SimpleExpressionContext exprCtx;
-    private TerminalNode identifier;
+    private VariableDeclarationContext varDecCtx;
 
-    public VarInitCommand(TerminalNode identifier, SimpleExpressionContext exprCtx){
+    public VarInitCommand(VariableDeclarationContext varDecCtx, SimpleExpressionContext exprCtx){
         this.cstmScope = GlobalScopeManager.getInstance().getCurrentScope();
         this.exprCtx = exprCtx;
-        this.identifier = identifier;
+        this.varDecCtx = varDecCtx;
 
         CstmUnDecChecker undecChecker = new CstmUnDecChecker(exprCtx);
         undecChecker.verify();
@@ -32,29 +35,38 @@ public class VarInitCommand implements CommandInterface {
 
     @Override
     public void execute() {
-        evalCommand.execute();
-        
-        CstmValue cstmValue = cstmScope.getVariableWithinScope(identifier.getText());
-        BigDecimal evalResult = evalCommand.getResult();
 
-        if(cstmValue != null){
-            if(cstmValue.getPrimitiveType() == PrimitiveType.INT){
-                cstmValue.setValue(evalResult.intValue());
-            } else if(cstmValue.getPrimitiveType() == PrimitiveType.FLOAT){
-                cstmValue.setValue(evalResult.floatValue());
-            } else if(cstmValue.getPrimitiveType() == PrimitiveType.STRING){
-                cstmValue.setValue(exprCtx.getText().replaceAll("\"", ""));
-            } else if(cstmValue.getPrimitiveType() == PrimitiveType.BOOLEAN){
-                switch(evalResult.intValue()){
-                    case 0:
-                        cstmValue.setValue('F');
-                        break;
-                    case 1:
-                        cstmValue.setValue('T');
-                        break;
+        if(varDecCtx.typeSpecifier().getText().contains("String")){
+            if(varDecCtx.variableDeclarationInitialize().simpleExpression().getText().replaceAll("\".+?\"", "").contains("+")){
+                Printer.getInstance().display("In line "+String.valueOf(varDecCtx.getStart().getLine())+": Concatenation of strings is not possible.");
+                ExecutionManager.getInstance().stopExecution();
+            } else {
+                String stringValue = varDecCtx.variableDeclarationInitialize().IDENTIFIER().getText();
+                CstmValue cstmValue = this.cstmScope.getVariableWithinScope(stringValue);
+                cstmValue.setValue(stringValue.replaceAll("^\"+|\"+$", ""));
+            }
+        } else {
+            evalCommand.execute();
+            String stringValue = varDecCtx.variableDeclarationInitialize().IDENTIFIER().getText();
+            CstmValue cstmValue = cstmScope.getVariableWithinScope(stringValue);
+            BigDecimal evalResult = evalCommand.getResult();
+
+            if(cstmValue != null){
+                if(cstmValue.getPrimitiveType() == PrimitiveType.INT){
+                    cstmValue.setValue(evalResult.intValue());
+                } else if(cstmValue.getPrimitiveType() == PrimitiveType.FLOAT){
+                    cstmValue.setValue(evalResult.floatValue());
+                } else if(cstmValue.getPrimitiveType() == PrimitiveType.BOOLEAN){
+                    switch(evalResult.intValue()){
+                        case 0:
+                            cstmValue.setValue('F');
+                            break;
+                        case 1:
+                            cstmValue.setValue('T');
+                            break;
+                    }
                 }
             }
         }
     }
-    
 }
