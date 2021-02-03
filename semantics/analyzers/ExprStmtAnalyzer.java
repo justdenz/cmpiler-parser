@@ -8,6 +8,7 @@ import execution.commands.AssignmentCommand;
 import execution.commands.FuncCallCommand;
 import execution.commands.IterCommandInterface;
 import execution.commands.SelectCommandInterface;
+import builder.errorcheckers.CstmConstChecker;
 import builder.errorcheckers.CstmTypeChecker;
 import model.CUSTOMParser.ArgsContext;
 import model.CUSTOMParser.CallContext;
@@ -36,12 +37,30 @@ public class ExprStmtAnalyzer implements AnalyzerInterface{
 				ExperssionStandAloneContext exprStdAlneCtx = ctx.experssionStandAlone();
 				MutableContext mutableCtx = exprStdAlneCtx.mutable(); //left hand side
 				
+				CstmConstChecker constChecker = new CstmConstChecker(mutableCtx.IDENTIFIER());
+				constChecker.verify();
+
 				CstmValue cstmValue = GlobalScopeManager.getInstance().searchScopedVariable(mutableCtx.IDENTIFIER().getText());
 
 				if (exprStdAlneCtx.simpleExpression() != null) { // if right hand side is simple expression
 					if (cstmValue != null) {
 						AssignmentCommand assignmentCommand = new AssignmentCommand(mutableCtx, exprStdAlneCtx.simpleExpression());
-						ExecutionManager.getInstance().addCommand(assignmentCommand);
+
+						if(StmtCmdTracker.getInstance().isSelectionCommand()){
+							SelectCommandInterface selectCmd = (SelectCommandInterface) StmtCmdTracker.getInstance().getActiveCommand();
+	
+							if(StmtCmdTracker.getInstance().isInsideIf()){
+								selectCmd.addIfCommand(assignmentCommand);
+							} else {
+								selectCmd.addElseCommand(assignmentCommand);
+							}
+						} else if(StmtCmdTracker.getInstance().isIterationCommand()){
+							IterCommandInterface iterCmd = (IterCommandInterface) StmtCmdTracker.getInstance().getActiveCommand();
+							iterCmd.addCommand(assignmentCommand);
+						} else {
+							ExecutionManager.getInstance().addCommand(assignmentCommand);
+						}
+						
 					} else {
 						Console.log(String.valueOf(exprStdAlneCtx.getStart().getLine()) , "Found an undecalred variable.");
 					}
@@ -81,9 +100,8 @@ public class ExprStmtAnalyzer implements AnalyzerInterface{
 						}
 					}
 				}
-			} else if(ctx.call() != null){
-
-
+			} 
+			else if(ctx.call() != null){
 				CallContext callCtx = ctx.call();
 
 				String functionName = callCtx.IDENTIFIER().getText();
