@@ -24,10 +24,13 @@ public class ForCommand implements IterCommandInterface{
 	@Override
 	public void execute() {
 		iterationEvaluatorCommand.execute();
+		int index = 0;
 
 		while(iterationEvaluatorCommand.getResult()){
 			iterationEvaluatorCommand.execute();
-			
+			while(index < this.commandList.size()){
+				iterationEvaluatorCommand.execute();
+			}
 		}
 	}
 
