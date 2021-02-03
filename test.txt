@@ -1,7 +1,6 @@
+func void test1(int word){
+	print(word);
+}
 main() {
-	int i = 1;
-
-	if (i==1) then {
-		print(i+i);
-	}
+	test1(1);
 }
