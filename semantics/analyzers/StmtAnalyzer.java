@@ -6,7 +6,9 @@ import console.Console;
 import execution.ExecutionManager;
 import execution.StmtCmdTracker;
 import execution.commands.ConditionalCommand;
+import execution.commands.IterCommandInterface;
 import execution.commands.ScanCommand;
+import execution.commands.SelectCommandInterface;
 import builder.errorcheckers.CstmUnDecChecker;
 import model.CUSTOMParser.CompoundStatementContext;
 import model.CUSTOMParser.ExpressionStatementContext;
@@ -42,7 +44,23 @@ public class StmtAnalyzer implements AnalyzerInterface{
                     if(cstmValue != null){
                         if(cstmValue.getPrimitiveType() != PrimitiveType.ARRAY){
                             ScanCommand scanCmd = new ScanCommand(scanCtx.IDENTIFIER().getText(), scanCtx.StringLiteral().getText());
-                            ExecutionManager.getInstance().addCommand(scanCmd);
+                            StmtCmdTracker stmtCmdTracker = StmtCmdTracker.getInstance();
+
+                            if (stmtCmdTracker.isSelectionCommand()) {
+                                SelectCommandInterface ifCommand = (SelectCommandInterface) stmtCmdTracker.getActiveCommand();
+
+                                if (stmtCmdTracker.isInsideIf()) {
+                                    ifCommand.addIfCommand(scanCmd);
+                                } else {
+                                    ifCommand.addElseCommand(scanCmd);
+                                } 
+
+                            } else if (stmtCmdTracker.isIterationCommand()) {
+                                    IterCommandInterface iterationCommand = (IterCommandInterface) stmtCmdTracker.getActiveCommand();
+                                    iterationCommand.addCommand(scanCmd);
+                            } else {
+                                    ExecutionManager.getInstance().addCommand(scanCmd);
+                            }
                         } else{
                             Console.log(String.valueOf(scanCtx.getStart().getLine()), "Cannot make a scan assignment to an array");
                         }
@@ -65,48 +83,11 @@ public class StmtAnalyzer implements AnalyzerInterface{
                 ExprStmtAnalyzer expStmtAnalyzer = new ExprStmtAnalyzer(expStmtCtx);
                 expStmtAnalyzer.analyze();
             } 
-            // COMPOUND STATEMENT
-            else if(stmtCtx.compoundStatement() != null){
-                CompoundStatementContext compoundCtx = stmtCtx.compoundStatement();
-                if(compoundCtx.compoundStatementList() != null){
-                    CompStmtAnalyzer compoundStmtAnalyzer = new CompStmtAnalyzer(compoundCtx);
-                    compoundStmtAnalyzer.analyze();
-                }
-            } 
             // SELECTION STATEMENT
             else if(stmtCtx.selectionStatement() != null){
                 SelectionStatementContext selectStmtCtx = stmtCtx.selectionStatement();
-                // verify the declared variables in condition
-                CstmUnDecChecker undecChecker = new CstmUnDecChecker(selectStmtCtx.simpleExpression());
-                undecChecker.verify();
-
-                ConditionalCommand conditionalCommand = new ConditionalCommand(selectStmtCtx.simpleExpression());
-                StmtCmdTracker.getInstance().openSelectionCommand(conditionalCommand);
-                
-                CstmLocalScope ifScope = new CstmLocalScope(GlobalScopeManager.getInstance().getCurrentScope());
-                GlobalScopeManager.getInstance().setCurrentScope(ifScope);
-                System.out.println("Opened if/else if scope");
-
-                CompStmtAnalyzer compoundStatementAnalyzer = new CompStmtAnalyzer(selectStmtCtx.compoundStatement());
-                compoundStatementAnalyzer.analyze();
-
-                StmtCmdTracker.getInstance().exitIfCommand();
-
-                if(selectStmtCtx.elseStatement() != null){
-                    if(selectStmtCtx.elseStatement().compoundStatement() != null){
-                        CstmLocalScope elseScope = new CstmLocalScope(GlobalScopeManager.getInstance().getCurrentScope());
-                        GlobalScopeManager.getInstance().setCurrentScope(elseScope);
-                        System.out.println("Opened else scope");
-                        CompStmtAnalyzer elseStatementAnalyzer = new CompStmtAnalyzer(selectStmtCtx.elseStatement().compoundStatement());
-                        elseStatementAnalyzer.analyze();
-                    } else {
-                        StmtAnalyzer stmtAnalyzer = new StmtAnalyzer(selectStmtCtx.elseStatement().selectionStatement());
-                        stmtAnalyzer.analyze();
-                    }
-                    
-                } 
-
-                StmtCmdTracker.getInstance().closeIterationCommand();
+                SelectionAnalyzer selectionAnalyzer = new SelectionAnalyzer(selectStmtCtx);
+                selectionAnalyzer.analyze();
             } 
             // ITERATION STATEMENT
             else if(stmtCtx.iterationStatement() != null){
@@ -123,29 +104,8 @@ public class StmtAnalyzer implements AnalyzerInterface{
             }
         } else if(ctx instanceof SelectionStatementContext){
             SelectionStatementContext selectStmtCtx = (SelectionStatementContext) ctx;
-            // verify the declared variables in condition
-            CstmUnDecChecker undecChecker = new CstmUnDecChecker(selectStmtCtx.simpleExpression());
-            undecChecker.verify();
-            CstmLocalScope ifScope = new CstmLocalScope(GlobalScopeManager.getInstance().getCurrentScope());
-            GlobalScopeManager.getInstance().setCurrentScope(ifScope);
-            System.out.println("Opened if/else if scope");
-
-            CompStmtAnalyzer compoundStatementAnalyzer = new CompStmtAnalyzer(selectStmtCtx.compoundStatement());
-            compoundStatementAnalyzer.analyze();
-
-            if(selectStmtCtx.elseStatement() != null){
-                if(selectStmtCtx.elseStatement().compoundStatement() != null){
-                    CstmLocalScope elseScope = new CstmLocalScope(GlobalScopeManager.getInstance().getCurrentScope());
-                    GlobalScopeManager.getInstance().setCurrentScope(elseScope);
-                    System.out.println("Opened else scope");
-                    CompStmtAnalyzer elseStatementAnalyzer = new CompStmtAnalyzer(selectStmtCtx.elseStatement().compoundStatement());
-                    elseStatementAnalyzer.analyze();
-                } else {
-                    StmtAnalyzer stmtAnalyzer = new StmtAnalyzer(selectStmtCtx.elseStatement().selectionStatement());
-                    stmtAnalyzer.analyze();
-                }
-                
-            } 
+            SelectionAnalyzer selectionAnalyzer = new SelectionAnalyzer(selectStmtCtx);
+            selectionAnalyzer.analyze();
         }
 	}
 

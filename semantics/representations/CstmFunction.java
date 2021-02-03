@@ -95,6 +95,7 @@ public class CstmFunction implements CommandInterface{
 	
 		public void addParameter(String identifierString, CstmValue cstmValue) {
 			this.parameterValues.put(identifierString, cstmValue);
+			this.functionScope.addVariable(identifierString, this.parameterValues.get(identifierString));
 		}
 	
     public CstmValue getParameter(String identifierString) {

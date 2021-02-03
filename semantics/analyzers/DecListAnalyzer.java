@@ -8,8 +8,11 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 
 import console.Console;
 import execution.ExecutionManager;
+import execution.StmtCmdTracker;
 import execution.commands.ArrayCreateCommand;
 import execution.commands.ArrayInitCommand;
+import execution.commands.IterCommandInterface;
+import execution.commands.SelectCommandInterface;
 import execution.commands.VarInitCommand;
 import builder.errorcheckers.CstmMulVarDecChecker;
 import builder.errorcheckers.CstmTypeChecker;
@@ -75,7 +78,23 @@ public class DecListAnalyzer implements AnalyzerInterface, ParseTreeListener{
 					typeChecker.verify();
 
 					VarInitCommand varInitCmd = new VarInitCommand(varDecCtx.variableDeclarationInitialize().IDENTIFIER(), varDecCtx.variableDeclarationInitialize().simpleExpression());
-					ExecutionManager.getInstance().addCommand(varInitCmd);
+					StmtCmdTracker stmtCmdTracker = StmtCmdTracker.getInstance();
+
+					if (stmtCmdTracker.isSelectionCommand()) {
+						SelectCommandInterface ifCommand = (SelectCommandInterface) stmtCmdTracker.getActiveCommand();
+
+						if (stmtCmdTracker.isInsideIf()) {
+							ifCommand.addIfCommand(varInitCmd);
+						} else {
+							ifCommand.addElseCommand(varInitCmd);
+						} 
+
+					} else if (stmtCmdTracker.isIterationCommand()) {
+							IterCommandInterface iterationCommand = (IterCommandInterface) stmtCmdTracker.getActiveCommand();
+							iterationCommand.addCommand(varInitCmd);
+					} else {
+							ExecutionManager.getInstance().addCommand(varInitCmd);
+					}
 				}
 
 				CstmLocalScope currentScope = GlobalScopeManager.getInstance().getCurrentScope();
@@ -161,7 +180,23 @@ public class DecListAnalyzer implements AnalyzerInterface, ParseTreeListener{
 					typeChecker.verify();
 
 					ArrayCreateCommand arrCreateCmd = new ArrayCreateCommand(cstmArray, arrDecCtx.arrayDeclarationInitialize().arrayExpression().simpleExpression());
-					ExecutionManager.getInstance().addCommand(arrCreateCmd);
+					StmtCmdTracker stmtCmdTracker = StmtCmdTracker.getInstance();
+
+					if (stmtCmdTracker.isSelectionCommand()) {
+						SelectCommandInterface ifCommand = (SelectCommandInterface) stmtCmdTracker.getActiveCommand();
+
+						if (stmtCmdTracker.isInsideIf()) {
+							ifCommand.addIfCommand(arrCreateCmd);
+						} else {
+							ifCommand.addElseCommand(arrCreateCmd);
+						} 
+
+					} else if (stmtCmdTracker.isIterationCommand()) {
+							IterCommandInterface iterationCommand = (IterCommandInterface) stmtCmdTracker.getActiveCommand();
+							iterationCommand.addCommand(arrCreateCmd);
+					} else {
+							ExecutionManager.getInstance().addCommand(arrCreateCmd);
+					}
 				}
 
 				if(arrDecCtx.arrayDeclarationInitialize().IDENTIFIER() != null){

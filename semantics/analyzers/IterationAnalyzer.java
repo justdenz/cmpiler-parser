@@ -1,9 +1,5 @@
 package semantics.analyzers;
 
-import org.antlr.v4.runtime.ParserRuleContext;
-import org.antlr.v4.runtime.tree.TerminalNode;
-
-import builder.errorcheckers.CstmConstChecker;
 import builder.errorcheckers.CstmTypeChecker;
 import builder.errorcheckers.CstmUnDecChecker;
 import console.Console;
@@ -17,14 +13,12 @@ import execution.commands.WhileCommand;
 import model.CUSTOMParser.ForConditionContext;
 import model.CUSTOMParser.ForStatementContext;
 import model.CUSTOMParser.IterationStatementContext;
-import model.CUSTOMParser.SimpleExpressionContext;
 import model.CUSTOMParser.WhileStatementContext;
 import semantics.representations.CstmValue;
 import semantics.representations.CstmValue.PrimitiveType;
 import semantics.symboltable.GlobalScopeManager;
 import semantics.symboltable.scopes.CstmLocalScope;
 import semantics.utils.CstmKeywords;
-import model.CUSTOMParser.StatementContext;
 
 public class IterationAnalyzer implements AnalyzerInterface{
 
@@ -108,14 +102,14 @@ public class IterationAnalyzer implements AnalyzerInterface{
 			CstmValue tempVal = new CstmValue(null, CstmKeywords.IS_INT);
 			CstmTypeChecker typeChecker = new CstmTypeChecker(tempVal, forStmtCtx.simpleExpression());
 			typeChecker.verify();
-
+			
 			System.out.println("Opened For Loop Scope");
 			ForCommand forCommand = new ForCommand(forStmtCtx);
 			StmtCmdTracker.getInstance().openIterationCommand(forCommand);
 
 			CstmLocalScope forScope = new CstmLocalScope(GlobalScopeManager.getInstance().getCurrentScope());
 			GlobalScopeManager.getInstance().setCurrentScope(forScope);
-
+			
 			CompStmtAnalyzer forStatementAnalyzer = new CompStmtAnalyzer(forStmtCtx.compoundStatement());
 			forStatementAnalyzer.analyze();
 			
@@ -144,12 +138,12 @@ public class IterationAnalyzer implements AnalyzerInterface{
 			CstmTypeChecker typeChecker = new CstmTypeChecker(tempVal, whileStmtContext.simpleExpression());
 			typeChecker.verify();
 
+			CstmLocalScope whileScope = new CstmLocalScope(GlobalScopeManager.getInstance().getCurrentScope());
+			GlobalScopeManager.getInstance().setCurrentScope(whileScope);
+
 			System.out.println("Opened While Loop Scope");
 			WhileCommand whileCommand = new WhileCommand(whileStmtContext);
 			StmtCmdTracker.getInstance().openIterationCommand(whileCommand);
-
-			CstmLocalScope whileScope = new CstmLocalScope(GlobalScopeManager.getInstance().getCurrentScope());
-			GlobalScopeManager.getInstance().setCurrentScope(whileScope);
 
 			CompStmtAnalyzer whileStatementAnalyzer = new CompStmtAnalyzer(whileStmtContext.compoundStatement());
 			whileStatementAnalyzer.analyze();

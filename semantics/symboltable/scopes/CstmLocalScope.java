@@ -2,20 +2,13 @@ package semantics.symboltable.scopes;
 
 import java.util.HashMap;
 
-import console.Console;
 import semantics.representations.CstmValue;
 
-/**
- * Represents a local scope, which is either a function, a code block or inside a certain loop/conditional statement.
- * This local scope starts as an empty representation of a class.
- * 
- * LocalScope can be viewed as a tree structure wherein it has a parent and children.
- */
 public class CstmLocalScope {
 
-    private CstmLocalScope parentScope;
+  private CstmLocalScope parentScope;
 	
-	private HashMap<String, CstmValue> localVariables;
+	private HashMap<String, CstmValue> localVariables = null;
 	
 	public CstmLocalScope() {
 		this.parentScope = null;
@@ -48,21 +41,16 @@ public class CstmLocalScope {
 	}
 
 	public CstmValue getVariableWithinScope(String id) {
-        
-        CstmLocalScope current = this;
-        CstmValue cstmValue = null;
+		CstmLocalScope current = this;
+		CstmValue cstmValue = null;
 
-        while (current != null) {
-            cstmValue = this.getVariable(id);
-
-            if (cstmValue != null) {
-                return cstmValue;
-            } 
-
-            current = current.getParent();
-        }
-        
-        return cstmValue;
-
-    }
+		while (current != null) {
+				cstmValue = current.getVariable(id);
+				if (cstmValue != null) {
+						return cstmValue;
+				} 
+				current = current.getParent();
+		}
+		return cstmValue;
+  }
 }

@@ -66,7 +66,6 @@ statement
     : scanStatement
     | printStatement
     | expressionStatement
-    | compoundStatement
     | selectionStatement
     | iterationStatement
     | returnStatement

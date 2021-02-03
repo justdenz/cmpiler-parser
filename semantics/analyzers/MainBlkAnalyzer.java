@@ -19,7 +19,8 @@ public class MainBlkAnalyzer implements AnalyzerInterface{
 
 		if(compCtx != null){
 			CstmLocalScope mainScope = new CstmLocalScope(GlobalScopeManager.getInstance().getCurrentScope());
-			GlobalScopeManager.getInstance().setCurrentScope(mainScope);;
+			GlobalScopeManager.getInstance().setCurrentScope(mainScope);
+			System.out.println("Main Scope Opened");
 			
 			CompStmtAnalyzer cmpAnalyzer = new CompStmtAnalyzer(compCtx);
 			cmpAnalyzer.analyze();
