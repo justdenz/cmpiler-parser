@@ -1,7 +1,9 @@
 package semantics.analyzers;
 
 import model.CUSTOMParser.PrintStatementListContext;
+import model.CUSTOMParser.SimpleExpressionContext;
 import semantics.symboltable.GlobalScopeManager;
+import builder.errorcheckers.CstmUnDecChecker;
 import execution.ExecutionManager;
 import execution.StmtCmdTracker;
 import execution.commands.CommandInterface;
@@ -21,7 +23,11 @@ public class PrintStmtAnalyzer implements AnalyzerInterface{
   public void analyze(){
     if(ctx instanceof PrintStatementListContext){
 
+      PrintStatementListContext printStatementListContext = (PrintStatementListContext) ctx;
       if(ctx.printParameters() != null){
+
+        CstmUnDecChecker unDecChecker = new CstmUnDecChecker(printStatementListContext.printParameters().get(0).simpleExpression());
+        unDecChecker.verify();
         PrintCommand printCmd = new PrintCommand(ctx);
         addCommand(printCmd);
       }
