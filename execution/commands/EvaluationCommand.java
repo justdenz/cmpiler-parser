@@ -81,11 +81,12 @@ public class EvaluationCommand implements CommandInterface, ParseTreeListener {
                 CstmValue cstmValue = scope.getVariableWithinScope(mutableContext.IDENTIFIER().getText());
                 CstmArray cstmArray = (CstmArray) cstmValue.getValue();
 
-                if(cstmArray.getValueAt(arrayIndex) != null){ //int x = anArray[arrayIndex];
+                if(cstmArray.getSize() > arrayIndex){ //int x = anArray[arrayIndex];
                     if(cstmArray.getValueAt(arrayIndex).getValue() != null){
                         // this.modifiedExpression = this.modifiedExpression.replaceFirst("\\[.*\\]", cstmArray.getValueAt(arrayIndex).getValue().toString());
                         this.modifiedExpression = cstmArray.getValueAt(arrayIndex).getValue().toString();
                     } else {
+                        Printer.getInstance().display("Array might not be initialized at this index at line  " + ctx.getStart().getLine());
                         ExecutionManager.getInstance().stopExecution();
                     }
                 } else {
