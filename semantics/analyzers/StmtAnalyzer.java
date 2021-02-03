@@ -105,7 +105,7 @@ public class StmtAnalyzer implements AnalyzerInterface{
                     FuncReturnTracker.getInstance().setFuncReturned(true);
 
                     if(FuncReturnTracker.getInstance().getCurFunction().getReturnType() == FunctionType.VOID_TYPE) {
-                        Console.log(String.valueOf(stmtCtx.getStart().getLine()), "Found a missing return value for this function.");
+                        Console.log(String.valueOf(stmtCtx.getStart().getLine()), "Found a return value for this void function.");
                     }
                 } else {
                     CstmFunction currFunc = FuncReturnTracker.getInstance().getCurFunction();

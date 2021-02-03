@@ -11,6 +11,7 @@ import console.ScanWindow;
 import execution.ExecutionManager;
 import execution.FuncCmdTracker;
 import execution.FuncReturnTracker;
+import execution.StmtCmdTracker;
 import model.CUSTOMLexer;
 import model.CUSTOMParser;
 import model.CustomErrorListener;
@@ -38,6 +39,7 @@ public class Controller {
     ExecutionManager.getInstance().resetCommands();
     FuncCmdTracker.getInstance();
     FuncReturnTracker.getInstance();
+    StmtCmdTracker.getInstance();
     Console.getInstance();
     Console.getInstance().clearLogList();
     CustomErrorListener errorListener = new CustomErrorListener();

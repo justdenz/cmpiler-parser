@@ -39,7 +39,7 @@ public class FuncReturnTracker {
     return hasReturned;
   }
 
-  public void setFuncReturned(boolean hasReturned){
-    this.hasReturned = hasReturned;
+  public void setFuncReturned(boolean hasReturn){
+    this.hasReturned = hasReturn;
   }
 }

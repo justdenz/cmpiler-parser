@@ -39,26 +39,26 @@ public class FuncBlkAnalyzer implements AnalyzerInterface, ParseTreeListener{
 		if(ctx.funcTypeSpecifier().typeSpecifier() != null){
 			TypeSpecifierContext typeSpecifier = ctx.funcTypeSpecifier().typeSpecifier();
 			if (typeSpecifier.Int() != null){
-                function.setReturnType(FunctionType.INT_TYPE);
-            } else if (typeSpecifier.Boolean() != null){
-                function.setReturnType(FunctionType.BOOLEAN_TYPE);
-            } else if (typeSpecifier.String() != null){
-                function.setReturnType(FunctionType.STRING_TYPE);
-            } else if (typeSpecifier.Float() != null){
-                function.setReturnType(FunctionType.FLOAT_TYPE);
-            }
+					function.setReturnType(FunctionType.INT_TYPE);
+			} else if (typeSpecifier.Boolean() != null){
+					function.setReturnType(FunctionType.BOOLEAN_TYPE);
+			} else if (typeSpecifier.String() != null){
+					function.setReturnType(FunctionType.STRING_TYPE);
+			} else if (typeSpecifier.Float() != null){
+					function.setReturnType(FunctionType.FLOAT_TYPE);
+			}
 		} else if(ctx.funcTypeSpecifier().arrayTypeSpecifier() != null){
 			TypeSpecifierContext arrayTypeSpecifier = ctx.funcTypeSpecifier().arrayTypeSpecifier().typeSpecifier();
 			boolean isArray = true;
 			if (arrayTypeSpecifier.Int() != null){
-                function.setReturnType(FunctionType.INT_TYPE, isArray);
-            } else if (arrayTypeSpecifier.Boolean() != null){
-                function.setReturnType(FunctionType.BOOLEAN_TYPE, isArray);
-            } else if (arrayTypeSpecifier.String() != null){
-                function.setReturnType(FunctionType.STRING_TYPE, isArray);
-            } else if (arrayTypeSpecifier.Float() != null){
-                function.setReturnType(FunctionType.FLOAT_TYPE, isArray);
-            }
+					function.setReturnType(FunctionType.INT_TYPE, isArray);
+			} else if (arrayTypeSpecifier.Boolean() != null){
+					function.setReturnType(FunctionType.BOOLEAN_TYPE, isArray);
+			} else if (arrayTypeSpecifier.String() != null){
+					function.setReturnType(FunctionType.STRING_TYPE, isArray);
+			} else if (arrayTypeSpecifier.Float() != null){
+					function.setReturnType(FunctionType.FLOAT_TYPE, isArray);
+			}
 		} else if(ctx.funcTypeSpecifier().getText() == "void"){
 			function.setReturnType(FunctionType.VOID_TYPE);
 		}
@@ -96,7 +96,7 @@ public class FuncBlkAnalyzer implements AnalyzerInterface, ParseTreeListener{
 			CompStmtAnalyzer compoundStmtAnalyzer = new CompStmtAnalyzer(compoundCtx);
 			compoundStmtAnalyzer.analyze();
 			
-			if(function.getReturnType() != FunctionType.VOID_TYPE && !FuncReturnTracker.getInstance().funcHasReturned()){
+			if(!FuncReturnTracker.getInstance().funcHasReturned() && function.getReturnType() != FunctionType.VOID_TYPE){
 				Console.log(String.valueOf(compoundCtx.getStart().getLine()), "Found a missing return value for this function.");
 			}
 
