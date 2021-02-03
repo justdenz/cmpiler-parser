@@ -25,7 +25,7 @@ public class ForCommand implements IterCommandInterface{
 	private SimpleExpressionContext simpleExprCtx;
 	private boolean isLessThan = false;
 
-	//private IterationEvaluatorCommand iterationEvaluatorCommand;
+	private IterationEvaluatorCommand iterationEvaluatorCommand;
 
 	public ForCommand(ForStatementContext forStmtCtx){
 		this.forStmtCtx = forStmtCtx;
@@ -42,7 +42,7 @@ public class ForCommand implements IterCommandInterface{
 		} else {
 			this.isLessThan = false;
 		}
-		//this.iterationEvaluatorCommand = new IterationEvaluatorCommand(this.forStmtCtx, this.cstmLocalScope);
+		this.iterationEvaluatorCommand = new IterationEvaluatorCommand(this.forStmtCtx, this.cstmLocalScope);
 	}
 
 	@Override
@@ -52,47 +52,47 @@ public class ForCommand implements IterCommandInterface{
 		EvaluationCommand evalCmd = new EvaluationCommand(this.simpleExprCtx, this.cstmLocalScope);
 		evalCmd.execute();
 
-		if(this.isLessThan){
-			while(this.counter < evalCmd.getResult().intValue()){
-				int index = 0;
-				while(index < commandList.size()){
-					if(ExecutionManager.getInstance().isRunning()){
-						commandList.get(index).execute();
-						index++;
-					}
-				}
-				evalCmd = new EvaluationCommand(this.simpleExprCtx, this.cstmLocalScope);
-				evalCmd.execute();
-				this.updateCounter();
-			}
-		} else {
-			while(this.counter > evalCmd.getResult().intValue()){
-				int index = 0;
-				while(index < commandList.size()){
-					if(ExecutionManager.getInstance().isRunning()){
-						commandList.get(index).execute();
-						index++;
-					}
-				}
-				evalCmd = new EvaluationCommand(this.simpleExprCtx, this.cstmLocalScope);
-				evalCmd.execute();
-				this.updateCounter();
-			}
-		}
-
-		// iterationEvaluatorCommand.execute();
-	
-		// while(iterationEvaluatorCommand.getResult()){
-		// 	int index = 0;
-		// 	iterationEvaluatorCommand.execute();
-		// 	while(index < this.commandList.size()){
-		// 		if(ExecutionManager.getInstance().isRunning()){
-		// 			commandList.get(index).execute();
-		// 			index++;
+		// if(this.isLessThan){
+		// 	while(this.counter < evalCmd.getResult().intValue()){
+		// 		int index = 0;
+		// 		while(index < commandList.size()){
+		// 			if(ExecutionManager.getInstance().isRunning()){
+		// 				commandList.get(index).execute();
+		// 				index++;
+		// 			}
 		// 		}
+		// 		evalCmd = new EvaluationCommand(this.simpleExprCtx, this.cstmLocalScope);
+		// 		evalCmd.execute();
+		// 		this.updateCounter();
 		// 	}
-		// 	iterationEvaluatorCommand.execute();
+		// } else {
+		// 	while(this.counter > evalCmd.getResult().intValue()){
+		// 		int index = 0;
+		// 		while(index < commandList.size()){
+		// 			if(ExecutionManager.getInstance().isRunning()){
+		// 				commandList.get(index).execute();
+		// 				index++;
+		// 			}
+		// 		}
+		// 		evalCmd = new EvaluationCommand(this.simpleExprCtx, this.cstmLocalScope);
+		// 		evalCmd.execute();
+		// 		this.updateCounter();
+		// 	}
 		// }
+
+		iterationEvaluatorCommand.execute();
+	
+		while(iterationEvaluatorCommand.getResult()){
+			int index = 0;
+			while(index < this.commandList.size()){
+				if(ExecutionManager.getInstance().isRunning()){
+					commandList.get(index).execute();
+					index++;
+				}
+			}
+			iterationEvaluatorCommand.execute();
+			this.updateCounter();
+		}
 	}
 
 	@Override

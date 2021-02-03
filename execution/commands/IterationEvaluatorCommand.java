@@ -41,20 +41,15 @@ public class IterationEvaluatorCommand implements CommandInterface{
         if(forStatement != null){
             int leftHandValue = Integer.parseInt(cstmValue.getValue().toString());
             int rightHandValue = this.evaluationCommand.getResult().intValue();
-            
             if(forStatement.upDownToStatement().getText().contains("up to")){
-                if(leftHandValue <= rightHandValue){
-                    int newValue = leftHandValue+1;
+                if(leftHandValue < rightHandValue-1){
                     this.result = true;
-                    cstmValue.setValue(Integer.toString(newValue));
                 } else {
                     this.result = false;
                 }
             } else if(forStatement.upDownToStatement().getText().contains("down to")){
-                if(leftHandValue >= rightHandValue){
-                    int newValue = leftHandValue-1;
+                if(leftHandValue > rightHandValue-1){
                     this.result = true;
-                    cstmValue.setValue(Integer.toString(newValue));
 
                 } else {
                     this.result = false;
@@ -68,17 +63,13 @@ public class IterationEvaluatorCommand implements CommandInterface{
 
             if(whileStatement.upDownToStatement().getText().contains("up to")){
                 if(leftHandValue < rightHandValue){
-                    int newValue = leftHandValue+1;
                     this.result = true;
-                    cstmValue.setValue(Integer.toString(newValue));
                 } else {
                     this.result = false;
                 }
             } else if(whileStatement.upDownToStatement().getText().contains("down to")){
                 if(leftHandValue > rightHandValue){
-                    int newValue = leftHandValue-1;
                     this.result = true;
-                    cstmValue.setValue(Integer.toString(newValue));
                 } else {
                     this.result = false;
                 }
