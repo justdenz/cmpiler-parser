@@ -15,6 +15,7 @@ import model.CUSTOMParser.PrintParametersContext;
 import model.CUSTOMParser.PrintStatementListContext;
 import semantics.representations.CstmFunction;
 import semantics.representations.CstmValue;
+import semantics.representations.CstmValue.PrimitiveType;
 import semantics.symboltable.GlobalScopeManager;
 import semantics.symboltable.scopes.CstmLocalScope;
 
@@ -76,9 +77,16 @@ public class PrintCommand implements CommandInterface, ParseTreeListener {
             }
             //printing expressions
             else if(printParamCtx.simpleExpression() != null){
-                EvaluationCommand evaluationCommand = new EvaluationCommand(printParamCtx.simpleExpression(), this.cstmScope);
-                evaluationCommand.execute();
-                this.statementToPrint += evaluationCommand.getResult().toPlainString();
+                String varName = printParamCtx.simpleExpression().getText();
+                CstmValue val = cstmScope.getVariableWithinScope(varName);
+                
+                if(val.getPrimitiveType() == PrimitiveType.STRING){
+                    this.statementToPrint += val.getValue().toString();
+                } else {
+                    EvaluationCommand evaluationCommand = new EvaluationCommand(printParamCtx.simpleExpression(), this.cstmScope);
+                    evaluationCommand.execute();
+                    this.statementToPrint += evaluationCommand.getResult().toPlainString();
+                }
             }
             //printing function calls
             // else if(printParamCtx.call() != null){

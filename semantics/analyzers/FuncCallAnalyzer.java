@@ -36,8 +36,6 @@ public class FuncCallAnalyzer implements AnalyzerInterface{
       CstmUnDecChecker unDecChecker = new CstmUnDecChecker(exprCtx);
       unDecChecker.verify();
     }
-    FuncCallCommand functionCallCommand = new FuncCallCommand(this.function, argsCtx);
-    ExecutionManager.getInstance().addCommand(functionCallCommand);
   }
 
 }

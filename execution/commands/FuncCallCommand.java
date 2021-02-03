@@ -60,10 +60,16 @@ public class FuncCallCommand implements CommandInterface{
       SimpleExpressionContext simpleExprCtx = args.get(i);
 
       if(this.function.getParameterAt(i).getPrimitiveType() != PrimitiveType.ARRAY) {
-        EvaluationCommand evalCommand = new EvaluationCommand(simpleExprCtx, this.cstmScope);
-        evalCommand.execute();
+        String result;
 
-        String result = evalCommand.getResult().toPlainString();
+        if(simpleExprCtx.getText().contains("\"")){
+          result = simpleExprCtx.getText().replaceAll("^\"+|\"+$", "");
+        } else {
+          EvaluationCommand evalCommand = new EvaluationCommand(simpleExprCtx, this.cstmScope);
+          evalCommand.execute();
+          result = evalCommand.getResult().toPlainString();
+        }
+        
 
         if(this.function.getParameterCount() > i){
           CstmValue cstmValue = this.function.getParameterAt(i);

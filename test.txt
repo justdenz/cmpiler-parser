@@ -1,6 +1,4 @@
-func void test1(int word){
-	print(word);
-}
 main() {
-	test1(1);
+	String test ="asfdsa";
+	print(test);
 }
