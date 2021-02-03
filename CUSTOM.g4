@@ -86,10 +86,10 @@ printStatementList
     ;
 
 printParameters
-    : StringLiteral
+    : simpleExpression
+    | StringLiteral
     | call
     | IDENTIFIER
-    | simpleExpression
     ;
 
 illegalSymbols

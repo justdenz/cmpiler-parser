@@ -1344,14 +1344,14 @@ public class CUSTOMParser extends Parser {
 	}
 
 	public static class PrintParametersContext extends ParserRuleContext {
+		public SimpleExpressionContext simpleExpression() {
+			return getRuleContext(SimpleExpressionContext.class,0);
+		}
 		public TerminalNode StringLiteral() { return getToken(CUSTOMParser.StringLiteral, 0); }
 		public CallContext call() {
 			return getRuleContext(CallContext.class,0);
 		}
 		public TerminalNode IDENTIFIER() { return getToken(CUSTOMParser.IDENTIFIER, 0); }
-		public SimpleExpressionContext simpleExpression() {
-			return getRuleContext(SimpleExpressionContext.class,0);
-		}
 		public PrintParametersContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1377,28 +1377,28 @@ public class CUSTOMParser extends Parser {
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(241);
-				match(StringLiteral);
+				simpleExpression(0);
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(242);
-				call();
+				match(StringLiteral);
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(243);
-				match(IDENTIFIER);
+				call();
 				}
 				break;
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
 				setState(244);
-				simpleExpression(0);
+				match(IDENTIFIER);
 				}
 				break;
 			}
@@ -3762,9 +3762,9 @@ public class CUSTOMParser extends Parser {
 		"\2\2\u00e9\u00d3\3\2\2\2\u00e9\u00e1\3\2\2\2\u00ea\u00f0\3\2\2\2\u00eb"+
 		"\u00ec\f\3\2\2\u00ec\u00ed\7.\2\2\u00ed\u00ef\b\22\1\2\u00ee\u00eb\3\2"+
 		"\2\2\u00ef\u00f2\3\2\2\2\u00f0\u00ee\3\2\2\2\u00f0\u00f1\3\2\2\2\u00f1"+
-		"#\3\2\2\2\u00f2\u00f0\3\2\2\2\u00f3\u00f8\7?\2\2\u00f4\u00f8\5b\62\2\u00f5"+
-		"\u00f8\7B\2\2\u00f6\u00f8\5D#\2\u00f7\u00f3\3\2\2\2\u00f7\u00f4\3\2\2"+
-		"\2\u00f7\u00f5\3\2\2\2\u00f7\u00f6\3\2\2\2\u00f8%\3\2\2\2\u00f9\u00fa"+
+		"#\3\2\2\2\u00f2\u00f0\3\2\2\2\u00f3\u00f8\5D#\2\u00f4\u00f8\7?\2\2\u00f5"+
+		"\u00f8\5b\62\2\u00f6\u00f8\7B\2\2\u00f7\u00f3\3\2\2\2\u00f7\u00f4\3\2"+
+		"\2\2\u00f7\u00f5\3\2\2\2\u00f7\u00f6\3\2\2\2\u00f8%\3\2\2\2\u00f9\u00fa"+
 		"\t\3\2\2\u00fa\'\3\2\2\2\u00fb\u00fe\5@!\2\u00fc\u00fe\5b\62\2\u00fd\u00fb"+
 		"\3\2\2\2\u00fd\u00fc\3\2\2\2\u00fe\u00ff\3\2\2\2\u00ff\u0100\7\65\2\2"+
 		"\u0100)\3\2\2\2\u0101\u0105\7#\2\2\u0102\u0104\5,\27\2\u0103\u0102\3\2"+

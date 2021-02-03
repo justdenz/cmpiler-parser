@@ -1,6 +1,6 @@
+func void test1(int word){
+	print(word);
+}
 main() {
-	int x = 0;
-	for x up to 10 {
-		print(x);
-	}
+	test1(1);
 }

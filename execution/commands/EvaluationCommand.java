@@ -65,7 +65,13 @@ public class EvaluationCommand implements CommandInterface, ParseTreeListener {
             // if non-array variable
             if(mutableContext.IDENTIFIER() != null && mutableContext.LeftBracket() == null) {
                 CstmValue cstmValue = this.scope.getVariableWithinScope(mutableContext.IDENTIFIER().getText());
-                this.modifiedExpression = this.modifiedExpression.replaceFirst(mutableContext.IDENTIFIER().getText(), cstmValue.getValue().toString());
+                if(cstmValue == null){
+                    ExecutionManager.getInstance().stopExecution();
+                    Printer.getInstance().display("Variable might not be initialized at line  " + ctx.getStart().getLine());
+                } else {
+                    this.modifiedExpression = this.modifiedExpression.replaceFirst(mutableContext.IDENTIFIER().getText(), cstmValue.getValue().toString());    
+                }
+                
             } else {
                 EvaluationCommand evaluationCommand = new EvaluationCommand(mutableContext.simpleExpression(), this.scope);
                 evaluationCommand.execute();
@@ -79,7 +85,6 @@ public class EvaluationCommand implements CommandInterface, ParseTreeListener {
                     if(cstmArray.getValueAt(arrayIndex).getValue() != null){
                         this.modifiedExpression = this.modifiedExpression.replaceFirst("\\[.*\\]", cstmArray.getValueAt(arrayIndex).getValue().toString());
                     } else {
-                        Printer.getInstance().display("Array Value at index might not be initialized at line  " + ctx.getStart().getLine());
                         ExecutionManager.getInstance().stopExecution();
                     }
                 } else {
