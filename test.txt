@@ -1,7 +1,5 @@
-func int test1(){
-	return 5;
-}
-
 main() {
-	test1();
+	int x = 3;
+	int[] arr = create int[20];
+	arr[3] = x;
 }
