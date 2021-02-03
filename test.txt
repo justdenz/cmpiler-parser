@@ -2,4 +2,5 @@ main() {
 	int x = 3;
 	int[] arr = create int[20];
 	arr[3] = x;
+	int y = arr[3];
 }

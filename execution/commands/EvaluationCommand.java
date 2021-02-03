@@ -83,7 +83,8 @@ public class EvaluationCommand implements CommandInterface, ParseTreeListener {
 
                 if(cstmArray.getValueAt(arrayIndex) != null){ //int x = anArray[arrayIndex];
                     if(cstmArray.getValueAt(arrayIndex).getValue() != null){
-                        this.modifiedExpression = this.modifiedExpression.replaceFirst("\\[.*\\]", cstmArray.getValueAt(arrayIndex).getValue().toString());
+                        // this.modifiedExpression = this.modifiedExpression.replaceFirst("\\[.*\\]", cstmArray.getValueAt(arrayIndex).getValue().toString());
+                        this.modifiedExpression = cstmArray.getValueAt(arrayIndex).getValue().toString();
                     } else {
                         ExecutionManager.getInstance().stopExecution();
                     }
