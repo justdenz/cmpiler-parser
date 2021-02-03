@@ -66,9 +66,9 @@ public class CstmTypeChecker implements CstmErrCheckerInterface, ParseTreeListen
 				
 			}
 			else if(this.cstmValue.getPrimitiveType() == PrimitiveType.BOOLEAN) {
-				// if(constCtx.True() == null || constCtx.False() == null) {
-				// 	Console.log(String.valueOf(this.lineNumber) , "Expected boolean type.");
-				// }
+				if(constCtx.BOOLCONSTANT() == null) {
+					Console.log(String.valueOf(this.lineNumber) , "Expected boolean type.");
+				}
 			}
 			else if(this.cstmValue.getPrimitiveType() == PrimitiveType.INT) {
 				if(constCtx.INTEGERCONSTANT() == null) {
