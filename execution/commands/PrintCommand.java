@@ -51,7 +51,7 @@ public class PrintCommand implements CommandInterface, ParseTreeListener {
     public void execute() {
         ParseTreeWalker tree = new ParseTreeWalker();
         tree.walk(this, this.printStatementList);
-        final String toPrint = this.statementToPrint;
+        final String toPrint = this.statementToPrint.replace("\\\\", "\\");
         Platform.runLater(new Runnable() {
             @Override public void run() {
                 Printer.getInstance().display(toPrint);

@@ -149,12 +149,7 @@ public class CstmFunction implements CommandInterface{
 		}
     
 		public CstmValue getReturnValue() {
-			if(this.returnType == FunctionType.VOID_TYPE) {
-				return null;
-			}
-			else {
-				return this.returnValue;
-			}
+			return this.returnValue;
 		}
 
 		public boolean getReturnStatus(){

@@ -44,7 +44,11 @@ public class GlobalScopeManager {
 	}
 
 	public CstmFunction getFunction(String identifier){
-		return this.functionMap.get(identifier);
+		if(this.functionMap.containsKey(identifier)){
+			return this.functionMap.get(identifier);
+		} else {
+			return null;
+		}
 	}
 
 	public HashMap<String, CstmFunction> getFunctions() {
