@@ -168,6 +168,11 @@ conditionalExpression
     : relExpression
     ;
 
+BOOLCONSTANT
+    : True
+    | False
+    ;
+    
 simpleExpression
     : andExpression
     | simpleExpression OrOr andExpression
@@ -244,8 +249,8 @@ mutable
     ;
 
 immutable
-    : call
-    | constant
+    : constant
+    | call
     | LeftParen simpleExpression RightParen
     ;
 
@@ -259,13 +264,15 @@ args
     ;
 
 constant
-    : BOOLCONSTANT
-    | INTEGERCONSTANT
+    : INTEGERCONSTANT
+    | BOOLCONSTANT
     | StringLiteral
     | FLOATCONSTANT
     ;
 
 /* keywords */
+True: 'T';
+False: 'F';
 AndAnd : '&&';
 Assign : '=';
 Boolean : 'bool';
@@ -282,7 +289,6 @@ Down : 'down';
 Ellipsis : '...';
 Else : 'else';
 Equal : '==';
-False: 'F';
 Float : 'float';
 For : 'for';
 Func: 'func';
@@ -313,7 +319,6 @@ Star : '*';
 String : 'String';
 Then: 'then';
 To: 'to';
-True: 'T';
 Up : 'up';
 Void : 'void';
 While : 'while';
@@ -391,17 +396,14 @@ StringLiteral
     ;
 
 /* tokens */
+
+
 INTEGERCONSTANT
     : DigitSequence
     ;
 
 FLOATCONSTANT
     : DecimalFloatingConstant
-    ;
-
-BOOLCONSTANT
-    : 'T'
-    | 'F'
     ;
 
 IDENTIFIER
