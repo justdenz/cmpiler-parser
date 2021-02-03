@@ -1,10 +1,7 @@
 main() {
-	int i = 5;
-	if(i==4) then{
+	int i = 0;
+	whiel i up to 5{
 		print("hello");
-	} else if(i == 5) then{
-		print("heehe");
-	} else then{
-		print("bye");
+		i = i + 1;
 	}
 }

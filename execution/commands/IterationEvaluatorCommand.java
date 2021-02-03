@@ -14,6 +14,7 @@ public class IterationEvaluatorCommand implements CommandInterface{
     private CstmLocalScope scope;
     EvaluationCommand evaluationCommand;
     private boolean result;
+    private int evaluated;
 
     public IterationEvaluatorCommand(ForStatementContext forStatement, CstmLocalScope scope){
         this.forStatement = forStatement;
@@ -32,6 +33,7 @@ public class IterationEvaluatorCommand implements CommandInterface{
     @Override
     public void execute() {
         this.evaluationCommand.execute();
+        this.evaluated = this.evaluationCommand.getResult().intValue();
 
         if(forStatement != null){
             CstmValue cstmValue = this.scope.getVariableWithinScope(this.forStatement.forCondition().IDENTIFIER().getText());
@@ -86,6 +88,10 @@ public class IterationEvaluatorCommand implements CommandInterface{
 
     public boolean getResult(){
         return this.result;
+    }
+
+    public int getEvaluated(){
+        return this.evaluated;
     }
     
 }

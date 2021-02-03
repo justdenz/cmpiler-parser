@@ -27,6 +27,10 @@ public class CstmArray {
 	public void markFinal() {
 		this.finalFlag = true;
 	}
+
+	public boolean isInitialized() {
+		return valueArray != null;
+	}
 	
 	public boolean isFinal() {
 		return this.finalFlag;
