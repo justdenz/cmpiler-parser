@@ -42,9 +42,8 @@ public class ExprStmtAnalyzer implements AnalyzerInterface{
 
 				CstmValue cstmValue = GlobalScopeManager.getInstance().searchScopedVariable(mutableCtx.IDENTIFIER().getText());
 
-				if (exprStdAlneCtx.simpleExpression() != null && !exprStdAlneCtx.getText().contains("[")) { // if right hand side is simple expression
+				if (exprStdAlneCtx.simpleExpression() != null ) { // if right hand side is simple expression
 					if (cstmValue != null) {
-						System.out.println("Expression to evaluate: " + exprStdAlneCtx.getText());
 						AssignmentCommand assignmentCommand = new AssignmentCommand(mutableCtx, exprStdAlneCtx.simpleExpression());
 
 						if(StmtCmdTracker.getInstance().isSelectionCommand()){

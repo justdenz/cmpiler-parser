@@ -89,9 +89,10 @@ public class CstmTypeChecker implements CstmErrCheckerInterface, ParseTreeListen
 		// TypeChecker for regular assignment 
 		else if(ctx instanceof MutableContext){
 			MutableContext mutCtx = (MutableContext) ctx;
-			if (mutCtx.LeftBracket() == null){
-				CstmValue cstmValue = GlobalScopeManager.getInstance().searchScopedVariable(mutCtx.IDENTIFIER().getText());
-				if(cstmValue != null) {
+
+			if (mutCtx.LeftBracket() == null){ //if hinde array yung right hand
+				CstmValue val = GlobalScopeManager.getInstance().searchScopedVariable(mutCtx.IDENTIFIER().getText());
+				if(val != null) {
 					if(this.cstmValue.getPrimitiveType() == PrimitiveType.BOOLEAN && cstmValue.getPrimitiveType() != PrimitiveType.BOOLEAN) {
 						Console.log(String.valueOf(this.lineNumber) , "Expected boolean type.");
 					}
@@ -103,25 +104,25 @@ public class CstmTypeChecker implements CstmErrCheckerInterface, ParseTreeListen
 					}
 					else if(this.cstmValue.getPrimitiveType() == PrimitiveType.STRING && cstmValue.getPrimitiveType() != PrimitiveType.STRING) {
 						Console.log(String.valueOf(this.lineNumber) , "Expected string type.");
-					} else if(this.cstmValue.getPrimitiveType() == PrimitiveType.ARRAY) {
-						if (cstmValue.getPrimitiveType() != PrimitiveType.ARRAY) {
-							Console.log(String.valueOf(this.lineNumber) , "Expected array type.");
-						} else {
-							CstmArray pa = (CstmArray)this.cstmValue.getValue();
-							CstmArray pa1 = (CstmArray)cstmValue.getValue();
-							if(pa.getPrimitiveType() == PrimitiveType.BOOLEAN && pa1.getPrimitiveType() != PrimitiveType.BOOLEAN) {
-								Console.log(String.valueOf(this.lineNumber) , "Expected boolean type.");
-							}
-							else if(pa.getPrimitiveType() == PrimitiveType.INT && pa1.getPrimitiveType() != PrimitiveType.INT) {
-								Console.log(String.valueOf(this.lineNumber) , "Expected int type.");
-							}
-							else if(pa.getPrimitiveType() == PrimitiveType.FLOAT && pa1.getPrimitiveType() != PrimitiveType.FLOAT) {
-								Console.log(String.valueOf(this.lineNumber) , "Expected float type.");
-							}
-							else if(pa.getPrimitiveType() == PrimitiveType.STRING && pa1.getPrimitiveType() != PrimitiveType.STRING) {
-								Console.log(String.valueOf(this.lineNumber) , "Expected string type.");
-							}
+					} else if(this.cstmValue.getPrimitiveType() == PrimitiveType.ARRAY) { //if array yung left hand side
+						CstmArray cstmArray = (CstmArray) this.cstmValue.getValue();
+
+						
+						// CstmArray val = (CstmArray)this.cstmValue.getValue();
+						// CstmArray cstmArray = (CstmArray)val.getValue();
+						if(val.getPrimitiveType() == PrimitiveType.BOOLEAN && cstmArray.getPrimitiveType() != PrimitiveType.BOOLEAN) {
+							Console.log(String.valueOf(this.lineNumber) , "Expected boolean type.");
 						}
+						else if(val.getPrimitiveType() == PrimitiveType.INT && cstmArray.getPrimitiveType() != PrimitiveType.INT) {
+							Console.log(String.valueOf(this.lineNumber) , "Expected int type.");
+						}
+						else if(val.getPrimitiveType() == PrimitiveType.FLOAT && cstmArray.getPrimitiveType() != PrimitiveType.FLOAT) {
+							Console.log(String.valueOf(this.lineNumber) , "Expected float type.");
+						}
+						else if(val.getPrimitiveType() == PrimitiveType.STRING && cstmArray.getPrimitiveType() != PrimitiveType.STRING) {
+							Console.log(String.valueOf(this.lineNumber) , "Expected string type.");
+						}
+						
 					}
 				}
 			}
