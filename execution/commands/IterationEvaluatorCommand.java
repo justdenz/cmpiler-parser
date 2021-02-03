@@ -22,6 +22,7 @@ public class IterationEvaluatorCommand implements CommandInterface{
         this.scope = scope;
         this.evaluationCommand = new EvaluationCommand(forStatement.simpleExpression(), this.scope);
         this.result = false;
+        this.cstmValue = scope.getVariableWithinScope(forStatement.forCondition().IDENTIFIER().getText());
     }
 
     public IterationEvaluatorCommand(WhileStatementContext whileStatement, CstmLocalScope scope){

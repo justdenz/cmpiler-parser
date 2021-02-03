@@ -25,7 +25,7 @@ public class EditorArea {
   private static final String[] KEYWORDS = new String[] {
     "abstract",
     "assert",
-    "boolean",
+    "bool",
     "break",
     "byte",
     "case",

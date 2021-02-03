@@ -2,6 +2,7 @@ package execution.commands;
 
 import java.util.ArrayList;
 
+import execution.ExecutionManager;
 import model.CUSTOMParser.ForStatementContext;
 import semantics.symboltable.GlobalScopeManager;
 import semantics.symboltable.scopes.CstmLocalScope;
@@ -24,13 +25,17 @@ public class ForCommand implements IterCommandInterface{
 	@Override
 	public void execute() {
 		iterationEvaluatorCommand.execute();
-		int index = 0;
-
+	
 		while(iterationEvaluatorCommand.getResult()){
+			int index = 0;
 			iterationEvaluatorCommand.execute();
 			while(index < this.commandList.size()){
-				iterationEvaluatorCommand.execute();
+				if(ExecutionManager.getInstance().isRunning()){
+					commandList.get(index).execute();
+					index++;
+				}
 			}
+			iterationEvaluatorCommand.execute();
 		}
 	}
 
