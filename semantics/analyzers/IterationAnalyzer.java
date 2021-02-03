@@ -144,12 +144,12 @@ public class IterationAnalyzer implements AnalyzerInterface{
 			CstmTypeChecker typeChecker = new CstmTypeChecker(tempVal, whileStmtContext.simpleExpression());
 			typeChecker.verify();
 
-			CstmLocalScope forScope = new CstmLocalScope(GlobalScopeManager.getInstance().getCurrentScope());
-			GlobalScopeManager.getInstance().setCurrentScope(forScope);
-
 			System.out.println("Opened While Loop Scope");
 			WhileCommand whileCommand = new WhileCommand(whileStmtContext);
 			StmtCmdTracker.getInstance().openIterationCommand(whileCommand);
+
+			CstmLocalScope whileScope = new CstmLocalScope(GlobalScopeManager.getInstance().getCurrentScope());
+			GlobalScopeManager.getInstance().setCurrentScope(whileScope);
 
 			CompStmtAnalyzer whileStatementAnalyzer = new CompStmtAnalyzer(whileStmtContext.compoundStatement());
 			whileStatementAnalyzer.analyze();

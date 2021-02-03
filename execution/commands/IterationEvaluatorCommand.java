@@ -15,6 +15,7 @@ public class IterationEvaluatorCommand implements CommandInterface{
     EvaluationCommand evaluationCommand;
     private boolean result;
     private int evaluated;
+    private CstmValue cstmValue;
 
     public IterationEvaluatorCommand(ForStatementContext forStatement, CstmLocalScope scope){
         this.forStatement = forStatement;
@@ -28,6 +29,7 @@ public class IterationEvaluatorCommand implements CommandInterface{
         this.scope = scope;
         this.evaluationCommand = new EvaluationCommand(whileStatement.simpleExpression(), this.scope);
         this.result = false;
+        this.cstmValue = scope.getVariableWithinScope(whileStatement.IDENTIFIER().getText());
     }
 
     @Override
@@ -36,7 +38,6 @@ public class IterationEvaluatorCommand implements CommandInterface{
         this.evaluated = this.evaluationCommand.getResult().intValue();
 
         if(forStatement != null){
-            CstmValue cstmValue = this.scope.getVariableWithinScope(this.forStatement.forCondition().IDENTIFIER().getText());
             int leftHandValue = Integer.parseInt(cstmValue.getValue().toString());
             int rightHandValue = this.evaluationCommand.getResult().intValue();
             
@@ -61,12 +62,11 @@ public class IterationEvaluatorCommand implements CommandInterface{
         }
         
         else if(whileStatement != null){
-            CstmValue cstmValue = this.scope.getVariableWithinScope(this.whileStatement.IDENTIFIER().getText());
             int leftHandValue = Integer.parseInt(cstmValue.getValue().toString());
             int rightHandValue = this.evaluationCommand.getResult().intValue();
 
             if(whileStatement.upDownToStatement().getText().contains("up to")){
-                if(leftHandValue <= rightHandValue){
+                if(leftHandValue < rightHandValue){
                     int newValue = leftHandValue+1;
                     this.result = true;
                     cstmValue.setValue(Integer.toString(newValue));
@@ -74,7 +74,7 @@ public class IterationEvaluatorCommand implements CommandInterface{
                     this.result = false;
                 }
             } else if(whileStatement.upDownToStatement().getText().contains("down to")){
-                if(leftHandValue >= rightHandValue){
+                if(leftHandValue > rightHandValue){
                     int newValue = leftHandValue-1;
                     this.result = true;
                     cstmValue.setValue(Integer.toString(newValue));
@@ -93,5 +93,4 @@ public class IterationEvaluatorCommand implements CommandInterface{
     public int getEvaluated(){
         return this.evaluated;
     }
-    
 }

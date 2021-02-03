@@ -2,6 +2,5 @@ main() {
 	int i = 0;
 	while i up to 5 {
 		print("hello");
-		i = i + 1;
 	}
 }
