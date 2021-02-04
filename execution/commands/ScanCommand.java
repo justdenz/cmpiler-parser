@@ -23,10 +23,8 @@ public class ScanCommand implements CommandInterface {
     @Override
     public void execute() {
         ExecutionManager.getInstance().pauseThread();
-
         Platform.runLater(new Runnable() {
             @Override public void run() {
-                System.out.println("Opening scan window...");
                 String scanValue = ScanWindow.getInstance().getInput(scanPrompt);
                 CstmValue value = cstmScope.getVariableWithinScope(varName);
 
@@ -39,7 +37,6 @@ public class ScanCommand implements CommandInterface {
                         default: value.setValue(scanValue);
                     }
                     ExecutionManager.getInstance().resumeThread();
-                    System.out.println("Ito yung value ni variable "+varName+" : "+value.getValue().toString());
                 } catch (NumberFormatException e) {
                     Printer.getInstance().display("Program Terminated. Scan value mismatch.");
                     ExecutionManager.getInstance().stopExecution();

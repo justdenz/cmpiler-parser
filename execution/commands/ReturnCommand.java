@@ -4,11 +4,13 @@ import java.math.BigDecimal;
 
 import builder.errorcheckers.CstmTypeChecker;
 import builder.errorcheckers.CstmUnDecChecker;
+import console.Console;
 import console.Printer;
 import execution.FuncCmdTracker;
 import model.CUSTOMParser.SimpleExpressionContext;
 import semantics.representations.CstmFunction;
 import semantics.representations.CstmValue;
+import semantics.representations.CstmFunction.FunctionType;
 import semantics.representations.CstmValue.PrimitiveType;
 import semantics.symboltable.GlobalScopeManager;
 import semantics.symboltable.scopes.CstmLocalScope;
@@ -28,8 +30,13 @@ public class ReturnCommand implements CommandInterface{
     cstmUnDecChecker.verify();
 
     CstmValue cstmVal = this.cstmFunc.getReturnValue();
-    CstmTypeChecker typeChecker = new CstmTypeChecker(cstmVal, this.simpleExpCtx);
-    typeChecker.verify();
+
+    if(this.cstmFunc.getReturnType() != FunctionType.VOID_TYPE){
+      CstmTypeChecker typeChecker = new CstmTypeChecker(cstmVal, this.simpleExpCtx);
+      typeChecker.verify();
+    } else {
+      Console.log(String.valueOf(simpleExpCtx.getStart().getLine()), "Found a return statement in a void type function.");
+    }
   }
 
 	@Override

@@ -38,7 +38,7 @@ public class VarInitCommand implements CommandInterface {
 
         if(varDecCtx.typeSpecifier().getText().contains("String")){
             if(varDecCtx.variableDeclarationInitialize().simpleExpression().getText().replaceAll("\".+?\"", "").contains("+")){
-                Printer.getInstance().display("In line "+String.valueOf(varDecCtx.getStart().getLine())+": Concatenation of strings is not possible.");
+                Printer.getInstance().display("In line "+String.valueOf(varDecCtx.getStart().getLine())+": Concatenation of strings is not possible in intialization.");
                 ExecutionManager.getInstance().stopExecution();
             } else {
                 String stringValue = varDecCtx.variableDeclarationInitialize().IDENTIFIER().getText();
