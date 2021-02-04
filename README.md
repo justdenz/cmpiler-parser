@@ -20,3 +20,5 @@ For Mac Terminal:
 ```
 sh run.sh
 ```
+
+3. OPTIONAL: Input test cases in 'test.txt' file then save it for better formatting and faster testing.
