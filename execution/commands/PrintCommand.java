@@ -67,7 +67,14 @@ public class PrintCommand implements CommandInterface, ParseTreeListener {
 
             //printing of regular string
             if(printParamCtx.StringLiteral() != null){
-                this.statementToPrint += printParamCtx.StringLiteral().getText().replaceAll("^\"+|\"+$", "");
+                if(printParamCtx.StringLiteral().getText().replaceAll("^\"+|\"+$", "").contains("+")){
+                    String[] concatStrings = printParamCtx.StringLiteral().getText().split("+");
+                    for(String str : concatStrings){
+                        this.statementToPrint += str + " ";
+                    }
+                } else {
+                    this.statementToPrint += printParamCtx.StringLiteral().getText().replaceAll("^\"+|\"+$", "");
+                }
             }
             //printing variables
             else if(printParamCtx.IDENTIFIER() != null){

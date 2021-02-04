@@ -1,6 +1,9 @@
-func int test1(){
-    return 1;
-}
 main() {
-	test1();
+	String fn;
+	String mn;
+	String ln;
+	scan("First Name: ", fn);
+	scan("Middle Name: ", mn);
+	scan("Last Name: ", ln);
+	print("Welcome " + fn + " " + mn + " " + ln + "!");
 }

@@ -1,5 +1,6 @@
 package builder.errorcheckers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -20,6 +21,7 @@ import model.CUSTOMParser.TypeSpecifierContext;
 import semantics.representations.CstmArray;
 import semantics.representations.CstmFunction;
 import semantics.representations.CstmValue;
+import semantics.representations.CstmFunction.FunctionType;
 import semantics.representations.CstmValue.PrimitiveType;
 import semantics.symboltable.GlobalScopeManager;
 import semantics.utils.CstmKeywords;
@@ -29,16 +31,17 @@ public class CstmTypeChecker implements CstmErrCheckerInterface, ParseTreeListen
 	private CstmValue cstmValue;
 	private SimpleExpressionContext expressionContext;
 	private int lineNumber;
+	private boolean isArgs = false;
+	private List<String> excluded;
 
-    public CstmTypeChecker(CstmValue assignmentValue, SimpleExpressionContext expressionContext) {
+	public CstmTypeChecker(CstmValue assignmentValue, SimpleExpressionContext expressionContext) {
 		this.cstmValue = assignmentValue;
 		this.expressionContext = expressionContext;
-		
-		Token firstToken = expressionContext.getStart();
-		this.lineNumber = firstToken.getLine();
-    }
+		this.lineNumber = expressionContext.getStart().getLine();
+		this.excluded = new ArrayList<>();
+  }
     
-    @Override
+  @Override
 	public void verify() {
 		ParseTreeWalker treeWalker = new ParseTreeWalker();
 		treeWalker.walk(this, this.expressionContext);
@@ -133,6 +136,13 @@ public class CstmTypeChecker implements CstmErrCheckerInterface, ParseTreeListen
 
 			String functionName = callCtx.IDENTIFIER().getText();
 			CstmFunction cstmFunc = GlobalScopeManager.getInstance().getFunction(functionName);
+			CstmValue cstmValue = cstmFunc.getReturnValue();
+
+			if(cstmFunc.getReturnType() == FunctionType.VOID_TYPE){
+				Console.log(String.valueOf(this.lineNumber), "Found a return for a void type function.");
+			} else if(cstmValue != null){
+				// UNFINISHED
+			}
 
 			ArgsContext callArgsCtx = callCtx.args();
 

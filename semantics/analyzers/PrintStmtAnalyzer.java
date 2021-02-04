@@ -1,9 +1,6 @@
 package semantics.analyzers;
 
 import model.CUSTOMParser.PrintStatementListContext;
-import model.CUSTOMParser.SimpleExpressionContext;
-import semantics.symboltable.GlobalScopeManager;
-import builder.errorcheckers.CstmUnDecChecker;
 import execution.ExecutionManager;
 import execution.StmtCmdTracker;
 import execution.commands.CommandInterface;
