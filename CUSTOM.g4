@@ -89,6 +89,7 @@ printParameters
     : StringLiteral
     | call
     | IDENTIFIER
+    | simpleExpression
     ;
 
 illegalSymbols

@@ -92,7 +92,6 @@ public class EvaluationCommand implements CommandInterface, ParseTreeListener {
     @Override
     public void execute() {
         this.modifiedExpression = this.simpleExpression.getText();
-        evaluateIfFloat();
 
         if(this.modifiedExpression.contains("\"")){
             String newComparisons = this.modifiedExpression.replaceAll("\"", "");
@@ -109,14 +108,8 @@ public class EvaluationCommand implements CommandInterface, ParseTreeListener {
         } else {
             ParseTreeWalker tree = new ParseTreeWalker();
             tree.walk(this, this.simpleExpression);
-            Expression evalExpression = new Expression(this.modifiedExpression);
+            Expression evalExpression = new Expression(this.modifiedExpression.replace("f", ""));
             this.result = evalExpression.eval();
-        }
-    }
-
-    private void evaluateIfFloat(){
-        if(this.modifiedExpression.contains("f")){
-            this.modifiedExpression = this.modifiedExpression.replaceFirst("f", "");
         }
     }
 

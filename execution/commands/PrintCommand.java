@@ -82,6 +82,13 @@ public class PrintCommand implements CommandInterface, ParseTreeListener {
                 CstmValue val = cstmScope.getVariableWithinScope(varName);
                 this.statementToPrint += val.getValue().toString();
             }
+
+            else if(printParamCtx.simpleExpression() != null){
+                EvaluationCommand evaluationCommand = new EvaluationCommand(printParamCtx.simpleExpression(), this.cstmScope);
+                evaluationCommand.execute();
+
+                this.statementToPrint += evaluationCommand.getResult().toString();
+            }
             //printing function calls
             // else if(printParamCtx.call() != null){
                 
