@@ -68,6 +68,81 @@ public class AssignmentCommand implements CommandInterface, ParseTreeListener {
   }
 
   @Override
+  public void enterEveryRule(ParserRuleContext ctx) {
+    if(ctx instanceof ConstantContext){
+      ConstantContext constCtx = (ConstantContext) ctx;
+      if(!isRemoved(constCtx.getText())){
+        if(constCtx.StringLiteral() != null)
+          this.evaluatedString += constCtx.StringLiteral().getText().replaceAll("^\"+|\"+$", "");
+        else 
+          this.evaluatedString += constCtx.getText();
+      }
+    }
+
+    else if(ctx instanceof MutableContext){
+      MutableContext muteCtx = (MutableContext) ctx;
+
+      if(muteCtx.LeftBracket() == null){
+        CstmValue cstmValue = scope.getVariableWithinScope(muteCtx.IDENTIFIER().getText());
+        if(!isRemoved(muteCtx.getText()))
+          this.evaluatedString += cstmValue.getValue().toString();
+      }
+
+      else {
+        removedStrings.add(muteCtx.getText());
+        EvaluationCommand arrEvalCmd = new EvaluationCommand(leftContext.simpleExpression(), this.scope);
+        arrEvalCmd.execute();
+
+        int arrIndex = arrEvalCmd.getResult().intValue();
+
+        CstmValue cstmValue = scope.getVariableWithinScope(this.identifier.getText());
+        CstmArray cstmArr = (CstmArray) cstmValue.getValue();
+
+        if (cstmArr.isInitialized()) {
+          CstmValue curValue = cstmArr.getValueAt(arrIndex);
+
+          if (curValue != null) {
+            this.evaluatedString += curValue.getValue().toString();
+          } else {
+            Printer.getInstance().display("Program Terminated. Array Index is out of bounds.");
+            ExecutionManager.getInstance().stopExecution();
+          }
+        } else {
+          Printer.getInstance().display("Program Terminated. Array is not initialized.");
+          ExecutionManager.getInstance().stopExecution();
+        }
+      }
+    }
+
+  }
+
+  @Override
+  public void exitEveryRule(ParserRuleContext arg0) {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public void visitErrorNode(ErrorNode arg0) {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public void visitTerminal(TerminalNode arg0) {
+    // TODO Auto-generated method stub
+
+  }
+
+  private boolean isRemoved(String str){
+    for(String temp : removedStrings){
+      if(temp.contains(str))
+        return true;
+    }
+    return false;
+  }
+
+  @Override
   public void execute() {
 
     // if variable
@@ -164,80 +239,5 @@ public class AssignmentCommand implements CommandInterface, ParseTreeListener {
     }
 
     this.evaluatedString = "";
-  }
-
-  @Override
-  public void enterEveryRule(ParserRuleContext ctx) {
-    if(ctx instanceof ConstantContext){
-      ConstantContext constCtx = (ConstantContext) ctx;
-      if(!isRemoved(constCtx.getText())){
-        if(constCtx.StringLiteral() != null)
-          this.evaluatedString += constCtx.StringLiteral().getText().replaceAll("^\"+|\"+$", "");
-        else 
-          this.evaluatedString += constCtx.getText();
-      }
-    }
-
-    else if(ctx instanceof MutableContext){
-      MutableContext muteCtx = (MutableContext) ctx;
-
-      if(muteCtx.LeftBracket() == null){
-        CstmValue cstmValue = scope.getVariableWithinScope(muteCtx.IDENTIFIER().getText());
-        if(!isRemoved(muteCtx.getText()))
-          this.evaluatedString += cstmValue.getValue().toString();
-      }
-
-      else {
-        removedStrings.add(muteCtx.getText());
-        EvaluationCommand arrEvalCmd = new EvaluationCommand(leftContext.simpleExpression(), this.scope);
-        arrEvalCmd.execute();
-
-        int arrIndex = arrEvalCmd.getResult().intValue();
-
-        CstmValue cstmValue = scope.getVariableWithinScope(this.identifier.getText());
-        CstmArray cstmArr = (CstmArray) cstmValue.getValue();
-
-        if (cstmArr.isInitialized()) {
-          CstmValue curValue = cstmArr.getValueAt(arrIndex);
-
-          if (curValue != null) {
-            this.evaluatedString += curValue.getValue().toString();
-          } else {
-            Printer.getInstance().display("Program Terminated. Array Index is out of bounds.");
-            ExecutionManager.getInstance().stopExecution();
-          }
-        } else {
-          Printer.getInstance().display("Program Terminated. Array is not initialized.");
-          ExecutionManager.getInstance().stopExecution();
-        }
-      }
-    }
-
-  }
-
-  @Override
-  public void exitEveryRule(ParserRuleContext arg0) {
-    // TODO Auto-generated method stub
-
-  }
-
-  @Override
-  public void visitErrorNode(ErrorNode arg0) {
-    // TODO Auto-generated method stub
-
-  }
-
-  @Override
-  public void visitTerminal(TerminalNode arg0) {
-    // TODO Auto-generated method stub
-
-  }
-
-  private boolean isRemoved(String str){
-    for(String temp : removedStrings){
-      if(temp.contains(str))
-        return true;
-    }
-    return false;
   }
 }
