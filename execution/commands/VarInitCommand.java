@@ -37,13 +37,15 @@ public class VarInitCommand implements CommandInterface {
     public void execute() {
 
         if(varDecCtx.typeSpecifier().getText().contains("String")){
+            System.out.println("IT WENT HERE 1!");
             if(varDecCtx.variableDeclarationInitialize().simpleExpression().getText().replaceAll("\".+?\"", "").contains("+")){
                 Printer.getInstance().display("In line "+String.valueOf(varDecCtx.getStart().getLine())+": Concatenation of strings is not possible in intialization.");
                 ExecutionManager.getInstance().stopExecution();
             } else {
+                System.out.println("IT WENT HERE 2!");
                 String stringValue = varDecCtx.variableDeclarationInitialize().IDENTIFIER().getText();
                 CstmValue cstmValue = this.cstmScope.getVariableWithinScope(stringValue);
-                cstmValue.setValue(stringValue.replaceAll("^\"+|\"+$", ""));
+                cstmValue.setValue(varDecCtx.variableDeclarationInitialize().simpleExpression().getText().replaceAll("^\"+|\"+$", ""));
             }
         } else {
             evalCommand.execute();

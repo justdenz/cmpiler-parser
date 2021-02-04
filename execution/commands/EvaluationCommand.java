@@ -1,6 +1,7 @@
 package execution.commands;
 
 import java.math.BigDecimal;
+import java.util.regex.Matcher;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
@@ -69,7 +70,7 @@ public class EvaluationCommand implements CommandInterface, ParseTreeListener {
                     ExecutionManager.getInstance().stopExecution();
                     Printer.getInstance().display("Variable might not be initialized at line  " + ctx.getStart().getLine());
                 } else {
-                    this.modifiedExpression = this.modifiedExpression.replaceFirst(mutableContext.IDENTIFIER().getText(), cstmValue.getValue().toString());    
+                    this.modifiedExpression = this.modifiedExpression.replaceFirst(mutableContext.IDENTIFIER().getText(), Matcher.quoteReplacement(cstmValue.getValue().toString()));    
                 }
                 
             } else {

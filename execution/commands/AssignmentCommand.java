@@ -47,8 +47,15 @@ public class AssignmentCommand implements CommandInterface{
       constChecker.verify();
     }
 
-    CstmTypeChecker typeChecker = new CstmTypeChecker(cstmValue, righContext);
-    typeChecker.verify();
+    if(leftContext.LeftBracket() != null && cstmValue.getPrimitiveType() == PrimitiveType.ARRAY){
+      CstmArray cstmArr = (CstmArray) cstmValue.getValue();
+
+      CstmTypeChecker typeChecker = new CstmTypeChecker(new CstmValue(null, cstmArr.getPrimitiveType()), righContext);
+      typeChecker.verify();
+    } else {
+      CstmTypeChecker typeChecker = new CstmTypeChecker(cstmValue, righContext);
+      typeChecker.verify();
+    }
   }
 
   @Override
