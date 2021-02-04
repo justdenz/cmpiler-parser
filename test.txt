@@ -1,12 +1,25 @@
-main() {
-      constant float MULTIPLIER = 2.0f;
-      constant float DIVIDER = 1.5f;
-      int x = 0;
-      int y = 0;
-      int z = 0;
-      x = x + 4;
-      y = y + 5;
-      z = z + 6;
-      //NOTE: Write this complex expression as is!!
-      float finalValue = (((x + y) * MULTIPLIER) / DIVIDER + x + y) - y * MULTIPLIER;
+main(){
+    String line = "";
+    String col_header = "          ";
+    int size;
+    scan("Input size: ", size);
+    int x = 1;
+    int y = 1;
+
+    while x up to size {
+	col_header = col_header + x + "	  ";
+    }
+    print(col_header);
+    x = 1;
+    while x up to size{
+        line = x + " ";
+	y = 1;
+        while y up to size {
+            int prod;
+            prod = x * y;
+	    line = line + "	  " + prod;
+        }
+        print(line);
+	line = "";
+    }
 }
