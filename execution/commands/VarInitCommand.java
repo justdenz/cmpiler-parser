@@ -29,7 +29,6 @@ public class VarInitCommand implements CommandInterface {
 
         CstmUnDecChecker undecChecker = new CstmUnDecChecker(exprCtx);
         undecChecker.verify();
-
         evalCommand = new EvaluationCommand(this.exprCtx, this.cstmScope);
     }
 
@@ -52,7 +51,7 @@ public class VarInitCommand implements CommandInterface {
             String stringValue = varDecCtx.variableDeclarationInitialize().IDENTIFIER().getText();
             CstmValue cstmValue = cstmScope.getVariableWithinScope(stringValue);
             BigDecimal evalResult = evalCommand.getResult();
-
+            System.out.println(evalResult.floatValue());
             if(cstmValue != null){
                 if(cstmValue.getPrimitiveType() == PrimitiveType.INT){
                     cstmValue.setValue(evalResult.intValue());

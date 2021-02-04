@@ -37,18 +37,17 @@ public class EvaluationCommand implements CommandInterface, ParseTreeListener {
         // TODO Auto-generated method stub
         this.modifiedExpression = this.simpleExpression.getText();
         evaluateIfFloat();
-        if(this.modifiedExpression.contains(CstmKeywords.BOOLEAN_TRUE)){
+        if(this.modifiedExpression.equals(CstmKeywords.BOOLEAN_TRUE)){
             this.result = new BigDecimal(1);
-        } else if(this.modifiedExpression.contains(CstmKeywords.BOOLEAN_FALSE)){
+        } else if(this.modifiedExpression.equals(CstmKeywords.BOOLEAN_FALSE)){
             this.result = new BigDecimal(0);
         } else {
             ParseTreeWalker tree = new ParseTreeWalker();
             tree.walk(this, this.simpleExpression);
 
-            if(!this.modifiedExpression.contains("\"")){
-                Expression evalExpression = new Expression(this.modifiedExpression);
-                this.result = evalExpression.eval();
-            }
+            Expression evalExpression = new Expression(this.modifiedExpression);
+            this.result = evalExpression.eval();
+        
         }
     }
 

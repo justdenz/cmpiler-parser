@@ -1,23 +1,12 @@
 main() {
-    int num;
-    scan("How many numbers do you want to enter?", num);
-    int[] nums = create int[num];
-    for int i = 0 up to num {
-        int x;
-        scan("Enter Number:", x);
-        nums[i] = x;
-    }
-    int total = 0;
-    for int y = 0 up to num {
-        int z = nums[y];
-        total = total + z;
-    }
-    print("You have an array of characters with size of "+ total);
-    String toPrint;
-    for int a = 0 up to total {
-        String character;
-        scan("Enter character: ", character);
-        toPrint = toPrint + character;
-    } 
-    print("Character to print: "+ toPrint);
+      constant float MULTIPLIER = 2.0f;
+      constant float DIVIDER = 1.5f;
+      int x = 0;
+      int y = 0;
+      int z = 0;
+      x = x + 4;
+      y = y + 5;
+      z = z + 6;
+      //NOTE: Write this complex expression as is!!
+      float finalValue = (((x + y) * MULTIPLIER) / DIVIDER + x + y) - y * MULTIPLIER;
 }
