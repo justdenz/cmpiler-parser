@@ -29,7 +29,6 @@ public class CstmValue {
 			this.primitiveType = verifiedPrimType;
 		}
 		else {
-			System.out.println("Value is not appropriate for  " + primitiveType + "!");
 		}
 	}
 

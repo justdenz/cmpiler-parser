@@ -16,7 +16,6 @@ public class FuncCmdTracker {
   public static FuncCmdTracker getInstance(){
     if(sharedInstance == null){
       sharedInstance = new FuncCmdTracker();
-      System.out.println("Function Command Tracker initialized.");
     }
     return sharedInstance;
   }

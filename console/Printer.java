@@ -11,7 +11,6 @@ public class Printer {
   public static Printer getInstance(){
     if(printerInstance == null){
       printerInstance = new Printer();
-      System.out.println("Printer initialized");
     }
     return printerInstance;
   }

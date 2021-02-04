@@ -41,12 +41,10 @@ public class ProgramAnalyzer implements ParseTreeListener{
 	@Override
 	public void enterEveryRule(ParserRuleContext ctx) {
 		if(ctx instanceof FuncBlockContext) {
-			System.out.println("Found function block");
 			FuncBlockContext funcCtx = (FuncBlockContext) ctx;
 			FuncBlkAnalyzer funcAnalyzer = new FuncBlkAnalyzer(funcCtx);
 			funcAnalyzer.analyze();
     } else if(ctx instanceof MainBlockContext) {
-			System.out.println("Found main block");
 			MainBlockContext mainCtx = (MainBlockContext) ctx;
 			MainBlkAnalyzer mainAnalyzer = new MainBlkAnalyzer(mainCtx);
 			mainAnalyzer.analyze();		

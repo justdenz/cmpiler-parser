@@ -21,7 +21,6 @@ public class ExecutionManager {
             commandList = new ArrayList<CommandInterface>();
             isInFunction = false;
             currentFunction = null;
-            System.out.println("Execution Manager initialized");
         }
         return sharedInstance;
     }
@@ -34,17 +33,14 @@ public class ExecutionManager {
     public void resetCommands(){
         if(commandList != null){
             commandList.clear();
-            System.out.println("Execution was reset");
         }
     }
 
     public void addCommand(CommandInterface command){
         if(isInFunction){
             this.getCurrentFunction().addCommand(command);
-            System.out.println("Added " + command.getClass() + " to function command list");
         } else {
             commandList.add(command);
-            System.out.println("Added " + command.getClass() + " to main command list");
         }
     }
 

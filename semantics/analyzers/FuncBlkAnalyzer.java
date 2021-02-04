@@ -88,7 +88,6 @@ public class FuncBlkAnalyzer implements AnalyzerInterface, ParseTreeListener{
 			ExecutionManager.getInstance().enterFunction(function);
 			FuncReturnTracker.getInstance().setCurFunction(function);
 
-			System.out.println("Opened Function Scope");
 			CompoundStatementContext compoundCtx = (CompoundStatementContext) ctx;
 
 			CompStmtAnalyzer compoundStmtAnalyzer = new CompStmtAnalyzer(compoundCtx);

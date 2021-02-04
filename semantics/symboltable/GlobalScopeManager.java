@@ -15,7 +15,6 @@ public class GlobalScopeManager {
 
 	public static GlobalScopeManager getInstance() {
 		if(sharedInstance == null){
-			System.out.println("Global Scope Manager initialzed");
 			sharedInstance = new GlobalScopeManager();
 		}
 		return sharedInstance;

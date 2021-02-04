@@ -28,8 +28,7 @@ public class CompStmtAnalyzer implements AnalyzerInterface{
             }
         }
 
-        GlobalScopeManager.getInstance().goToParentScope();;
-        System.out.println("Closed Scope");
+        GlobalScopeManager.getInstance().goToParentScope();
     }
 
 }

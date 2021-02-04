@@ -22,7 +22,6 @@ public class SelectionAnalyzer implements AnalyzerInterface{
 
     CstmLocalScope ifScope = new CstmLocalScope(GlobalScopeManager.getInstance().getCurrentScope());
     GlobalScopeManager.getInstance().setCurrentScope(ifScope);
-    System.out.println("Opened if/else if scope");
 
     ConditionalCommand conditionalCommand = new ConditionalCommand(selectStmtCtx.simpleExpression());
     StmtCmdTracker.getInstance().openSelectionCommand(conditionalCommand);
@@ -36,7 +35,6 @@ public class SelectionAnalyzer implements AnalyzerInterface{
         if(selectStmtCtx.elseStatement().compoundStatement() != null){
             CstmLocalScope elseScope = new CstmLocalScope(GlobalScopeManager.getInstance().getCurrentScope());
             GlobalScopeManager.getInstance().setCurrentScope(elseScope);
-            System.out.println("Opened else scope");
             
             CompStmtAnalyzer elseStatementAnalyzer = new CompStmtAnalyzer(selectStmtCtx.elseStatement().compoundStatement());
             elseStatementAnalyzer.analyze();

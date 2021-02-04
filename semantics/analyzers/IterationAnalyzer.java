@@ -103,7 +103,6 @@ public class IterationAnalyzer implements AnalyzerInterface{
 			CstmTypeChecker typeChecker = new CstmTypeChecker(tempVal, forStmtCtx.simpleExpression());
 			typeChecker.verify();
 			
-			System.out.println("Opened For Loop Scope");
 
 			CstmLocalScope forScope = new CstmLocalScope(GlobalScopeManager.getInstance().getCurrentScope());
 			GlobalScopeManager.getInstance().setCurrentScope(forScope);
@@ -142,7 +141,6 @@ public class IterationAnalyzer implements AnalyzerInterface{
 			CstmLocalScope whileScope = new CstmLocalScope(GlobalScopeManager.getInstance().getCurrentScope());
 			GlobalScopeManager.getInstance().setCurrentScope(whileScope);
 
-			System.out.println("Opened While Loop Scope");
 			WhileCommand whileCommand = new WhileCommand(whileStmtContext);
 			StmtCmdTracker.getInstance().openIterationCommand(whileCommand);
 

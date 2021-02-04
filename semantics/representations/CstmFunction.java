@@ -158,7 +158,6 @@ public class CstmFunction implements CommandInterface{
 	
 		public void addCommand(CommandInterface command) {
 			this.commandList.add(command);
-			System.out.println("Added new command to " + this.functionName);
 		}
 
 		public List<CommandInterface> getCommands(){
@@ -167,19 +166,15 @@ public class CstmFunction implements CommandInterface{
 
 		@Override
 		public void execute() {
-			System.out.println("Function Call Started");
 			index = 0;
 			while(index < commandList.size()){
 					if (ExecutionManager.getInstance().isRunning()) {
 
-						System.out.println("Executing " + commandList.get(index).getClass());
 						commandList.get(index).execute();
-						System.out.println("Executing done");
 						index++;
 						
 							
 					}
 			}
-			System.out.println("Function Call Ended");
 		}
 }

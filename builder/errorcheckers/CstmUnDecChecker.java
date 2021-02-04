@@ -79,7 +79,6 @@ public class CstmUnDecChecker implements CstmErrCheckerInterface, ParseTreeListe
 			Console.log(String.valueOf(this.lineNumber) , "Function not found.");
 		}
 		else {
-			System.out.println("Function exists!");
 		}
 	}
 }

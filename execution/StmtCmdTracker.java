@@ -20,7 +20,6 @@ public class StmtCmdTracker {
   public static StmtCmdTracker getInstance(){
     if(instance == null) {
       instance = new StmtCmdTracker();
-      System.out.println("Statement Command Tracker initialized");
     }
     return instance;
   }

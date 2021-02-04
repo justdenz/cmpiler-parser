@@ -10,7 +10,6 @@ public class Console {
     if (consoleInstance == null) {
       logList = new ArrayList<String>();
       consoleInstance = new Console();
-      System.out.println("Console initialized");
     }
     return consoleInstance;
   }

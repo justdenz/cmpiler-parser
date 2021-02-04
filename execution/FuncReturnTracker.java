@@ -16,7 +16,6 @@ public class FuncReturnTracker {
   public static FuncReturnTracker getInstance(){
     if(sharedInstance == null){
       sharedInstance = new FuncReturnTracker();
-      System.out.println("Function Return Tracker initialized");
     }
     return sharedInstance;
   }
