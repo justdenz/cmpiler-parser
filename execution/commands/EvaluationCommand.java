@@ -15,9 +15,7 @@ import model.CUSTOMParser.MutableContext;
 import model.CUSTOMParser.SimpleExpressionContext;
 import semantics.representations.CstmArray;
 import semantics.representations.CstmValue;
-import semantics.symboltable.GlobalScopeManager;
 import semantics.symboltable.scopes.CstmLocalScope;
-import semantics.utils.CstmKeywords;
 import semantics.utils.Expression;
 
 public class EvaluationCommand implements CommandInterface, ParseTreeListener {
@@ -30,31 +28,6 @@ public class EvaluationCommand implements CommandInterface, ParseTreeListener {
     public EvaluationCommand(SimpleExpressionContext ctx, CstmLocalScope scope){
         this.simpleExpression = ctx;
         this.scope = scope;
-    }
-
-    @Override
-    public void execute() {
-        // TODO Auto-generated method stub
-        this.modifiedExpression = this.simpleExpression.getText();
-        evaluateIfFloat();
-        if(this.modifiedExpression.equals(CstmKeywords.BOOLEAN_TRUE)){
-            this.result = new BigDecimal(1);
-        } else if(this.modifiedExpression.equals(CstmKeywords.BOOLEAN_FALSE)){
-            this.result = new BigDecimal(0);
-        } else {
-            ParseTreeWalker tree = new ParseTreeWalker();
-            tree.walk(this, this.simpleExpression);
-
-            Expression evalExpression = new Expression(this.modifiedExpression);
-            this.result = evalExpression.eval();
-        
-        }
-    }
-
-    private void evaluateIfFloat(){
-        if(this.modifiedExpression.contains("f")){
-            this.modifiedExpression = this.modifiedExpression.replaceFirst("f", "");
-        }
     }
 
     @Override
@@ -116,6 +89,36 @@ public class EvaluationCommand implements CommandInterface, ParseTreeListener {
 
     }
 
+    @Override
+    public void execute() {
+        this.modifiedExpression = this.simpleExpression.getText();
+        evaluateIfFloat();
+
+        if(this.modifiedExpression.contains("\"")){
+            String newComparisons = this.modifiedExpression.replaceAll("\"", "");
+            String[]  compareArray = newComparisons.split("==");
+
+            CstmValue stringValue = this.scope.getVariableWithinScope(compareArray[0].trim());
+            String toBeCompared = stringValue.getValue().toString();
+
+            if(toBeCompared.equals(compareArray[1].trim())){
+                this.result = new BigDecimal(1);
+            } else {
+                this.result = new BigDecimal(0);
+            }
+        } else {
+            ParseTreeWalker tree = new ParseTreeWalker();
+            tree.walk(this, this.simpleExpression);
+            Expression evalExpression = new Expression(this.modifiedExpression);
+            this.result = evalExpression.eval();
+        }
+    }
+
+    private void evaluateIfFloat(){
+        if(this.modifiedExpression.contains("f")){
+            this.modifiedExpression = this.modifiedExpression.replaceFirst("f", "");
+        }
+    }
 
     public BigDecimal getResult(){
         return this.result;

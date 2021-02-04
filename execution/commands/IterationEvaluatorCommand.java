@@ -1,12 +1,9 @@
 package execution.commands;
 
 import model.CUSTOMParser.ForStatementContext;
-import model.CUSTOMParser.SimpleExpressionContext;
 import model.CUSTOMParser.WhileStatementContext;
 import semantics.representations.CstmValue;
-import semantics.symboltable.GlobalScopeManager;
 import semantics.symboltable.scopes.CstmLocalScope;
-
 public class IterationEvaluatorCommand implements CommandInterface{
 
     private ForStatementContext forStatement;
